@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAPRA.AI — Onboarding Wireframe</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- NAV MAP -->
+  <div class="screen-nav">
+    <span class="nav-label">Schermate:</span>
+    <button onclick="showScreen('welcome')" class="nav-btn active" id="nav-welcome">Welcome</button>
+    <button onclick="showScreen('step1')" class="nav-btn" id="nav-step1">Step 1</button>
+    <button onclick="showScreen('step2')" class="nav-btn" id="nav-step2">Step 2</button>
+    <button onclick="showScreen('step3')" class="nav-btn" id="nav-step3">Step 3</button>
+    <button onclick="showScreen('step4-loading')" class="nav-btn" id="nav-step4-loading">Step 4 (loading)</button>
+    <button onclick="showScreen('step4-done')" class="nav-btn" id="nav-step4-done">Step 4 (feed)</button>
+    <button onclick="showScreen('dashboard-skip')" class="nav-btn" id="nav-dashboard-skip">Dashboard (skip)</button>
+    <button onclick="showScreen('dashboard-done')" class="nav-btn" id="nav-dashboard-done">Dashboard (done)</button>
+  </div>
+
+  <div class="stage">
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- WELCOME SCREEN                                          -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="screen active" id="screen-welcome">
+      <div class="card welcome-card">
+        <div class="logo">SAPRA<span class="logo-dot">.</span>AI</div>
+
+        <div class="welcome-illustration">
+          <div class="illustration-box">
+            <div class="illustration-inner">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="28" fill="#EEF2FF" stroke="#6366F1" stroke-width="2"/>
+                <path d="M20 28c0-6.627 5.373-12 12-12s12 5.373 12 12c0 4.5-2.5 8.4-6.2 10.5L37 44H27l-.8-5.5C22.5 36.4 20 32.5 20 28z" fill="#6366F1" opacity="0.15"/>
+                <circle cx="26" cy="30" r="3" fill="#6366F1"/>
+                <circle cx="38" cy="30" r="3" fill="#6366F1"/>
+                <path d="M26 38c0 0 2 3 6 3s6-3 6-3" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                <path d="M32 16v-4M24 18l-3-3M40 18l3-3" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="32" cy="12" r="2" fill="#A5B4FC"/>
+                <circle cx="20" cy="14" r="1.5" fill="#A5B4FC"/>
+                <circle cx="44" cy="14" r="1.5" fill="#A5B4FC"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="welcome-text">
+          <h1>Ciao Marco, benvenuto in SAPRA.</h1>
+          <p>In 4 minuti configuri il tuo feed editoriale personalizzato.<br />L'AI farà il resto.</p>
+        </div>
+
+        <div class="welcome-actions">
+          <button class="btn-primary btn-lg" onclick="showScreen('step1')">
+            Inizia la configurazione
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="btn-ghost" onclick="showScreen('dashboard-skip')">
+            Salta per ora <span class="muted">(puoi farlo dopo)</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="ux-note">
+        <strong>Note UX:</strong> "Salta per ora" è fondamentale — non intrappolare l'utente.
+        Chi salta vedrà un feed generico con banner persistente "Personalizza il tuo feed".
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- STEP 1 — PROFILO EDITORIALE                            -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="screen" id="screen-step1">
+      <div class="card wizard-card">
+        <!-- Header -->
+        <div class="wizard-header">
+          <button class="btn-exit" onclick="showScreen('welcome')">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M13 1L1 13M1 1l12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Esci
+          </button>
+          <div class="step-progress">
+            <div class="step-dots">
+              <span class="dot active"></span>
+              <span class="dot-line"></span>
+              <span class="dot"></span>
+              <span class="dot-line"></span>
+              <span class="dot"></span>
+              <span class="dot-line"></span>
+              <span class="dot"></span>
+            </div>
+            <span class="step-label">Step 1 di 4</span>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="wizard-body">
+          <div class="step-heading">
+            <h2>Chi sei?</h2>
+            <p class="step-sub">Aiuta SAPRA a capire il tuo contesto</p>
+          </div>
+
+          <!-- Role cards -->
+          <div class="field-group">
+            <label class="field-label">Che tipo di giornalista sei?</label>
+            <div class="role-grid">
+              <div class="role-card selected" onclick="toggleRole(this)">
+                <span class="role-icon">📰</span>
+                <span class="role-name">Giornalista<br/>editoriale</span>
+                <span class="role-check">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <div class="role-card" onclick="toggleRole(this)">
+                <span class="role-icon">🏛️</span>
+                <span class="role-name">Ufficio Stampa /<br/>Istituz.</span>
+                <span class="role-check">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <div class="role-card" onclick="toggleRole(this)">
+                <span class="role-icon">📡</span>
+                <span class="role-name">Freelance</span>
+                <span class="role-check">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <div class="role-card" onclick="toggleRole(this)">
+                <span class="role-icon">✍️</span>
+                <span class="role-name">Content<br/>Creator</span>
+                <span class="role-check">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+            <div class="profile-hint">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#6366F1" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="#6366F1" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Sulla base del tuo profilo, ti suggeriremo le fonti più rilevanti
+            </div>
+          </div>
+
+          <!-- Ambiti -->
+          <div class="field-group">
+            <label class="field-label">In che ambito lavori principalmente?</label>
+            <div class="tag-group" id="step1-tags">
+              <span class="tag selected" onclick="toggleTag(this)">Politica</span>
+              <span class="tag" onclick="toggleTag(this)">Economia</span>
+              <span class="tag" onclick="toggleTag(this)">Cronaca</span>
+              <span class="tag" onclick="toggleTag(this)">Tecnologia</span>
+              <span class="tag" onclick="toggleTag(this)">Cultura</span>
+              <span class="tag" onclick="toggleTag(this)">Sport</span>
+              <span class="tag" onclick="toggleTag(this)">Ambiente</span>
+              <span class="tag" onclick="toggleTag(this)">Esteri</span>
+              <span class="tag tag-ghost" onclick="toggleTag(this)">Altro...</span>
+            </div>
+          </div>
+
+          <!-- Testata -->
+          <div class="field-group">
+            <label class="field-label">Per quale tipo di testata/organizzazione?</label>
+            <input class="text-input" type="text" placeholder='Es. "Il Corriere della Sera", "Comune di Roma", freelance...' />
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="wizard-footer">
+          <button class="btn-secondary" onclick="showScreen('welcome')">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Indietro
+          </button>
+          <button class="btn-primary" onclick="showScreen('step2')">
+            Continua
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="ux-note">
+        <strong>Note UX:</strong> La selezione del ruolo cambia i suggerimenti negli step successivi.
+        "Ufficio Stampa Istituzionale" → ANAC, Garante Privacy, Senato.
+        "Giornalista editoriale" → feed testate nazionali.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- STEP 2 — TOPIC DI INTERESSE                            -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="screen" id="screen-step2">
+      <div class="card wizard-card">
+        <div class="wizard-header">
+          <button class="btn-exit" onclick="showScreen('step1')">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Indietro
+          </button>
+          <div class="step-progress">
+            <div class="step-dots">
+              <span class="dot active"></span>
+              <span class="dot-line active"></span>
+              <span class="dot active"></span>
+              <span class="dot-line"></span>
+              <span class="dot"></span>
+              <span class="dot-line"></span>
+              <span class="dot"></span>
+            </div>
+            <span class="step-label">Step 2 di 4</span>
+          </div>
+        </div>
+
+        <div class="wizard-body">
+          <div class="step-heading">
+            <h2>Cosa vuoi monitorare?</h2>
+            <p class="step-sub">Scegli almeno 3 topic. Puoi modificarli in qualsiasi momento.</p>
+          </div>
+
+          <!-- Search -->
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#9CA3AF" stroke-width="1.5"/><path d="M11 11l3 3" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <input type="text" placeholder="Cerca un tema o keyword..." class="search-input" />
+          </div>
+
+          <!-- Suggested topics -->
+          <div class="field-group">
+            <label class="field-label-small">Suggeriti per il tuo profilo:</label>
+            <div class="tag-group" id="step2-suggestions">
+              <span class="tag selected" onclick="toggleTopicTag(this)">Politica locale</span>
+              <span class="tag selected" onclick="toggleTopicTag(this)">Bilancio comunale</span>
+              <span class="tag" onclick="toggleTopicTag(this)">Urbanistica</span>
+              <span class="tag" onclick="toggleTopicTag(this)">Sanità pubblica</span>
+              <span class="tag" onclick="toggleTopicTag(this)">Lavoro pubblico</span>
+              <span class="tag" onclick="toggleTopicTag(this)">Elezioni</span>
+              <span class="tag" onclick="toggleTopicTag(this)">PNRR</span>
+              <span class="tag" onclick="toggleTopicTag(this)">Normativa</span>
+            </div>
+          </div>
+
+          <!-- Category explore -->
+          <div class="field-group">
+            <label class="field-label-small">Esplora per categoria:</label>
+            <div class="category-pills">
+              <button class="pill-btn">Politica <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button class="pill-btn">Economia <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button class="pill-btn">Società <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <!-- Selected topics -->
+          <div class="field-group">
+            <div class="selected-header">
+              <label class="field-label-small">I tuoi topic selezionati</label>
+              <span class="counter counter-warn" id="topic-counter">2/3 min.</span>
+            </div>
+            <div class="selected-chips" id="selected-topics">
+              <span class="chip">Politica locale <button class="chip-remove" onclick="removeChip(this)">✕</button></span>
+              <span class="chip">Bilancio comunale <button class="chip-remove" onclick="removeChip(this)">✕</button></span>
+            </div>
+          </div>
+
+          <!-- AI feedback -->
+          <div class="ai-hint">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.2"/><path d="M8 5v3.5M8 10.5v.5" stroke="#F59E0B" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <div>
+              <span class="ai-hint-count" id="article-count">Con 2 topic monitorerai ~80 art./giorno.</span><br/>
+              <span class="ai-hint-sub">Aggiungi almeno 1 altro topic.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-footer">
+          <button class="btn-secondary" onclick="showScreen('step1')">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Indietro
+          </button>
+          <button class="btn-primary btn-disabled" id="step2-cta" onclick="step2Continue()">
+            Continua
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="ux-note">
+        <strong>Note UX:</strong> Il contatore "~80 articoli/giorno" è feedback AI in tempo reale.
+        Il minimo di 3 topic sblocca "Continua". La ricerca permette keyword personalizzate.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- STEP 3 — FONTI                                          -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="screen" id="screen-step3">
+      <div class="card wizard-card wizard-card--tall">
+        <div class="wizard-header">
+          <button class="btn-exit" onclick="showScreen('step2')">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Indietro
+          </button>
+          <div class="step-progress">
+            <div class="step-dots">
+              <span class="dot active"></span>
+              <span class="dot-line active"></span>
+              <span class="dot active"></span>
+              <span class="dot-line active"></span>
+              <span class="dot active"></span>
+              <span class="dot-line"></span>
+              <span class="dot"></span>
+            </div>
+            <span class="step-label">Step 3 di 4</span>
+          </div>
+        </div>
+
+        <div class="wizard-body">
+          <div class="step-heading">
+            <h2>Da dove vuoi leggere?</h2>
+            <p class="step-sub">SAPRA monitora le fonti per te, H24.</p>
+          </div>
+
+          <!-- Istituzionali -->
+          <div class="source-section">
+            <div class="source-section-label">ISTITUZIONALI</div>
+            <div class="source-list">
+              <label class="source-row">
+                <input type="checkbox" class="source-check" />
+                <span class="source-icon">🏛️</span>
+                <span class="source-name">Gazzetta Ufficiale</span>
+                <span class="source-badge rss">RSS ✓</span>
+              </label>
+              <label class="source-row">
+                <input type="checkbox" class="source-check" />
+                <span class="source-icon">🏛️</span>
+                <span class="source-name">Senato della Repubblica</span>
+                <span class="source-badge rss">RSS ✓</span>
+              </label>
+              <label class="source-row">
+                <input type="checkbox" class="source-check" />
+                <span class="source-icon">🏛️</span>
+                <span class="source-name">Camera dei Deputati</span>
+                <span class="source-badge rss">RSS ✓</span>
+              </label>
+              <label class="source-row">
+                <input type="checkbox" class="source-check" checked />
+                <span class="source-icon">🔒</span>
+                <span class="source-name">ANAC</span>
+                <span class="source-badge rss">RSS ✓</span>
+              </label>
+              <label class="source-row">
+                <input type="checkbox" class="source-check" checked />
+                <span class="source-icon">🔒</span>
+                <span class="source-name">Garante Privacy</span>
+                <span class="source-badge rss">RSS ✓</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Testate nazionali -->
+          <div class="source-section">
+            <div class="source-section-label">TESTATE NAZIONALI</div>
+            <div class="source-list">
+              <label class="source-row">
+                <input type="checkbox" class="source-check" checked />
+                <span class="source-icon">📰</span>
+                <span class="source-name">Corriere della Sera</span>
+              </label>
+              <label class="source-row">
+                <input type="checkbox" class="source-check" checked />
+                <span class="source-icon">📰</span>
+                <span class="source-name">Repubblica</span>
+              </label>
+              <label class="source-row">
+                <input type="checkbox" class="source-check" />
+                <span class="source-icon">📰</span>
+                <span class="source-name">Il Sole 24 Ore</span>
+              </label>
+              <label class="source-row">
+                <input type="checkbox" class="source-check" />
+                <span class="source-icon">📰</span>
+                <span class="source-name">La Stampa</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Custom source -->
+          <div class="source-custom-section">
+            <button class="expand-btn" onclick="toggleCustom()">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Aggiungi fonte personalizzata
+            </button>
+            <div class="custom-form" id="custom-form">
+              <div class="custom-input-row">
+                <input type="text" class="text-input" placeholder="Incolla URL o RSS feed..." />
+                <button class="btn-small-primary">Aggiungi</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upload -->
+          <div class="upload-btn-row">
+            <button class="upload-btn">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v8M4 5l3-3 3 3M2 10h10v2H2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Carica documento / archivio (PDF, ZIP)
+            </button>
+          </div>
+
+          <!-- Stats bar -->
+          <div class="stats-bar">
+            <span class="stats-text">Fonti attive: <strong>4</strong></span>
+            <span class="stats-sep">·</span>
+            <span class="stats-text">~220 articoli/giorno</span>
+          </div>
+        </div>
+
+        <div class="wizard-footer">
+          <button class="btn-secondary" onclick="showScreen('step2')">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Indietro
+          </button>
+          <button class="btn-primary" onclick="showScreen('step4-loading')">
+            Continua
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="ux-note">
+        <strong>Note UX:</strong> Fonti pre-selezionate in base al profilo Step 1 — l'utente può solo deselezionare, riducendo l'attrito.
+        Upload documenti seminato qui, più centrale in SVELER.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- STEP 4 — LOADING                                        -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="screen" id="screen-step4-loading">
+      <div class="card wizard-card wizard-card--centered">
+        <div class="wizard-header">
+          <button class="btn-exit" onclick="showScreen('step3')">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Indietro
+          </button>
+          <div class="step-progress">
+            <div class="step-dots">
+              <span class="dot active"></span>
+              <span class="dot-line active"></span>
+              <span class="dot active"></span>
+              <span class="dot-line active"></span>
+              <span class="dot active"></span>
+              <span class="dot-line active"></span>
+              <span class="dot half"></span>
+            </div>
+            <span class="step-label">Step 4 di 4</span>
+          </div>
+        </div>
+
+        <div class="wizard-body loading-body">
+          <div class="loading-title">SAPRA sta costruendo il tuo feed...</div>
+
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+          <div class="progress-pct" id="progress-pct">0%</div>
+
+          <div class="loading-steps">
+            <div class="loading-step done" id="lstep1">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/><path d="M4 7l2 2 4-4" stroke="#10B981" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Topic configurati
+            </div>
+            <div class="loading-step done" id="lstep2">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1"/><path d="M4 7l2 2 4-4" stroke="#10B981" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Fonti connesse
+            </div>
+            <div class="loading-step spinning" id="lstep3">
+              <svg class="spin" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#E5E7EB" stroke-width="1.5"/><path d="M7 1a6 6 0 0 1 6 6" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span id="loading-msg">Analisi AI in corso...</span>
+            </div>
+          </div>
+
+          <button class="btn-link-sm" onclick="skipToResult()">Vai al risultato →</button>
+        </div>
+      </div>
+
+      <div class="ux-note">
+        <strong>Note UX:</strong> Animazione con messaggi rotanti ("Connessione fonti...", "Analisi topic...", "Ranking articoli...")
+        per dare senso di lavoro AI in corso. Durata ~10 secondi.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- STEP 4 — FEED PRONTO                                    -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="screen" id="screen-step4-done">
+      <div class="card wizard-card wizard-card--tall">
+        <div class="wizard-header no-back">
+          <div></div>
+          <div class="step-progress">
+            <div class="step-dots">
+              <span class="dot active"></span>
+              <span class="dot-line active"></span>
+              <span class="dot active"></span>
+              <span class="dot-line active"></span>
+              <span class="dot active"></span>
+              <span class="dot-line active"></span>
+              <span class="dot active"></span>
+            </div>
+            <span class="step-label">Step 4 di 4</span>
+          </div>
+        </div>
+
+        <div class="wizard-body">
+          <div class="success-badge">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Il tuo feed è pronto.
+          </div>
+
+          <div class="preview-label">Anteprima — Ultimi articoli rilevanti:</div>
+
+          <div class="article-list">
+            <div class="article-row">
+              <div class="article-score score-high">★ 96%</div>
+              <div class="article-body">
+                <div class="article-title">DDL Sicurezza: approvato emendamento sui reporter</div>
+                <div class="article-meta">Corriere della Sera · 1h fa · <span class="topic-pill">Politica locale</span></div>
+              </div>
+            </div>
+            <div class="article-row">
+              <div class="article-score score-mid">★ 91%</div>
+              <div class="article-body">
+                <div class="article-title">ANAC: nuove linee guida per appalti pubblici 2025</div>
+                <div class="article-meta">ANAC · 3h fa · <span class="topic-pill">ANAC</span></div>
+              </div>
+            </div>
+            <div class="article-row">
+              <div class="article-score score-ok">★ 84%</div>
+              <div class="article-body">
+                <div class="article-title">Bilancio comunale Roma: approvato il piano triennale</div>
+                <div class="article-meta">Repubblica · 5h fa · <span class="topic-pill">Bilancio</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Config summary -->
+          <div class="config-summary">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="9" rx="1.5" stroke="#6B7280" stroke-width="1.2"/><path d="M5 3V2a2 2 0 0 1 4 0v1" stroke="#6B7280" stroke-width="1.2"/></svg>
+            Riepilogo configurazione:
+            <div class="config-pills">
+              <span class="config-tag">5 topic</span>
+              <span class="config-tag">4 fonti</span>
+              <span class="config-tag">~220 art./giorno</span>
+            </div>
+          </div>
+
+          <!-- Edit links -->
+          <div class="edit-links">
+            <span class="muted-sm">Non ti convince qualcosa?</span>
+            <div class="edit-btns">
+              <button class="btn-edit" onclick="showScreen('step2')">✏️ Modifica topic</button>
+              <button class="btn-edit" onclick="showScreen('step3')">✏️ Modifica fonti</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-footer wizard-footer--center">
+          <button class="btn-primary btn-lg" onclick="showScreen('dashboard-done')">
+            Entra in SAPRA
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="ux-note">
+        <strong>Note UX:</strong> La preview crea il "momento wow" prima della dashboard.
+        I link "Modifica" permettono di tornare indietro senza ricominciare dall'inizio.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- DASHBOARD — SKIP STATE                                  -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="screen" id="screen-dashboard-skip">
+      <div class="card dashboard-card">
+        <!-- Top bar -->
+        <div class="dash-topbar">
+          <span class="dash-logo">SAPRA<span class="logo-dot">.</span>AI</span>
+          <div class="dash-topbar-right">
+            <span class="dash-user">Marco R.</span>
+            <div class="dash-avatar">M</div>
+          </div>
+        </div>
+
+        <!-- Persistent banner -->
+        <div class="setup-banner">
+          <div class="banner-left">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#EEF2FF" stroke="#6366F1" stroke-width="1.2"/><path d="M8 5v3.5M8 10.5v.5" stroke="#6366F1" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <div>
+              <div class="banner-title">Il tuo feed non è ancora personalizzato</div>
+              <div class="banner-sub">Ci vogliono 4 minuti per configurarlo.</div>
+            </div>
+          </div>
+          <button class="btn-banner" onclick="showScreen('welcome')">Configura ora →</button>
+          <button class="banner-close" aria-label="Chiudi">✕</button>
+        </div>
+
+        <!-- Feed generico -->
+        <div class="dash-layout">
+          <div class="dash-sidebar">
+            <div class="sidebar-section-label">Menu</div>
+            <div class="sidebar-item active">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6h6M4 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Feed
+            </div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Archivio
+            </div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.5 3.5L7 9l-3 1.5.5-3.5L2 4.5 5.5 4z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+              Salvati
+            </div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Profilo
+            </div>
+          </div>
+
+          <div class="dash-main">
+            <div class="dash-feed-header">
+              <h3>Feed generale</h3>
+              <span class="feed-badge generic">Feed generico</span>
+            </div>
+
+            <div class="generic-articles">
+              <div class="dash-article generic-art">
+                <div class="dash-art-meta">Politica · 2h fa</div>
+                <div class="dash-art-title">Notizia generica non filtrata per il tuo profilo</div>
+                <div class="dash-art-source">ANSA</div>
+              </div>
+              <div class="dash-article generic-art">
+                <div class="dash-art-meta">Economia · 3h fa</div>
+                <div class="dash-art-title">Altra notizia generica — non personalizzata</div>
+                <div class="dash-art-source">Il Sole 24 Ore</div>
+              </div>
+              <div class="dash-article generic-art">
+                <div class="dash-art-meta">Cronaca · 5h fa</div>
+                <div class="dash-art-title">Terza notizia: feed ancora da personalizzare</div>
+                <div class="dash-art-source">Repubblica</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ux-note">
+        <strong>Note UX:</strong> Il banner è persistente ma non invasivo. Il feed generico mostra che funziona,
+        ma la mancanza di personalizzazione è comunicata chiaramente.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- DASHBOARD — WIZARD COMPLETATO                           -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="screen" id="screen-dashboard-done">
+      <div class="card dashboard-card">
+        <div class="dash-topbar">
+          <span class="dash-logo">SAPRA<span class="logo-dot">.</span>AI</span>
+          <div class="dash-topbar-right">
+            <span class="dash-user">Marco R.</span>
+            <div class="dash-avatar">M</div>
+          </div>
+        </div>
+
+        <div class="dash-layout">
+          <div class="dash-sidebar">
+            <div class="sidebar-section-label">Menu</div>
+            <div class="sidebar-item active">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6h6M4 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Feed
+            </div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Archivio
+            </div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.5 3.5L7 9l-3 1.5.5-3.5L2 4.5 5.5 4z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+              Salvati
+            </div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Profilo
+            </div>
+          </div>
+
+          <div class="dash-main">
+            <div class="dash-feed-header">
+              <h3>Il tuo feed</h3>
+              <span class="feed-badge personalized">Personalizzato ✓</span>
+            </div>
+
+            <!-- Article with tooltip -->
+            <div class="dash-article featured-art" id="first-article">
+              <div class="article-score-inline">★ 96%</div>
+              <div class="dash-art-body">
+                <div class="dash-art-meta">Politica locale · 1h fa</div>
+                <div class="dash-art-title">DDL Sicurezza: approvato emendamento sui reporter</div>
+                <div class="dash-art-source">Corriere della Sera</div>
+              </div>
+              <!-- Contextual tooltip -->
+              <div class="tooltip-contextual" id="first-tooltip">
+                <div class="tooltip-arrow"></div>
+                <div class="tooltip-body">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" fill="#EEF2FF" stroke="#6366F1" stroke-width="1"/><path d="M6 4v2.5M6 8v.5" stroke="#6366F1" stroke-width="1" stroke-linecap="round"/></svg>
+                  Selezionato per il topic <strong>Politica locale</strong>
+                  <button class="tooltip-close" onclick="document.getElementById('first-tooltip').style.display='none'">✕</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="dash-article">
+              <div class="article-score-inline score-mid">★ 91%</div>
+              <div class="dash-art-body">
+                <div class="dash-art-meta">ANAC · 3h fa</div>
+                <div class="dash-art-title">ANAC: nuove linee guida per appalti pubblici 2025</div>
+                <div class="dash-art-source">ANAC</div>
+              </div>
+            </div>
+
+            <div class="dash-article">
+              <div class="article-score-inline score-ok">★ 84%</div>
+              <div class="dash-art-body">
+                <div class="dash-art-meta">Bilancio · 5h fa</div>
+                <div class="dash-art-title">Bilancio comunale Roma: approvato il piano triennale</div>
+                <div class="dash-art-source">Repubblica</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ux-note">
+        <strong>Note UX:</strong> Tooltip contestuale sul primo articolo: "Selezionato perché corrisponde al topic X".
+        Il feed personalizzato è immediatamente visibile e rilevante.
+      </div>
+    </div>
+
+  </div><!-- /stage -->
+
+  <script src="script.js"></script>
+</body>
+</html>
