@@ -158,6 +158,9 @@ function showScreen(screenId) {
   if (screenId === 'step4-loading') {
     startLoadingAnimation();
   }
+  if (screenId === 'ricerca')        initSearchScreen();
+  if (screenId === 'gestisci-fonti') initFontiScreen();
+  if (screenId === 'impostazioni')   initImpostazioniScreen();
 
   // Chiudi drawer se aperto
   closeDrawer();
@@ -181,6 +184,10 @@ document.addEventListener('click', function(e) {
   const gotoEl = e.target.closest('[data-goto]');
   if (gotoEl) {
     e.preventDefault();
+    // Imposta sezione impostazioni se specificata
+    if (gotoEl.dataset.settingsSection) {
+      settingsActiveSection = gotoEl.dataset.settingsSection;
+    }
     showScreen(gotoEl.dataset.goto);
     return;
   }
@@ -617,12 +624,556 @@ function closeScriverModal() {
   if (overlay) overlay.classList.remove('open');
 }
 
-// ESC per chiudere modal/drawer
+// ESC per chiudere modal/drawer/overlay
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeScriverModal();
     closeDrawer();
+    closeFonteModal();
+    closeDeleteModal();
+    // Chiudi avatar dropdown
+    document.querySelectorAll('.avatar-dropdown.open').forEach(d => d.classList.remove('open'));
   }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// === NUOVA SCHERMATA: RICERCA GLOBALE ===
+// ═══════════════════════════════════════════════════════════════
+
+// Dati tag per il cloud di ricerca
+const SEARCH_TAGS_ALL = [
+  { name: 'Tecnologia',              count: 13423, type: 'categoria' },
+  { name: 'Intelligenza Artificiale',count: 12134, type: 'concetto' },
+  { name: 'Italia',                  count: 11098, type: 'location' },
+  { name: 'Google',                  count: 11001, type: 'organizzazione' },
+  { name: 'Donald Trump',            count: 10349, type: 'persona' },
+  { name: 'Economia',                count: 10278, type: 'categoria' },
+  { name: 'OpenAI',                  count:  9668, type: 'organizzazione' },
+  { name: 'Amazon',                  count:  9221, type: 'organizzazione' },
+  { name: 'Politica',                count:  8976, type: 'categoria' },
+  { name: 'Elon Musk',               count:  8832, type: 'persona' },
+  { name: 'Tom Philips',             count:  8600, type: 'persona' },
+  { name: 'Sam Altman',              count:  8321, type: 'persona' },
+  { name: 'Salute',                  count:  7034, type: 'categoria' },
+  { name: 'Videogiochi',             count:  6549, type: 'categoria' },
+  { name: 'Roma',                    count:  6213, type: 'location' },
+  { name: 'Milano',                  count:  6100, type: 'location' },
+  { name: 'StartUp',                 count:  5987, type: 'concetto' },
+  { name: 'Meta',                    count:  5432, type: 'organizzazione' },
+  { name: 'Europa',                  count:  5100, type: 'location' },
+  { name: 'Innovazione',             count:  4876, type: 'concetto' },
+  { name: 'Apple',                   count:  4654, type: 'organizzazione' },
+  { name: 'Nintendo',                count:  4321, type: 'organizzazione' },
+  { name: 'Mark Zuckerberg',         count:  4100, type: 'persona' },
+  { name: 'Sostenibilità',           count:  3987, type: 'concetto' },
+  { name: 'Stati Uniti',             count:  3800, type: 'location' },
+  { name: 'Vikki Blake',             count:  3654, type: 'persona' },
+  { name: 'Finanza',                 count:  3400, type: 'categoria' },
+  { name: 'Ambiente',                count:  3210, type: 'categoria' },
+  { name: 'Cultura',                 count:  2987, type: 'categoria' },
+  { name: 'Sport',                   count:  2765, type: 'categoria' },
+  { name: 'Burocrazia',              count:  2543, type: 'concetto' },
+  { name: 'Hong Kong',               count:  2100, type: 'location' },
+  { name: 'Giappone',                count:  1987, type: 'location' },
+  { name: 'IGN',                     count:  1876, type: 'organizzazione' },
+];
+
+// Compatibilità dei tag: quando un tag è attivo, solo questi restano nel cloud
+const SEARCH_COMPAT_MAP = {
+  'Tecnologia':               ['Intelligenza Artificiale','StartUp','Innovazione','Google','OpenAI','Amazon','Meta','Apple','Nintendo','IGN','Elon Musk','Sam Altman','Mark Zuckerberg','Tom Philips','Vikki Blake','Stati Uniti','Italia'],
+  'Intelligenza Artificiale': ['Tecnologia','OpenAI','Google','Meta','Amazon','Sam Altman','Elon Musk','Mark Zuckerberg','StartUp','Innovazione','Italia','Europa'],
+  'Italia':                   ['Politica','Economia','Tecnologia','Roma','Milano','Europa','Salute','Ambiente','Cultura','Finanza'],
+  'Politica':                 ['Italia','Economia','Donald Trump','Europa','Roma','Milano','Burocrazia'],
+  'Economia':                 ['Italia','Politica','Finanza','StartUp','Europa','Stati Uniti','Ambiente'],
+  'OpenAI':                   ['Tecnologia','Intelligenza Artificiale','Sam Altman','StartUp','Google','Meta'],
+  'Google':                   ['Tecnologia','Intelligenza Artificiale','OpenAI','Amazon','Meta','Apple'],
+  'Meta':                     ['Tecnologia','Intelligenza Artificiale','Mark Zuckerberg','Google','Amazon','OpenAI'],
+};
+
+// Risultati di ricerca (simulati)
+const SEARCH_RESULTS = [
+  { img:'🤖', imgBg:'linear-gradient(135deg,#1a2a3a,#2a3a5a)', title:'Dieci anni di OpenAI: successi, sfide e il futuro dell\'intelligenza artificiale', source:'Repubblica', time:'2h fa', score:94, sentiment:'NEUTRO', sentimentClass:'badge-neutro', tags:['Tecnologia','OpenAI','Intelligenza Artificiale'] },
+  { img:'💡', imgBg:'linear-gradient(135deg,#1a3a1a,#2a5a2a)', title:'Mirelo raccoglie 41 milioni di euro per l\'AI applicata alla produzione video', source:'TechCrunch Italia', time:'5h fa', score:87, sentiment:'POSITIVO', sentimentClass:'badge-positivo', tags:['Tecnologia','StartUp','Intelligenza Artificiale'] },
+  { img:'🌐', imgBg:'linear-gradient(135deg,#2a1a3a,#3a2a5a)', title:'Meta annuncia nuovi modelli AI multimodali previsti per il 2026', source:'Il Sole 24 Ore', time:'1g fa', score:71, sentiment:'NEUTRO', sentimentClass:'badge-neutro', tags:['Tecnologia','Meta','Intelligenza Artificiale'] },
+  { img:'🍎', imgBg:'linear-gradient(135deg,#3a1a1a,#5a2a1a)', title:'Apple Intelligence: disponibile in Italia da marzo 2024, le prime impressioni', source:'Corriere della Sera', time:'3h fa', score:89, sentiment:'POSITIVO', sentimentClass:'badge-positivo', tags:['Tecnologia','Apple','Innovazione'] },
+  { img:'🔬', imgBg:'linear-gradient(135deg,#1a3a3a,#2a5a5a)', title:'Google DeepMind: nuovi progressi nel protein folding con AlphaFold 3', source:'Wired Italia', time:'6h fa', score:82, sentiment:'POSITIVO', sentimentClass:'badge-positivo', tags:['Tecnologia','Google','Innovazione'] },
+  { img:'📊', imgBg:'linear-gradient(135deg,#3a2a1a,#5a3a2a)', title:'StartUp italiane: raccolta fondi record nel settore AI nel primo trimestre 2024', source:'La Stampa', time:'8h fa', score:76, sentiment:'POSITIVO', sentimentClass:'badge-positivo', tags:['Tecnologia','StartUp','Italia'] },
+];
+
+// Stato ricerca
+let searchActiveFilters  = new Set();
+let searchCategoryFilter = 'all';
+
+function initSearchScreen() {
+  searchActiveFilters.clear();
+  searchCategoryFilter = 'all';
+  const catSelect = document.getElementById('search-category-select');
+  if (catSelect) catSelect.value = 'all';
+  const input = document.getElementById('search-global-input');
+  if (input) input.value = '';
+  renderSearchTagCloud();
+  renderSearchActiveFilters();
+  renderSearchResults();
+}
+
+function renderSearchTagCloud() {
+  const container = document.getElementById('search-tag-cloud');
+  if (!container) return;
+
+  let tags = [...SEARCH_TAGS_ALL];
+
+  // Filtra per categoria dropdown
+  if (searchCategoryFilter !== 'all') {
+    tags = tags.filter(t => t.type === searchCategoryFilter);
+  }
+
+  // Se ci sono filtri attivi, riduci il cloud ai tag compatibili
+  if (searchActiveFilters.size > 0) {
+    const activeArr = Array.from(searchActiveFilters);
+    let compatible = null;
+    activeArr.forEach(f => {
+      const compat = SEARCH_COMPAT_MAP[f] || [];
+      compatible = compatible === null
+        ? new Set(compat)
+        : new Set([...compatible].filter(c => compat.includes(c)));
+    });
+    if (compatible) {
+      tags = tags
+        .filter(t => compatible.has(t.name) && !searchActiveFilters.has(t.name))
+        .map(t => ({ ...t, count: Math.max(10, Math.round(t.count * (0.05 + Math.random() * 0.15))) }));
+    }
+  }
+
+  // Filtra per testo
+  const q = (document.getElementById('search-global-input') || {}).value || '';
+  if (q) tags = tags.filter(t => t.name.toLowerCase().includes(q.toLowerCase()));
+
+  container.innerHTML = '';
+  if (tags.length === 0) {
+    container.innerHTML = '<span style="font-size:12px;color:var(--text-secondary)">Nessun tag trovato</span>';
+    return;
+  }
+
+  const visible = tags.slice(0, 22);
+  visible.forEach(tag => {
+    const span = document.createElement('span');
+    span.className = 'search-tag' + (searchActiveFilters.has(tag.name) ? ' active' : '');
+    span.dataset.tagName = tag.name;
+    span.innerHTML = `${tag.name}<sup class="tag-count">${tag.count.toLocaleString('it')}</sup>`;
+    container.appendChild(span);
+  });
+
+  if (tags.length > 22) {
+    const more = document.createElement('span');
+    more.className = 'search-tag-more';
+    more.textContent = `... Load more (${tags.length - 22})`;
+    more.addEventListener('click', () => {
+      tags.slice(22).forEach(tag => {
+        const span = document.createElement('span');
+        span.className = 'search-tag' + (searchActiveFilters.has(tag.name) ? ' active' : '');
+        span.dataset.tagName = tag.name;
+        span.innerHTML = `${tag.name}<sup class="tag-count">${tag.count.toLocaleString('it')}</sup>`;
+        container.insertBefore(span, more);
+      });
+      more.remove();
+    });
+    container.appendChild(more);
+  }
+}
+
+function renderSearchActiveFilters() {
+  const container = document.getElementById('search-active-filters');
+  const statusEl  = document.getElementById('search-status');
+  if (!container) return;
+  container.innerHTML = '';
+  if (searchActiveFilters.size === 0) {
+    if (statusEl) statusEl.textContent = 'Nessun filtro attivo';
+    return;
+  }
+  if (statusEl) statusEl.textContent = '';
+  searchActiveFilters.forEach(f => {
+    const count = SEARCH_RESULTS.filter(r => r.tags.includes(f)).length;
+    const chip  = document.createElement('span');
+    chip.className = 'search-filter-chip';
+    chip.innerHTML = `✕ ${f} <span class="filter-chip-count">${count}</span>`;
+    chip.addEventListener('click', () => {
+      searchActiveFilters.delete(f);
+      renderSearchTagCloud(); renderSearchActiveFilters(); renderSearchResults();
+    });
+    container.appendChild(chip);
+  });
+}
+
+function renderSearchResults() {
+  const container = document.getElementById('search-results');
+  const headerEl  = document.getElementById('search-results-header');
+  if (!container) return;
+  const q = (document.getElementById('search-global-input') || {}).value || '';
+  if (searchActiveFilters.size === 0 && !q) {
+    container.innerHTML = '';
+    if (headerEl) headerEl.style.display = 'none';
+    return;
+  }
+  let results = [...SEARCH_RESULTS];
+  if (searchActiveFilters.size > 0) {
+    results = results.filter(r => Array.from(searchActiveFilters).some(f => r.tags.includes(f)));
+  }
+  if (q) {
+    results = results.filter(r => r.title.toLowerCase().includes(q.toLowerCase()) || r.tags.some(t => t.toLowerCase().includes(q.toLowerCase())));
+  }
+  if (headerEl) {
+    headerEl.style.display = results.length ? 'block' : 'none';
+    const countEl = headerEl.querySelector('.result-count');
+    if (countEl) countEl.textContent = results.length;
+  }
+  container.innerHTML = '';
+  results.forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'search-result-row';
+    row.innerHTML = `
+      <div class="search-result-img" style="background:${r.imgBg}">${r.img}</div>
+      <div class="search-result-info">
+        <div class="search-result-title">${r.title}</div>
+        <div class="search-result-meta">
+          <span>${r.source}</span><span>·</span><span>${r.time}</span><span>·</span>
+          <span class="search-result-score">★ ${r.score}%</span><span>·</span>
+          <span class="badge ${r.sentimentClass}" style="font-size:10px;padding:2px 6px">${r.sentiment}</span>
+        </div>
+        <div class="search-result-tags">${r.tags.map(t => `<span class="tag tag-cat">${t}</span>`).join('')}</div>
+      </div>`;
+    row.addEventListener('click', () => showScreen('article-detail'));
+    container.appendChild(row);
+  });
+}
+
+// Click sui tag del cloud di ricerca
+document.addEventListener('click', e => {
+  const tag = e.target.closest('.search-tag[data-tag-name]');
+  if (!tag) return;
+  const name = tag.dataset.tagName;
+  searchActiveFilters.has(name) ? searchActiveFilters.delete(name) : searchActiveFilters.add(name);
+  renderSearchTagCloud(); renderSearchActiveFilters(); renderSearchResults();
+});
+
+// Dropdown categoria ricerca
+document.addEventListener('change', e => {
+  if (e.target.id === 'search-category-select') {
+    searchCategoryFilter = e.target.value;
+    renderSearchTagCloud();
+  }
+});
+
+// Input di ricerca globale
+document.addEventListener('input', e => {
+  if (e.target.id === 'search-global-input') {
+    renderSearchTagCloud(); renderSearchResults();
+  }
+  if (e.target.id === 'fonti-search-input') renderFontiList();
+});
+
+// Apri schermata Ricerca cliccando la search bar della dashboard
+document.addEventListener('click', e => {
+  const dashInput = e.target.closest('.dash-search-input');
+  if (!dashInput) return;
+  const activeScreen = document.querySelector('.screen.active');
+  if (activeScreen && (activeScreen.id === 'screen-dashboard' || activeScreen.id === 'screen-dashboard-skip')) {
+    showScreen('ricerca');
+  }
+});
+
+// Avatar dropdown (apri/chiudi)
+document.addEventListener('click', e => {
+  const avatarBtn = e.target.closest('.avatar-btn');
+  if (avatarBtn) {
+    const wrap = avatarBtn.closest('.avatar-wrapper');
+    const dropdown = wrap ? wrap.querySelector('.avatar-dropdown') : null;
+    if (dropdown) {
+      dropdown.classList.toggle('open');
+      e.stopPropagation();
+      return;
+    }
+  }
+  // Chiudi se click fuori
+  if (!e.target.closest('.avatar-wrapper')) {
+    document.querySelectorAll('.avatar-dropdown.open').forEach(d => d.classList.remove('open'));
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// === NUOVA SCHERMATA: GESTISCI FONTI ===
+// ═══════════════════════════════════════════════════════════════
+
+let FONTI_STATE = [
+  { id:'gazzetta',  group:'istituzionali', icon:'🏛️', name:'Gazzetta Ufficiale',       url:'rss.gazzettaufficiale.it', status:'active',  lastSync:'10 min fa', articles:340, error:null },
+  { id:'senato',    group:'istituzionali', icon:'🏛️', name:'Senato della Repubblica',   url:'senato.it/rss',            status:'active',  lastSync:'1h fa',     articles:120, error:null },
+  { id:'anac',      group:'istituzionali', icon:'🔒', name:'ANAC',                       url:'anac.it/feed',             status:'active',  lastSync:'30 min fa', articles:80,  error:null },
+  { id:'camera',    group:'istituzionali', icon:'⚠️', name:'Camera dei Deputati',        url:'camera.it/RSS',            status:'error',   lastSync:'2 giorni fa',articles:0,  error:'Impossibile raggiungere il feed RSS' },
+  { id:'corriere',  group:'nazionali',     icon:'📰', name:'Corriere della Sera',        url:'corriere.it/rss',          status:'active',  lastSync:'5 min fa',  articles:890, error:null },
+  { id:'repubblica',group:'nazionali',     icon:'📰', name:'Repubblica',                 url:'repubblica.it/rss',        status:'active',  lastSync:'5 min fa',  articles:760, error:null },
+  { id:'custom1',   group:'custom',        icon:'🔗', name:'Feed personalizzato',        url:'miosito.it/feed',          status:'active',  lastSync:'1h fa',     articles:45,  error:null },
+];
+
+let collapsedGroups = new Set();
+let editingFonteId  = null;
+
+function initFontiScreen() { renderFontiList(); }
+
+function renderFontiList() {
+  const searchQ = (document.getElementById('fonti-search-input') || {}).value || '';
+  const groups = [
+    { id:'istituzionali', label:'Istituzionali' },
+    { id:'nazionali',     label:'Testate Nazionali' },
+    { id:'custom',        label:'Custom' },
+  ];
+  groups.forEach(g => {
+    const container = document.getElementById(`fonti-group-${g.id}`);
+    const countEl   = document.getElementById(`fonti-group-count-${g.id}`);
+    if (!container) return;
+    let sources = FONTI_STATE.filter(f => f.group === g.id && f.status !== 'removed');
+    if (searchQ) sources = sources.filter(f => f.name.toLowerCase().includes(searchQ.toLowerCase()) || f.url.toLowerCase().includes(searchQ.toLowerCase()));
+    if (countEl) countEl.textContent = sources.filter(s => s.status === 'active' || s.status === 'retrying').length + ' attive';
+    const listEl = container.querySelector('.fonti-group-list');
+    if (!listEl) return;
+    listEl.innerHTML = '';
+    if (sources.length === 0) {
+      listEl.innerHTML = '<p class="fonti-empty">Nessuna fonte in questo gruppo</p>';
+      return;
+    }
+    sources.forEach(fonte => {
+      const isError    = fonte.status === 'error';
+      const isRetrying = fonte.status === 'retrying';
+      const row = document.createElement('div');
+      row.className = `fonte-row${isError ? ' fonte-row-error' : ''}`;
+      row.dataset.fonteId = fonte.id;
+      row.innerHTML = `
+        <div class="fonte-row-inner">
+          <span class="fonte-icon">${isError ? '⚠️' : fonte.icon}</span>
+          <div class="fonte-info">
+            <span class="fonte-name">${fonte.name}</span>
+            <span class="fonte-url">${fonte.url}</span>
+            <div class="fonte-status-row">
+              <span class="fonte-status-dot ${isError ? 'dot-error' : 'dot-active'}"></span>
+              <span class="fonte-status-label ${isError ? 'label-error' : ''}">
+                ${isError ? `Errore · Ultima sincronizzazione: ${fonte.lastSync}` : `Attiva · Ultima sincronizzazione: ${fonte.lastSync}`}
+              </span>
+            </div>
+            ${isError ? `<span class="fonte-error-text">${fonte.error}</span>` : `<span class="fonte-articles-count">~${fonte.articles} articoli/mese</span>`}
+          </div>
+          <div class="fonte-actions">
+            ${isRetrying
+              ? '<span class="fonte-retrying-label">⟳ Riconnessione...</span>'
+              : isError
+                ? `<button class="btn btn-sm btn-outline fonte-retry-btn" data-id="${fonte.id}">Riprova</button>`
+                : `<button class="btn btn-sm btn-ghost fonte-edit-btn" data-id="${fonte.id}">Modifica</button>`}
+            <button class="btn btn-sm btn-ghost fonte-remove-trigger" data-id="${fonte.id}" style="color:var(--sentiment-neg)">✕</button>
+          </div>
+        </div>
+        <div class="fonte-confirm-remove hidden" id="confirm-remove-${fonte.id}">
+          <span class="fonte-confirm-text">Rimuovere questa fonte?</span>
+          <button class="btn btn-sm fonte-confirm-yes" style="background:var(--sentiment-neg);color:#fff;border:none" data-id="${fonte.id}">Sì, rimuovi</button>
+          <button class="btn btn-sm btn-ghost fonte-confirm-no" data-id="${fonte.id}">Annulla</button>
+        </div>`;
+      listEl.appendChild(row);
+    });
+  });
+}
+
+// Gestione eventi Gestisci Fonti
+document.addEventListener('click', e => {
+  // Mostra conferma rimozione
+  const removeTrigger = e.target.closest('.fonte-remove-trigger');
+  if (removeTrigger) {
+    const id = removeTrigger.dataset.id;
+    document.querySelectorAll('.fonte-confirm-remove').forEach(el => el.classList.add('hidden'));
+    const conf = document.getElementById(`confirm-remove-${id}`);
+    if (conf) conf.classList.remove('hidden');
+    return;
+  }
+  // Conferma rimozione
+  const confirmYes = e.target.closest('.fonte-confirm-yes');
+  if (confirmYes) {
+    const f = FONTI_STATE.find(x => x.id === confirmYes.dataset.id);
+    if (f) f.status = 'removed';
+    renderFontiList();
+    return;
+  }
+  // Annulla rimozione
+  const confirmNo = e.target.closest('.fonte-confirm-no');
+  if (confirmNo) {
+    const conf = document.getElementById(`confirm-remove-${confirmNo.dataset.id}`);
+    if (conf) conf.classList.add('hidden');
+    return;
+  }
+  // Riprova fonte in errore
+  const retryBtn = e.target.closest('.fonte-retry-btn');
+  if (retryBtn) {
+    const f = FONTI_STATE.find(x => x.id === retryBtn.dataset.id);
+    if (!f) return;
+    f.status = 'retrying';
+    renderFontiList();
+    setTimeout(() => { f.status = 'active'; f.icon = '🏛️'; f.lastSync = '1 min fa'; f.articles = 95; f.error = null; renderFontiList(); }, 2000);
+    return;
+  }
+  // Modifica fonte
+  const editBtn = e.target.closest('.fonte-edit-btn');
+  if (editBtn) { openFonteModal(editBtn.dataset.id); return; }
+  // Chiudi modal fonte
+  if (e.target.id === 'fonte-modal-overlay' || e.target.id === 'fonte-modal-close' || e.target.id === 'fonte-modal-cancel') { closeFonteModal(); return; }
+  // Salva modal fonte
+  if (e.target.id === 'fonte-modal-save') { saveFonteModal(); return; }
+  // Toggle gruppo collassabile
+  const groupHeader = e.target.closest('.fonti-group-header');
+  if (groupHeader && groupHeader.closest('#screen-gestisci-fonti')) {
+    const gid = groupHeader.dataset.group;
+    const listEl = groupHeader.nextElementSibling;
+    const toggle = groupHeader.querySelector('.fonti-group-toggle');
+    if (collapsedGroups.has(gid)) {
+      collapsedGroups.delete(gid);
+      if (listEl) listEl.style.display = '';
+      if (toggle) toggle.textContent = '▾';
+      groupHeader.classList.remove('collapsed');
+    } else {
+      collapsedGroups.add(gid);
+      if (listEl) listEl.style.display = 'none';
+      if (toggle) toggle.textContent = '▸';
+      groupHeader.classList.add('collapsed');
+    }
+    return;
+  }
+  // Aggiungi fonte custom
+  if (e.target.id === 'add-fonte-btn') {
+    const input = document.getElementById('add-fonte-url');
+    const url = input ? input.value.trim() : '';
+    if (!url) return;
+    FONTI_STATE.push({ id:'custom-'+Date.now(), group:'custom', icon:'🔗', name:url.split('/')[0] || 'Feed custom', url, status:'active', lastSync:'appena ora', articles:0, error:null });
+    if (input) input.value = '';
+    renderFontiList();
+    return;
+  }
+});
+
+function openFonteModal(id) {
+  const fonte = FONTI_STATE.find(f => f.id === id);
+  if (!fonte) return;
+  editingFonteId = id;
+  const overlay = document.getElementById('fonte-modal-overlay');
+  if (!overlay) return;
+  const nameEl = document.getElementById('fonte-modal-name');
+  const urlEl  = document.getElementById('fonte-modal-url');
+  if (nameEl) nameEl.value = fonte.name;
+  if (urlEl)  urlEl.value  = fonte.url;
+  overlay.classList.add('open');
+}
+
+function closeFonteModal() {
+  const overlay = document.getElementById('fonte-modal-overlay');
+  if (overlay) overlay.classList.remove('open');
+  editingFonteId = null;
+}
+
+function saveFonteModal() {
+  const fonte = FONTI_STATE.find(f => f.id === editingFonteId);
+  if (!fonte) return;
+  const nameEl = document.getElementById('fonte-modal-name');
+  const urlEl  = document.getElementById('fonte-modal-url');
+  if (nameEl) fonte.name = nameEl.value;
+  if (urlEl)  fonte.url  = urlEl.value;
+  closeFonteModal();
+  renderFontiList();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// === NUOVA SCHERMATA: IMPOSTAZIONI ===
+// ═══════════════════════════════════════════════════════════════
+
+let settingsActiveSection = 'profilo';
+let settingsSliderValue   = 70;
+
+function initImpostazioniScreen() {
+  showSettingsSection(settingsActiveSection);
+  initSettingsSlider();
+}
+
+function showSettingsSection(section) {
+  settingsActiveSection = section;
+  document.querySelectorAll('#screen-impostazioni .settings-nav-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.section === section);
+  });
+  document.querySelectorAll('#screen-impostazioni .settings-section').forEach(sec => {
+    sec.style.display = sec.dataset.section === section ? 'block' : 'none';
+  });
+}
+
+function initSettingsSlider() {
+  const slider  = document.getElementById('relevance-slider');
+  const valueEl = document.getElementById('relevance-value');
+  if (!slider || !valueEl) return;
+  slider.value = settingsSliderValue;
+  valueEl.textContent = settingsSliderValue + '%';
+  // Rimuovi vecchi listener clonando il nodo
+  const newSlider = slider.cloneNode(true);
+  slider.parentNode.replaceChild(newSlider, slider);
+  newSlider.addEventListener('input', () => {
+    settingsSliderValue = newSlider.value;
+    valueEl.textContent = newSlider.value + '%';
+  });
+}
+
+// Menu sezioni impostazioni
+document.addEventListener('click', e => {
+  const navItem = e.target.closest('.settings-nav-item');
+  if (navItem && navItem.closest('#screen-impostazioni')) {
+    showSettingsSection(navItem.dataset.section);
+  }
+});
+
+// Bottoni "Salva modifiche" → feedback ✓
+document.addEventListener('click', e => {
+  const saveBtn = e.target.closest('.settings-save-btn');
+  if (!saveBtn) return;
+  const orig = saveBtn.textContent;
+  saveBtn.textContent = '✓ Salvato';
+  saveBtn.style.background = 'var(--sentiment-pos)';
+  saveBtn.disabled = true;
+  setTimeout(() => { saveBtn.textContent = orig; saveBtn.style.background = ''; saveBtn.disabled = false; }, 2000);
+});
+
+// Toggle switches
+document.addEventListener('click', e => {
+  const tog = e.target.closest('.toggle-switch');
+  if (tog) tog.classList.toggle('on');
+});
+
+// Rimozione chip topic in impostazioni
+document.addEventListener('click', e => {
+  const rx = e.target.closest('.settings-topic-chip .chip-remove-x');
+  if (rx) rx.closest('.settings-topic-chip')?.remove();
+});
+
+// Modal "Elimina account"
+document.addEventListener('click', e => {
+  if (e.target.id === 'delete-account-btn') {
+    const m = document.getElementById('delete-account-modal');
+    if (m) m.classList.add('open');
+    return;
+  }
+  if (e.target.id === 'delete-confirm-cancel' || e.target.id === 'delete-modal-overlay') {
+    closeDeleteModal(); return;
+  }
+  if (e.target.id === 'delete-confirm-yes') {
+    closeDeleteModal(); showScreen('welcome'); return;
+  }
+});
+
+function closeDeleteModal() {
+  const m = document.getElementById('delete-account-modal');
+  if (m) m.classList.remove('open');
+}
+
+// Chip selezionabili generici (incluso sezione Profilo/AI impostazioni)
+document.addEventListener('click', e => {
+  const chip = e.target.closest('#screen-impostazioni .chip:not(.settings-topic-chip)');
+  if (chip) chip.classList.toggle('selected');
 });
 
 // ─────────────────────────────────────────────

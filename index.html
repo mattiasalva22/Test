@@ -26,6 +26,10 @@
     <button class="proto-btn" data-screen="dashboard">Dashboard</button>
     <button class="proto-btn" data-screen="dashboard-skip">Dashboard (skip)</button>
     <button class="proto-btn" data-screen="article-detail">Dettaglio Articolo</button>
+    <span class="proto-nav-sep">|</span>
+    <button class="proto-btn" data-screen="ricerca">Ricerca</button>
+    <button class="proto-btn" data-screen="gestisci-fonti">Gestisci Fonti</button>
+    <button class="proto-btn" data-screen="impostazioni">Impostazioni</button>
   </nav>
 
   <!-- ============================================================
@@ -479,8 +483,8 @@
 
         <!-- Link modifica -->
         <div class="config-edit-links">
-          <a href="#" class="link-muted" data-goto="step2">✏️ Modifica topic</a>
-          <a href="#" class="link-muted" data-goto="step3">✏️ Modifica fonti</a>
+          <a href="#" class="link-muted" data-goto="impostazioni" data-settings-section="topic">✏️ Modifica topic</a>
+          <a href="#" class="link-muted" data-goto="gestisci-fonti">✏️ Modifica fonti</a>
         </div>
 
         <!-- CTA -->
@@ -512,7 +516,13 @@
             <i data-lucide="bell"></i>
             <span class="notif-badge">2</span>
           </button>
-          <button class="avatar-btn">La Capitale ▾</button>
+          <div class="avatar-wrapper">
+            <button class="avatar-btn">La Capitale ▾</button>
+            <div class="avatar-dropdown">
+              <a href="#" class="avatar-dropdown-item" data-goto="impostazioni">⚙️ Impostazioni</a>
+              <a href="#" class="avatar-dropdown-item">🚪 Logout</a>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -546,7 +556,7 @@
               <li><span class="topic-dot"></span> Garante Privacy</li>
               <li><span class="topic-dot"></span> PNRR</li>
             </ul>
-            <a href="#" class="link-muted sidebar-add-link">+ Aggiungi topic</a>
+            <a href="#" class="link-muted sidebar-add-link" data-goto="impostazioni" data-settings-section="topic">+ Aggiungi topic</a>
           </div>
 
           <div class="sidebar-divider"></div>
@@ -559,7 +569,7 @@
               <li>Repubblica</li>
               <li>Corriere della Sera</li>
             </ul>
-            <a href="#" class="link-muted sidebar-add-link">+ Gestisci fonti</a>
+            <a href="#" class="link-muted sidebar-add-link" data-goto="gestisci-fonti">+ Gestisci fonti</a>
           </div>
 
           <div class="sidebar-divider"></div>
@@ -811,7 +821,13 @@
             <i data-lucide="bell"></i>
             <span class="notif-badge">2</span>
           </button>
-          <button class="avatar-btn">La Capitale ▾</button>
+          <div class="avatar-wrapper">
+            <button class="avatar-btn">La Capitale ▾</button>
+            <div class="avatar-dropdown">
+              <a href="#" class="avatar-dropdown-item" data-goto="impostazioni">⚙️ Impostazioni</a>
+              <a href="#" class="avatar-dropdown-item">🚪 Logout</a>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -1083,6 +1099,437 @@
       </div><!-- /article-layout -->
     </section>
 
+    <!-- ==========================================================
+         SCREEN: RICERCA GLOBALE
+    ========================================================== -->
+    <section id="screen-ricerca" class="screen screen-ricerca">
+      <div class="ricerca-container">
+
+        <!-- Header: chiudi + search row -->
+        <div class="ricerca-header">
+          <button class="ricerca-close-btn" data-goto="dashboard">
+            <span>✕</span>
+            <span class="ricerca-close-hint">ESC per chiudere</span>
+          </button>
+          <div class="ricerca-search-row">
+            <div class="ricerca-input-wrapper">
+              <i data-lucide="search" class="search-icon"></i>
+              <input type="text" id="search-global-input" class="ricerca-input"
+                     placeholder="Cerca articoli, topic, fonti..." />
+            </div>
+            <select id="search-category-select" class="form-select ricerca-category-select">
+              <option value="all">Tutte le categorie</option>
+              <option value="categoria">Categorie</option>
+              <option value="concetto">Concetti</option>
+              <option value="location">Location</option>
+              <option value="organizzazione">Organizzazioni</option>
+              <option value="persona">Persone</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="ricerca-body">
+
+          <!-- Stato filtri attivi -->
+          <div class="search-filters-bar">
+            <span id="search-status" class="search-status-label">Nessun filtro attivo</span>
+            <div id="search-active-filters" class="search-active-filters"></div>
+          </div>
+
+          <!-- Tag cloud -->
+          <div class="search-tag-section">
+            <label class="form-label">Tag più cercati (ordinati per frequenza)</label>
+            <div id="search-tag-cloud" class="search-tag-cloud"></div>
+          </div>
+
+          <!-- Risultati (appare dopo selezione) -->
+          <div id="search-results-header" class="search-results-header" style="display:none">
+            <div class="search-results-divider"></div>
+            <span class="search-results-label">RISULTATI (<span class="result-count">0</span> articoli)</span>
+          </div>
+          <div id="search-results" class="search-results-list"></div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         SCREEN: GESTISCI FONTI
+    ========================================================== -->
+    <section id="screen-gestisci-fonti" class="screen screen-fonti">
+
+      <!-- Navbar identica alla dashboard -->
+      <header class="dash-navbar">
+        <div class="dash-navbar-left">
+          <span class="logo-icon">◈</span>
+          <span class="logo-text">Sapra.ai</span>
+        </div>
+        <div class="dash-navbar-center">
+          <div class="dash-search">
+            <i data-lucide="search" class="dash-search-icon"></i>
+            <input type="text" id="fonti-search-input" class="dash-search-input" placeholder="Cerca fonti..." />
+          </div>
+        </div>
+        <div class="dash-navbar-right">
+          <button class="icon-btn notif-btn">
+            <i data-lucide="bell"></i>
+            <span class="notif-badge">2</span>
+          </button>
+          <div class="avatar-wrapper">
+            <button class="avatar-btn">La Capitale ▾</button>
+            <div class="avatar-dropdown">
+              <a href="#" class="avatar-dropdown-item" data-goto="impostazioni">⚙️ Impostazioni</a>
+              <a href="#" class="avatar-dropdown-item">🚪 Logout</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Breadcrumb + azione -->
+      <div class="fonti-breadcrumb">
+        <button class="breadcrumb-back btn-ghost" data-goto="dashboard">← Feed</button>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Gestisci Fonti</span>
+        <div class="fonti-breadcrumb-actions">
+          <button class="btn btn-primary btn-sm" id="add-fonte-header-btn">+ Aggiungi fonte</button>
+        </div>
+      </div>
+
+      <!-- Contenuto principale -->
+      <div class="fonti-body">
+        <div class="fonti-content">
+
+          <!-- GRUPPO: Istituzionali -->
+          <div id="fonti-group-istituzionali" class="fonti-group">
+            <div class="fonti-group-header" data-group="istituzionali">
+              <div class="fonti-group-title">
+                <span>Istituzionali</span>
+                <span id="fonti-group-count-istituzionali" class="fonti-group-count">3 attive</span>
+              </div>
+              <span class="fonti-group-toggle">▾</span>
+            </div>
+            <div class="fonti-group-list"></div>
+          </div>
+
+          <!-- GRUPPO: Testate Nazionali -->
+          <div id="fonti-group-nazionali" class="fonti-group">
+            <div class="fonti-group-header" data-group="nazionali">
+              <div class="fonti-group-title">
+                <span>Testate Nazionali</span>
+                <span id="fonti-group-count-nazionali" class="fonti-group-count">2 attive</span>
+              </div>
+              <span class="fonti-group-toggle">▾</span>
+            </div>
+            <div class="fonti-group-list"></div>
+          </div>
+
+          <!-- GRUPPO: Custom -->
+          <div id="fonti-group-custom" class="fonti-group">
+            <div class="fonti-group-header" data-group="custom">
+              <div class="fonti-group-title">
+                <span>Custom</span>
+                <span id="fonti-group-count-custom" class="fonti-group-count">1 attiva</span>
+              </div>
+              <span class="fonti-group-toggle">▾</span>
+            </div>
+            <div class="fonti-group-list"></div>
+          </div>
+
+          <!-- Aggiungi fonte personalizzata -->
+          <div class="fonti-add-section">
+            <label class="form-label">+ Aggiungi fonte personalizzata</label>
+            <div class="add-source-row">
+              <input type="text" id="add-fonte-url" class="form-input" placeholder="Incolla URL o RSS feed..." />
+              <button class="btn btn-primary" id="add-fonte-btn">Aggiungi</button>
+            </div>
+          </div>
+
+          <!-- Upload -->
+          <div class="fonti-upload-section">
+            <label class="form-label">+ Carica documento / archivio</label>
+            <div class="fonti-upload-box">
+              <span>📎</span> Trascina qui o clicca per caricare PDF, ZIP
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================================
+         SCREEN: IMPOSTAZIONI
+    ========================================================== -->
+    <section id="screen-impostazioni" class="screen screen-settings">
+
+      <!-- Navbar -->
+      <header class="dash-navbar">
+        <div class="dash-navbar-left">
+          <span class="logo-icon">◈</span>
+          <span class="logo-text">Sapra.ai</span>
+        </div>
+        <div class="dash-navbar-center"></div>
+        <div class="dash-navbar-right">
+          <button class="icon-btn notif-btn">
+            <i data-lucide="bell"></i>
+            <span class="notif-badge">2</span>
+          </button>
+          <div class="avatar-wrapper">
+            <button class="avatar-btn">La Capitale ▾</button>
+            <div class="avatar-dropdown">
+              <a href="#" class="avatar-dropdown-item" data-goto="impostazioni">⚙️ Impostazioni</a>
+              <a href="#" class="avatar-dropdown-item">🚪 Logout</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Breadcrumb -->
+      <div class="fonti-breadcrumb">
+        <button class="breadcrumb-back btn-ghost" data-goto="dashboard">← Feed</button>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Impostazioni</span>
+      </div>
+
+      <!-- Layout sidebar + contenuto -->
+      <div class="settings-body">
+
+        <!-- Menu laterale -->
+        <nav class="settings-nav-sidebar">
+          <div class="settings-nav-item active" data-section="profilo">Profilo</div>
+          <div class="settings-nav-item" data-section="topic">Topic</div>
+          <div class="settings-nav-item" data-section="fonti">Fonti</div>
+          <div class="settings-nav-item" data-section="ai">Preferenze AI</div>
+          <div class="settings-nav-item" data-section="notifiche">Notifiche</div>
+          <div class="settings-nav-item" data-section="account">Account</div>
+        </nav>
+
+        <!-- Pannello contenuto -->
+        <div class="settings-content-panel">
+
+          <!-- ── SEZIONE: Profilo ── -->
+          <div class="settings-section" data-section="profilo">
+            <h2 class="settings-section-title">Profilo Editoriale</h2>
+
+            <div class="form-section">
+              <label class="form-label" for="settings-ruolo">Ruolo</label>
+              <select class="form-select" id="settings-ruolo">
+                <option selected>Giornalista editoriale</option>
+                <option>Ufficio Stampa / Istituzionale</option>
+                <option>Freelance</option>
+                <option>Content Creator</option>
+              </select>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label">Ambito principale</label>
+              <div class="chip-group">
+                <span class="chip selected">Politica</span>
+                <span class="chip selected">Economia</span>
+                <span class="chip">Tecnologia</span>
+                <span class="chip">Ambiente</span>
+                <span class="chip">Cronaca</span>
+                <span class="chip">Cultura</span>
+                <span class="chip">Sport</span>
+                <span class="chip">Esteri</span>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label" for="settings-testata">Testata / Organizzazione</label>
+              <input type="text" id="settings-testata" class="form-input" value="La Capitale" />
+            </div>
+
+            <button class="btn btn-primary settings-save-btn">Salva modifiche</button>
+          </div>
+
+          <!-- ── SEZIONE: Topic ── -->
+          <div class="settings-section" data-section="topic" style="display:none">
+            <h2 class="settings-section-title">I tuoi Topic</h2>
+
+            <div class="form-section">
+              <label class="form-label">Topic monitorati</label>
+              <div class="chip-group settings-topics-group" id="settings-topics-group">
+                <span class="chip selected settings-topic-chip"><span class="chip-remove-x">✕</span> Politica locale</span>
+                <span class="chip selected settings-topic-chip"><span class="chip-remove-x">✕</span> Bilancio com.</span>
+                <span class="chip selected settings-topic-chip"><span class="chip-remove-x">✕</span> ANAC</span>
+                <span class="chip selected settings-topic-chip"><span class="chip-remove-x">✕</span> Garante Privacy</span>
+                <span class="chip selected settings-topic-chip"><span class="chip-remove-x">✕</span> PNRR</span>
+                <a href="#" class="link-muted" style="align-self:center;font-size:12px">+ Aggiungi topic</a>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label" for="settings-topic-search">Cerca e aggiungi topic</label>
+              <div class="search-bar-wrapper">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="settings-topic-search" class="search-bar" placeholder="Es. PNRR, Sicurezza..." />
+              </div>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label">Suggeriti per il tuo profilo</label>
+              <div class="chip-group">
+                <span class="chip">Urbanistica</span>
+                <span class="chip">PNRR</span>
+                <span class="chip">Normativa</span>
+                <span class="chip">Elezioni</span>
+              </div>
+            </div>
+
+            <button class="btn btn-primary settings-save-btn">Salva modifiche</button>
+          </div>
+
+          <!-- ── SEZIONE: Fonti ── -->
+          <div class="settings-section" data-section="fonti" style="display:none">
+            <h2 class="settings-section-title">Fonti</h2>
+            <a href="#" class="btn btn-outline" data-goto="gestisci-fonti" style="display:inline-flex;margin-bottom:24px">→ Vai a Gestisci Fonti</a>
+            <div class="settings-sources-summary">
+              <div class="summary-row"><span class="summary-icon">●</span> <span>6 fonti attive</span></div>
+              <div class="summary-row error"><span class="summary-icon">⚠️</span> <span>1 fonte con errore <em>(Camera dei Deputati)</em></span></div>
+              <div class="summary-row"><span class="summary-icon">📊</span> <span>~2.235 articoli/mese totali</span></div>
+            </div>
+          </div>
+
+          <!-- ── SEZIONE: Preferenze AI ── -->
+          <div class="settings-section" data-section="ai" style="display:none">
+            <h2 class="settings-section-title">Preferenze AI</h2>
+
+            <div class="form-section">
+              <label class="form-label">Soglia rilevanza minima nel feed</label>
+              <p class="settings-desc">Mostra solo articoli con score superiore a:</p>
+              <div class="slider-row">
+                <input type="range" id="relevance-slider" min="0" max="100" value="70" class="relevance-slider" />
+                <span class="relevance-value" id="relevance-value">70%</span>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label">Mostra articoli con sentiment</label>
+              <div class="chip-group">
+                <span class="chip selected">Positivo</span>
+                <span class="chip selected">Neutro</span>
+                <span class="chip selected">Negativo</span>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label" for="ai-freq-select">Frequenza aggiornamento feed</label>
+              <select class="form-select" id="ai-freq-select" style="max-width:200px">
+                <option>15 min</option>
+                <option>30 min</option>
+                <option selected>Ogni ora</option>
+                <option>3 ore</option>
+                <option>1 giorno</option>
+              </select>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label" for="ai-lang-select">Lingua dei contenuti preferita</label>
+              <select class="form-select" id="ai-lang-select" style="max-width:200px">
+                <option selected>Italiano</option>
+                <option>Inglese</option>
+                <option>Multilingua</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary settings-save-btn">Salva modifiche</button>
+          </div>
+
+          <!-- ── SEZIONE: Notifiche ── -->
+          <div class="settings-section" data-section="notifiche" style="display:none">
+            <h2 class="settings-section-title">Notifiche</h2>
+
+            <div class="form-section">
+              <label class="form-label">Alert in-app</label>
+              <div class="toggle-list">
+                <div class="toggle-item">
+                  <div class="toggle-item-label">
+                    <span class="toggle-item-title">Nuovi articoli sui miei topic</span>
+                  </div>
+                  <div class="toggle-switch on"></div>
+                </div>
+                <div class="toggle-item">
+                  <div class="toggle-item-label">
+                    <span class="toggle-item-title">Spike di copertura su un tema</span>
+                  </div>
+                  <div class="toggle-switch on"></div>
+                </div>
+                <div class="toggle-item">
+                  <div class="toggle-item-label">
+                    <span class="toggle-item-title">Aggiornamenti di sistema</span>
+                  </div>
+                  <div class="toggle-switch"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label">Email digest</label>
+              <div class="toggle-list">
+                <div class="toggle-item">
+                  <div class="toggle-item-label">
+                    <span class="toggle-item-title">Riepilogo giornaliero</span>
+                    <select class="form-select" style="width:90px;padding:4px 8px;font-size:12px;margin-left:8px">
+                      <option>06:00</option>
+                      <option selected>08:00</option>
+                      <option>09:00</option>
+                      <option>12:00</option>
+                    </select>
+                  </div>
+                  <div class="toggle-switch on"></div>
+                </div>
+                <div class="toggle-item">
+                  <div class="toggle-item-label">
+                    <span class="toggle-item-title">Riepilogo settimanale</span>
+                  </div>
+                  <div class="toggle-switch"></div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary settings-save-btn">Salva modifiche</button>
+          </div>
+
+          <!-- ── SEZIONE: Account ── -->
+          <div class="settings-section" data-section="account" style="display:none">
+            <h2 class="settings-section-title">Account</h2>
+
+            <div class="settings-account-info">
+              <div class="account-row">
+                <span class="account-label">Nome</span>
+                <span class="account-value">Marco Ferretti</span>
+              </div>
+              <div class="account-row">
+                <span class="account-label">Email</span>
+                <span class="account-value">marco@lacapitale.it</span>
+              </div>
+              <div class="account-row">
+                <span class="account-label">Piano</span>
+                <span class="account-value"><span class="badge badge-source">Pro</span> · scade il 01/06/2026</span>
+              </div>
+            </div>
+
+            <div class="settings-account-actions">
+              <button class="btn btn-outline">Cambia password</button>
+              <button class="btn btn-outline">Gestisci abbonamento</button>
+            </div>
+
+            <div class="settings-danger-zone">
+              <div class="danger-zone-header">Zona pericolosa</div>
+              <div class="danger-zone-actions">
+                <button class="btn btn-outline">Esporta i miei dati</button>
+                <button class="btn" id="delete-account-btn" style="background:transparent;border:1px solid var(--sentiment-neg);color:var(--sentiment-neg)">Elimina account</button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /settings-content-panel -->
+      </div><!-- /settings-body -->
+
+    </section>
+
   </div><!-- /screen-wrapper -->
 
   <!-- ============================================================
@@ -1147,6 +1594,72 @@
       <div class="modal-footer">
         <button class="btn btn-ghost" id="modal-cancel">Annulla</button>
         <button class="btn btn-primary">Apri in SCRIVER →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL — MODIFICA FONTE
+  ============================================================ -->
+  <div class="modal-overlay" id="fonte-modal-overlay">
+    <div class="modal" id="fonte-modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Modifica fonte</h2>
+        <button class="modal-close" id="fonte-modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-field">
+          <label class="form-label" for="fonte-modal-name">Nome visualizzato</label>
+          <input type="text" id="fonte-modal-name" class="form-input" />
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="fonte-modal-url">URL / RSS</label>
+          <input type="text" id="fonte-modal-url" class="form-input" />
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="fonte-modal-freq">Aggiornamento automatico</label>
+          <select class="form-select" id="fonte-modal-freq">
+            <option>Ogni 15 minuti</option>
+            <option selected>Ogni ora</option>
+            <option>Ogni 3 ore</option>
+            <option>Ogni giorno</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Topic associati</label>
+          <div class="chip-group">
+            <span class="chip selected">Normativa <span style="opacity:.6;margin-left:4px;cursor:pointer">✕</span></span>
+            <span class="chip selected">Leggi <span style="opacity:.6;margin-left:4px;cursor:pointer">✕</span></span>
+            <a href="#" class="link-muted" style="font-size:12px">+ Aggiungi</a>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="fonte-modal-cancel">Annulla</button>
+        <button class="btn btn-primary" id="fonte-modal-save">Salva</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL — ELIMINA ACCOUNT
+  ============================================================ -->
+  <div class="modal-overlay" id="delete-account-modal">
+    <div class="modal" style="max-width:400px">
+      <div class="modal-header">
+        <h2 class="modal-title" style="color:var(--sentiment-neg)">⚠️ Elimina account</h2>
+        <button class="modal-close" id="delete-confirm-cancel">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:14px;color:var(--text-secondary);line-height:1.6">
+          Sei sicuro di voler eliminare il tuo account?<br />
+          <strong style="color:var(--text-primary)">Questa azione è irreversibile.</strong><br />
+          Tutti i tuoi dati, topic e feed configurati verranno eliminati permanentemente.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="delete-confirm-cancel">Annulla</button>
+        <button class="btn" id="delete-confirm-yes" style="background:var(--sentiment-neg);color:#fff;border:none">Sì, elimina</button>
       </div>
     </div>
   </div>
