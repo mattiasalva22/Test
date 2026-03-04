@@ -3,772 +3,1153 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sapra.ai — Onboarding Wireframe</title>
+  <title>SAPRA.AI — Prototipo Interattivo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- NAV MAP -->
-  <div class="screen-nav">
-    <span class="nav-label">Schermate:</span>
-    <button onclick="showScreen('welcome')" class="nav-btn active" id="nav-welcome">Welcome</button>
-    <button onclick="showScreen('step1')" class="nav-btn" id="nav-step1">Step 1</button>
-    <button onclick="showScreen('step2')" class="nav-btn" id="nav-step2">Step 2</button>
-    <button onclick="showScreen('step3')" class="nav-btn" id="nav-step3">Step 3</button>
-    <button onclick="showScreen('step4-loading')" class="nav-btn" id="nav-step4-loading">Step 4 (loading)</button>
-    <button onclick="showScreen('step4-done')" class="nav-btn" id="nav-step4-done">Step 4 (feed)</button>
-    <button onclick="showScreen('dashboard-skip')" class="nav-btn" id="nav-dashboard-skip">Dashboard (skip)</button>
-    <button onclick="showScreen('dashboard-done')" class="nav-btn" id="nav-dashboard-done">Dashboard (done)</button>
-  </div>
 
-  <div class="stage">
+  <!-- ============================================================
+       PROTO-NAV — Navigazione prototipo (fissa in alto)
+  ============================================================ -->
+  <nav class="proto-nav">
+    <span class="proto-nav-label">PROTOTIPO:</span>
+    <button class="proto-btn active" data-screen="welcome">Welcome</button>
+    <button class="proto-btn" data-screen="step1">Step 1</button>
+    <button class="proto-btn" data-screen="step2">Step 2</button>
+    <button class="proto-btn" data-screen="step3">Step 3</button>
+    <button class="proto-btn" data-screen="step4-loading">Step 4 Loading</button>
+    <button class="proto-btn" data-screen="step4-feed">Step 4 Feed</button>
+    <button class="proto-btn" data-screen="dashboard">Dashboard</button>
+    <button class="proto-btn" data-screen="dashboard-skip">Dashboard (skip)</button>
+    <button class="proto-btn" data-screen="article-detail">Dettaglio Articolo</button>
+  </nav>
 
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- WELCOME SCREEN                                          -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <div class="screen active" id="screen-welcome">
-      <div class="card welcome-card">
-        <div class="logo">
-          <span class="logo-mark">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="13" cy="13" r="11.5" stroke="white" stroke-width="0.8" opacity="0.3"/>
-              <path d="M13 3.5C13 3.5 19.5 5 20.5 11C21.5 17 16 20.5 13 20.5" stroke="white" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-              <path d="M13 3.5C13 3.5 6.5 5 5.5 11C4.5 17 10 20.5 13 20.5" stroke="white" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.45"/>
-              <path d="M9 8.5C9 8.5 10.5 6.5 13 6.5C15.5 6.5 17 8.5 17 10.5C17 13.5 14.5 15 13 15" stroke="white" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.65"/>
-              <circle cx="13" cy="18" r="1.4" fill="white" opacity="0.5"/>
-            </svg>
-          </span>
-          <span>Sapra<span class="logo-ai">.ai</span></span>
+  <!-- ============================================================
+       SCREEN WRAPPER
+  ============================================================ -->
+  <div class="screen-wrapper">
+
+    <!-- ==========================================================
+         SCREEN 1 — WELCOME
+    ========================================================== -->
+    <section id="screen-welcome" class="screen active">
+      <div class="welcome-container">
+
+        <!-- Logo -->
+        <div class="welcome-logo">
+          <span class="logo-icon">◈</span>
+          <span class="logo-text">Sapra.ai</span>
         </div>
 
+        <!-- Headline -->
+        <h1 class="welcome-headline">Benvenuto in SAPRA, Marco</h1>
+        <p class="welcome-subtitle">
+          In 4 minuti configuri il tuo feed editoriale personalizzato.<br />
+          L'AI farà il resto.
+        </p>
+
+        <!-- Illustration placeholder -->
         <div class="welcome-illustration">
-          <div class="illustration-box">
-            <div class="illustration-inner">
-              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                <circle cx="32" cy="32" r="28" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-                <circle cx="32" cy="32" r="18" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                <path d="M32 12C32 12 44 16 46 26C48 36 38 44 32 44" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-                <path d="M32 12C32 12 20 16 18 26C16 36 26 44 32 44" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
-                <path d="M24 22C24 22 27 18 32 18C37 18 40 22 40 26C40 32 35 36 32 36" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.55"/>
-                <circle cx="32" cy="40" r="3" fill="white" opacity="0.35"/>
-              </svg>
+          <i data-lucide="brain" class="illustration-icon"></i>
+          <span class="illustration-label">AI-Powered Editorial Feed</span>
+        </div>
+
+        <!-- CTA -->
+        <button class="btn btn-primary btn-lg" data-goto="step1">
+          Inizia la configurazione →
+        </button>
+        <a href="#" class="welcome-skip-link" data-goto="dashboard-skip">Salta per ora</a>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         SCREEN 2 — WIZARD STEP 1: PROFILO EDITORIALE
+    ========================================================== -->
+    <section id="screen-step1" class="screen">
+      <!-- Wizard Header -->
+      <div class="wizard-header">
+        <button class="btn-ghost wizard-exit" data-goto="welcome">← Esci</button>
+        <div class="wizard-progress">
+          <div class="wizard-steps">
+            <div class="wizard-step active">1</div>
+            <div class="wizard-step-line"></div>
+            <div class="wizard-step">2</div>
+            <div class="wizard-step-line"></div>
+            <div class="wizard-step">3</div>
+            <div class="wizard-step-line"></div>
+            <div class="wizard-step">4</div>
+          </div>
+          <span class="wizard-step-label">Step 1 di 4</span>
+        </div>
+        <div style="width:80px"></div>
+      </div>
+
+      <!-- Content -->
+      <div class="wizard-content">
+        <h2 class="wizard-title">Chi sei?</h2>
+        <p class="wizard-subtitle">Aiuta SAPRA a capire il tuo contesto</p>
+
+        <!-- Sezione A: Ruolo -->
+        <div class="form-section">
+          <label class="form-label">Seleziona il tuo ruolo</label>
+          <div class="role-grid">
+            <div class="role-card selected" data-role="giornalista">
+              <span class="role-icon">📰</span>
+              <span class="role-name">Giornalista editoriale</span>
+            </div>
+            <div class="role-card" data-role="ufficio-stampa">
+              <span class="role-icon">🏛️</span>
+              <span class="role-name">Ufficio Stampa / Istituzionale</span>
+            </div>
+            <div class="role-card" data-role="freelance">
+              <span class="role-icon">📡</span>
+              <span class="role-name">Freelance</span>
+            </div>
+            <div class="role-card" data-role="content-creator">
+              <span class="role-icon">✍️</span>
+              <span class="role-name">Content Creator</span>
             </div>
           </div>
         </div>
 
-        <div class="welcome-text">
-          <h1>Ciao Marco, benvenuto in SAPRA.</h1>
-          <p>In 4 minuti configuri il tuo feed editoriale personalizzato.<br />L'AI farà il resto.</p>
+        <!-- Sezione B: Ambito -->
+        <div class="form-section">
+          <label class="form-label">In che ambito lavori?</label>
+          <div class="chip-group" id="ambito-chips">
+            <span class="chip selected" data-chip="politica">Politica</span>
+            <span class="chip" data-chip="economia">Economia</span>
+            <span class="chip" data-chip="cronaca">Cronaca</span>
+            <span class="chip" data-chip="tecnologia">Tecnologia</span>
+            <span class="chip" data-chip="cultura">Cultura</span>
+            <span class="chip" data-chip="sport">Sport</span>
+            <span class="chip" data-chip="ambiente">Ambiente</span>
+            <span class="chip" data-chip="esteri">Esteri</span>
+            <span class="chip" data-chip="altro">Altro...</span>
+          </div>
         </div>
 
-        <div class="welcome-actions">
-          <button class="btn-primary btn-lg" onclick="showScreen('step1')">
-            Inizia la configurazione
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="btn-ghost" onclick="showScreen('dashboard-skip')">
-            Salta per ora <span class="muted">(puoi farlo dopo)</span>
-          </button>
+        <!-- Sezione C: Testata -->
+        <div class="form-section">
+          <label class="form-label" for="testata-input">Per quale testata o organizzazione?</label>
+          <input
+            type="text"
+            id="testata-input"
+            class="form-input"
+            placeholder="Es. Corriere della Sera, Comune di Roma..."
+          />
         </div>
       </div>
 
-      <div class="ux-note">
-        <strong>Note UX:</strong> "Salta per ora" è fondamentale — non intrappolare l'utente.
-        Chi salta vedrà un feed generico con banner persistente "Personalizza il tuo feed".
+      <!-- Footer Wizard -->
+      <div class="wizard-footer">
+        <button class="btn btn-ghost" disabled>← Indietro</button>
+        <button class="btn btn-primary" data-goto="step2">Continua →</button>
       </div>
-    </div>
+    </section>
 
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- STEP 1 — PROFILO EDITORIALE                            -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <div class="screen" id="screen-step1">
-      <div class="card wizard-card">
-        <!-- Header -->
-        <div class="wizard-header">
-          <button class="btn-exit" onclick="showScreen('welcome')">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M13 1L1 13M1 1l12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            Esci
-          </button>
-          <div class="step-progress">
-            <div class="step-dots">
-              <span class="dot active"></span>
-              <span class="dot-line"></span>
-              <span class="dot"></span>
-              <span class="dot-line"></span>
-              <span class="dot"></span>
-              <span class="dot-line"></span>
-              <span class="dot"></span>
-            </div>
-            <span class="step-label">Step 1 di 4</span>
+    <!-- ==========================================================
+         SCREEN 3 — WIZARD STEP 2: TOPIC
+    ========================================================== -->
+    <section id="screen-step2" class="screen">
+      <!-- Wizard Header -->
+      <div class="wizard-header">
+        <button class="btn-ghost wizard-exit" data-goto="welcome">← Esci</button>
+        <div class="wizard-progress">
+          <div class="wizard-steps">
+            <div class="wizard-step done">✓</div>
+            <div class="wizard-step-line active"></div>
+            <div class="wizard-step active">2</div>
+            <div class="wizard-step-line"></div>
+            <div class="wizard-step">3</div>
+            <div class="wizard-step-line"></div>
+            <div class="wizard-step">4</div>
           </div>
+          <span class="wizard-step-label">Step 2 di 4</span>
         </div>
-
-        <!-- Body -->
-        <div class="wizard-body">
-          <div class="step-heading">
-            <h2>Chi sei?</h2>
-            <p class="step-sub">Aiuta SAPRA a capire il tuo contesto</p>
-          </div>
-
-          <!-- Role cards -->
-          <div class="field-group">
-            <label class="field-label">Che tipo di giornalista sei?</label>
-            <div class="role-grid">
-              <div class="role-card selected" onclick="toggleRole(this)">
-                <span class="role-icon">📰</span>
-                <span class="role-name">Giornalista<br/>editoriale</span>
-                <span class="role-check">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-              </div>
-              <div class="role-card" onclick="toggleRole(this)">
-                <span class="role-icon">🏛️</span>
-                <span class="role-name">Ufficio Stampa /<br/>Istituz.</span>
-                <span class="role-check">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-              </div>
-              <div class="role-card" onclick="toggleRole(this)">
-                <span class="role-icon">📡</span>
-                <span class="role-name">Freelance</span>
-                <span class="role-check">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-              </div>
-              <div class="role-card" onclick="toggleRole(this)">
-                <span class="role-icon">✍️</span>
-                <span class="role-name">Content<br/>Creator</span>
-                <span class="role-check">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-              </div>
-            </div>
-            <div class="profile-hint">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="rgba(212,137,10,0.6)" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="rgba(212,137,10,0.6)" stroke-width="1.2" stroke-linecap="round"/></svg>
-              Sulla base del tuo profilo, ti suggeriremo le fonti più rilevanti
-            </div>
-          </div>
-
-          <!-- Ambiti -->
-          <div class="field-group">
-            <label class="field-label">In che ambito lavori principalmente?</label>
-            <div class="tag-group" id="step1-tags">
-              <span class="tag selected" onclick="toggleTag(this)">Politica</span>
-              <span class="tag" onclick="toggleTag(this)">Economia</span>
-              <span class="tag" onclick="toggleTag(this)">Cronaca</span>
-              <span class="tag" onclick="toggleTag(this)">Tecnologia</span>
-              <span class="tag" onclick="toggleTag(this)">Cultura</span>
-              <span class="tag" onclick="toggleTag(this)">Sport</span>
-              <span class="tag" onclick="toggleTag(this)">Ambiente</span>
-              <span class="tag" onclick="toggleTag(this)">Esteri</span>
-              <span class="tag tag-ghost" onclick="toggleTag(this)">Altro...</span>
-            </div>
-          </div>
-
-          <!-- Testata -->
-          <div class="field-group">
-            <label class="field-label">Per quale tipo di testata/organizzazione?</label>
-            <input class="text-input" type="text" placeholder='Es. "Il Corriere della Sera", "Comune di Roma", freelance...' />
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="wizard-footer">
-          <button class="btn-secondary" onclick="showScreen('welcome')">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Indietro
-          </button>
-          <button class="btn-primary" onclick="showScreen('step2')">
-            Continua
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
+        <div style="width:80px"></div>
       </div>
 
-      <div class="ux-note">
-        <strong>Note UX:</strong> La selezione del ruolo cambia i suggerimenti negli step successivi.
-        "Ufficio Stampa Istituzionale" → ANAC, Garante Privacy, Senato.
-        "Giornalista editoriale" → feed testate nazionali.
-      </div>
-    </div>
+      <!-- Content -->
+      <div class="wizard-content">
+        <h2 class="wizard-title">Cosa vuoi monitorare?</h2>
+        <p class="wizard-subtitle">Scegli almeno 3 topic.</p>
 
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- STEP 2 — TOPIC DI INTERESSE                            -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <div class="screen" id="screen-step2">
-      <div class="card wizard-card">
-        <div class="wizard-header">
-          <button class="btn-exit" onclick="showScreen('step1')">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Indietro
-          </button>
-          <div class="step-progress">
-            <div class="step-dots">
-              <span class="dot active"></span>
-              <span class="dot-line active"></span>
-              <span class="dot active"></span>
-              <span class="dot-line"></span>
-              <span class="dot"></span>
-              <span class="dot-line"></span>
-              <span class="dot"></span>
-            </div>
-            <span class="step-label">Step 2 di 4</span>
+        <!-- Search -->
+        <div class="search-bar-wrapper">
+          <i data-lucide="search" class="search-icon"></i>
+          <input
+            type="text"
+            class="search-bar"
+            id="topic-search"
+            placeholder="Cerca un tema o keyword..."
+          />
+        </div>
+
+        <!-- Suggeriti -->
+        <div class="form-section">
+          <label class="form-label">Suggeriti per te</label>
+          <div class="chip-group" id="topic-suggested-chips">
+            <span class="chip selected" data-topic="Politica locale">Politica locale</span>
+            <span class="chip selected" data-topic="Bilancio comunale">Bilancio comunale</span>
+            <span class="chip" data-topic="Urbanistica">Urbanistica</span>
+            <span class="chip" data-topic="Sanità pubblica">Sanità pubblica</span>
+            <span class="chip" data-topic="Lavoro pubblico">Lavoro pubblico</span>
+            <span class="chip" data-topic="Elezioni">Elezioni</span>
+            <span class="chip" data-topic="PNRR">PNRR</span>
+            <span class="chip" data-topic="Normativa">Normativa</span>
           </div>
         </div>
 
-        <div class="wizard-body">
-          <div class="step-heading">
-            <h2>Cosa vuoi monitorare?</h2>
-            <p class="step-sub">Scegli almeno 3 topic. Puoi modificarli in qualsiasi momento.</p>
+        <!-- Esplora per categoria -->
+        <div class="form-section">
+          <label class="form-label">Esplora per categoria</label>
+          <div class="tab-group" id="category-tabs">
+            <button class="tab-btn active" data-cat="politica">Politica</button>
+            <button class="tab-btn" data-cat="economia">Economia</button>
+            <button class="tab-btn" data-cat="societa">Società</button>
           </div>
-
-          <!-- Search -->
-          <div class="search-box">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#9CA3AF" stroke-width="1.5"/><path d="M11 11l3 3" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <input type="text" placeholder="Cerca un tema o keyword..." class="search-input" />
-          </div>
-
-          <!-- Suggested topics -->
-          <div class="field-group">
-            <label class="field-label-small">Suggeriti per il tuo profilo:</label>
-            <div class="tag-group" id="step2-suggestions">
-              <span class="tag selected" onclick="toggleTopicTag(this)">Politica locale</span>
-              <span class="tag selected" onclick="toggleTopicTag(this)">Bilancio comunale</span>
-              <span class="tag" onclick="toggleTopicTag(this)">Urbanistica</span>
-              <span class="tag" onclick="toggleTopicTag(this)">Sanità pubblica</span>
-              <span class="tag" onclick="toggleTopicTag(this)">Lavoro pubblico</span>
-              <span class="tag" onclick="toggleTopicTag(this)">Elezioni</span>
-              <span class="tag" onclick="toggleTopicTag(this)">PNRR</span>
-              <span class="tag" onclick="toggleTopicTag(this)">Normativa</span>
-            </div>
-          </div>
-
-          <!-- Category explore -->
-          <div class="field-group">
-            <label class="field-label-small">Esplora per categoria:</label>
-            <div class="category-pills">
-              <button class="pill-btn">Politica <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button class="pill-btn">Economia <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button class="pill-btn">Società <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </div>
-
-          <hr class="divider" />
-
-          <!-- Selected topics -->
-          <div class="field-group">
-            <div class="selected-header">
-              <label class="field-label-small">I tuoi topic selezionati</label>
-              <span class="counter counter-warn" id="topic-counter">2/3 min.</span>
-            </div>
-            <div class="selected-chips" id="selected-topics">
-              <span class="chip">Politica locale <button class="chip-remove" onclick="removeChip(this)">✕</button></span>
-              <span class="chip">Bilancio comunale <button class="chip-remove" onclick="removeChip(this)">✕</button></span>
-            </div>
-          </div>
-
-          <!-- AI feedback -->
-          <div class="ai-hint">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="rgba(212,137,10,0.1)" stroke="rgba(212,137,10,0.5)" stroke-width="1.2"/><path d="M8 5v3.5M8 10.5v.5" stroke="rgba(212,137,10,0.8)" stroke-width="1.2" stroke-linecap="round"/></svg>
-            <div>
-              <span class="ai-hint-count" id="article-count">Con 2 topic monitorerai ~80 art./giorno.</span><br/>
-              <span class="ai-hint-sub">Aggiungi almeno 1 altro topic.</span>
-            </div>
+          <div class="category-topics" id="category-topics">
+            <span class="chip" data-topic="Governo">Governo</span>
+            <span class="chip" data-topic="Parlamento">Parlamento</span>
+            <span class="chip" data-topic="Regioni">Regioni</span>
+            <span class="chip" data-topic="Comuni">Comuni</span>
+            <span class="chip" data-topic="Giustizia">Giustizia</span>
           </div>
         </div>
 
-        <div class="wizard-footer">
-          <button class="btn-secondary" onclick="showScreen('step1')">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Indietro
-          </button>
-          <button class="btn-primary btn-disabled" id="step2-cta" onclick="step2Continue()">
-            Continua
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="ux-note">
-        <strong>Note UX:</strong> Il contatore "~80 articoli/giorno" è feedback AI in tempo reale.
-        Il minimo di 3 topic sblocca "Continua". La ricerca permette keyword personalizzate.
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- STEP 3 — FONTI                                          -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <div class="screen" id="screen-step3">
-      <div class="card wizard-card wizard-card--tall">
-        <div class="wizard-header">
-          <button class="btn-exit" onclick="showScreen('step2')">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Indietro
-          </button>
-          <div class="step-progress">
-            <div class="step-dots">
-              <span class="dot active"></span>
-              <span class="dot-line active"></span>
-              <span class="dot active"></span>
-              <span class="dot-line active"></span>
-              <span class="dot active"></span>
-              <span class="dot-line"></span>
-              <span class="dot"></span>
-            </div>
-            <span class="step-label">Step 3 di 4</span>
+        <!-- Topic selezionati -->
+        <div class="form-section">
+          <label class="form-label">
+            I tuoi topic (<span id="topic-count">2</span>/3 min.)
+          </label>
+          <div class="chip-group removable" id="selected-topics-chips">
+            <span class="chip chip-removable selected" data-remove="Politica locale">
+              <span class="chip-remove-x">✕</span> Politica locale
+            </span>
+            <span class="chip chip-removable selected" data-remove="Bilancio comunale">
+              <span class="chip-remove-x">✕</span> Bilancio comunale
+            </span>
           </div>
         </div>
 
-        <div class="wizard-body">
-          <div class="step-heading">
-            <h2>Da dove vuoi leggere?</h2>
-            <p class="step-sub">SAPRA monitora le fonti per te, H24.</p>
-          </div>
-
-          <!-- Istituzionali -->
-          <div class="source-section">
-            <div class="source-section-label">ISTITUZIONALI</div>
-            <div class="source-list">
-              <label class="source-row">
-                <input type="checkbox" class="source-check" />
-                <span class="source-icon">🏛️</span>
-                <span class="source-name">Gazzetta Ufficiale</span>
-                <span class="source-badge rss">RSS ✓</span>
-              </label>
-              <label class="source-row">
-                <input type="checkbox" class="source-check" />
-                <span class="source-icon">🏛️</span>
-                <span class="source-name">Senato della Repubblica</span>
-                <span class="source-badge rss">RSS ✓</span>
-              </label>
-              <label class="source-row">
-                <input type="checkbox" class="source-check" />
-                <span class="source-icon">🏛️</span>
-                <span class="source-name">Camera dei Deputati</span>
-                <span class="source-badge rss">RSS ✓</span>
-              </label>
-              <label class="source-row">
-                <input type="checkbox" class="source-check" checked />
-                <span class="source-icon">🔒</span>
-                <span class="source-name">ANAC</span>
-                <span class="source-badge rss">RSS ✓</span>
-              </label>
-              <label class="source-row">
-                <input type="checkbox" class="source-check" checked />
-                <span class="source-icon">🔒</span>
-                <span class="source-name">Garante Privacy</span>
-                <span class="source-badge rss">RSS ✓</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Testate nazionali -->
-          <div class="source-section">
-            <div class="source-section-label">TESTATE NAZIONALI</div>
-            <div class="source-list">
-              <label class="source-row">
-                <input type="checkbox" class="source-check" checked />
-                <span class="source-icon">📰</span>
-                <span class="source-name">Corriere della Sera</span>
-              </label>
-              <label class="source-row">
-                <input type="checkbox" class="source-check" checked />
-                <span class="source-icon">📰</span>
-                <span class="source-name">Repubblica</span>
-              </label>
-              <label class="source-row">
-                <input type="checkbox" class="source-check" />
-                <span class="source-icon">📰</span>
-                <span class="source-name">Il Sole 24 Ore</span>
-              </label>
-              <label class="source-row">
-                <input type="checkbox" class="source-check" />
-                <span class="source-icon">📰</span>
-                <span class="source-name">La Stampa</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Custom source -->
-          <div class="source-custom-section">
-            <button class="expand-btn" onclick="toggleCustom()">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              Aggiungi fonte personalizzata
-            </button>
-            <div class="custom-form" id="custom-form">
-              <div class="custom-input-row">
-                <input type="text" class="text-input" placeholder="Incolla URL o RSS feed..." />
-                <button class="btn-small-primary">Aggiungi</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Upload -->
-          <div class="upload-btn-row">
-            <button class="upload-btn">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v8M4 5l3-3 3 3M2 10h10v2H2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Carica documento / archivio (PDF, ZIP)
-            </button>
-          </div>
-
-          <!-- Stats bar -->
-          <div class="stats-bar">
-            <span class="stats-text">Fonti attive: <strong>4</strong></span>
-            <span class="stats-sep">·</span>
-            <span class="stats-text">~220 articoli/giorno</span>
-          </div>
-        </div>
-
-        <div class="wizard-footer">
-          <button class="btn-secondary" onclick="showScreen('step2')">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Indietro
-          </button>
-          <button class="btn-primary" onclick="showScreen('step4-loading')">
-            Continua
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="ux-note">
-        <strong>Note UX:</strong> Fonti pre-selezionate in base al profilo Step 1 — l'utente può solo deselezionare, riducendo l'attrito.
-        Upload documenti seminato qui, più centrale in SVELER.
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- STEP 4 — LOADING                                        -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <div class="screen" id="screen-step4-loading">
-      <div class="card wizard-card wizard-card--centered">
-        <div class="wizard-header">
-          <button class="btn-exit" onclick="showScreen('step3')">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Indietro
-          </button>
-          <div class="step-progress">
-            <div class="step-dots">
-              <span class="dot active"></span>
-              <span class="dot-line active"></span>
-              <span class="dot active"></span>
-              <span class="dot-line active"></span>
-              <span class="dot active"></span>
-              <span class="dot-line active"></span>
-              <span class="dot half"></span>
-            </div>
-            <span class="step-label">Step 4 di 4</span>
-          </div>
-        </div>
-
-        <div class="wizard-body loading-body">
-          <div class="loading-title">SAPRA sta costruendo il tuo feed...</div>
-
-          <div class="progress-bar-wrap">
-            <div class="progress-bar" id="progress-bar"></div>
-          </div>
-          <div class="progress-pct" id="progress-pct">0%</div>
-
-          <div class="loading-steps">
-            <div class="loading-step done" id="lstep1">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="rgba(74,222,128,0.08)" stroke="#4ADE80" stroke-width="1"/><path d="M4 7l2 2 4-4" stroke="#4ADE80" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Topic configurati
-            </div>
-            <div class="loading-step done" id="lstep2">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="rgba(74,222,128,0.08)" stroke="#4ADE80" stroke-width="1"/><path d="M4 7l2 2 4-4" stroke="#4ADE80" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Fonti connesse
-            </div>
-            <div class="loading-step spinning" id="lstep3">
-              <svg class="spin" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/><path d="M7 1a6 6 0 0 1 6 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-              <span id="loading-msg">Analisi AI in corso...</span>
-            </div>
-          </div>
-
-          <button class="btn-link-sm" onclick="skipToResult()">Vai al risultato →</button>
-        </div>
-      </div>
-
-      <div class="ux-note">
-        <strong>Note UX:</strong> Animazione con messaggi rotanti ("Connessione fonti...", "Analisi topic...", "Ranking articoli...")
-        per dare senso di lavoro AI in corso. Durata ~10 secondi.
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- STEP 4 — FEED PRONTO                                    -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <div class="screen" id="screen-step4-done">
-      <div class="card wizard-card wizard-card--tall">
-        <div class="wizard-header no-back">
-          <div></div>
-          <div class="step-progress">
-            <div class="step-dots">
-              <span class="dot active"></span>
-              <span class="dot-line active"></span>
-              <span class="dot active"></span>
-              <span class="dot-line active"></span>
-              <span class="dot active"></span>
-              <span class="dot-line active"></span>
-              <span class="dot active"></span>
-            </div>
-            <span class="step-label">Step 4 di 4</span>
-          </div>
-        </div>
-
-        <div class="wizard-body">
-          <div class="success-badge">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(74,222,128,0.08)" stroke="#4ADE80" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#4ADE80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Il tuo feed è pronto.
-          </div>
-
-          <div class="preview-label">Anteprima — Ultimi articoli rilevanti:</div>
-
-          <div class="article-list">
-            <div class="article-row">
-              <div class="article-score score-high">★ 96%</div>
-              <div class="article-body">
-                <div class="article-title">DDL Sicurezza: approvato emendamento sui reporter</div>
-                <div class="article-meta">Corriere della Sera · 1h fa · <span class="topic-pill">Politica locale</span></div>
-              </div>
-            </div>
-            <div class="article-row">
-              <div class="article-score score-mid">★ 91%</div>
-              <div class="article-body">
-                <div class="article-title">ANAC: nuove linee guida per appalti pubblici 2025</div>
-                <div class="article-meta">ANAC · 3h fa · <span class="topic-pill">ANAC</span></div>
-              </div>
-            </div>
-            <div class="article-row">
-              <div class="article-score score-ok">★ 84%</div>
-              <div class="article-body">
-                <div class="article-title">Bilancio comunale Roma: approvato il piano triennale</div>
-                <div class="article-meta">Repubblica · 5h fa · <span class="topic-pill">Bilancio</span></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Config summary -->
-          <div class="config-summary">
-            <div class="config-summary-label">Riepilogo configurazione</div>
-            <div class="config-pills">
-              <span class="config-tag">5 topic</span>
-              <span class="config-tag">4 fonti</span>
-              <span class="config-tag">~220 art./giorno</span>
-            </div>
-          </div>
-
-          <!-- Edit links -->
-          <div class="edit-links">
-            <span class="muted-sm">Non ti convince qualcosa?</span>
-            <div class="edit-btns">
-              <button class="btn-edit" onclick="showScreen('step2')">✏️ Modifica topic</button>
-              <button class="btn-edit" onclick="showScreen('step3')">✏️ Modifica fonti</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="wizard-footer wizard-footer--center">
-          <button class="btn-primary btn-lg" onclick="showScreen('dashboard-done')">
-            Entra in SAPRA
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="ux-note">
-        <strong>Note UX:</strong> La preview crea il "momento wow" prima della dashboard.
-        I link "Modifica" permettono di tornare indietro senza ricominciare dall'inizio.
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- DASHBOARD — SKIP STATE                                  -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <div class="screen" id="screen-dashboard-skip">
-      <div class="card dashboard-card">
-        <!-- Top bar -->
-        <div class="dash-topbar">
-          <span class="dash-logo">
-            <svg width="20" height="20" viewBox="0 0 26 26" fill="none">
-              <circle cx="13" cy="13" r="11.5" stroke="white" stroke-width="0.8" opacity="0.3"/>
-              <path d="M13 3.5C13 3.5 19.5 5 20.5 11C21.5 17 16 20.5 13 20.5" stroke="white" stroke-width="1.1" stroke-linecap="round"/>
-              <path d="M13 3.5C13 3.5 6.5 5 5.5 11C4.5 17 10 20.5 13 20.5" stroke="white" stroke-width="1.1" stroke-linecap="round" opacity="0.45"/>
-              <circle cx="13" cy="18" r="1.4" fill="white" opacity="0.5"/>
-            </svg>
-            Sapra<span class="dash-logo-ai">.ai</span>
+        <!-- Feedback AI -->
+        <div class="ai-feedback-box" id="topic-ai-feedback">
+          <span class="ai-feedback-icon">💡</span>
+          <span id="topic-ai-text">
+            Con 2 topic monitorerai ~80 articoli al giorno. Aggiungi almeno 1 altro topic.
           </span>
-          <div class="dash-topbar-right">
-            <span class="dash-user">Marco R.</span>
-            <div class="dash-avatar">M</div>
-          </div>
-        </div>
-
-        <!-- Persistent banner -->
-        <div class="setup-banner">
-          <div class="banner-left">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="rgba(212,137,10,0.1)" stroke="rgba(212,137,10,0.4)" stroke-width="1.2"/><path d="M8 5v3.5M8 10.5v.5" stroke="rgba(212,137,10,0.7)" stroke-width="1.2" stroke-linecap="round"/></svg>
-            <div>
-              <div class="banner-title">Il tuo feed non è ancora personalizzato</div>
-              <div class="banner-sub">Ci vogliono 4 minuti per configurarlo.</div>
-            </div>
-          </div>
-          <button class="btn-banner" onclick="showScreen('welcome')">Configura ora →</button>
-          <button class="banner-close" aria-label="Chiudi">✕</button>
-        </div>
-
-        <!-- Feed generico -->
-        <div class="dash-layout">
-          <div class="dash-sidebar">
-            <div class="sidebar-section-label">Menu</div>
-            <div class="sidebar-item active">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6h6M4 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-              Feed
-            </div>
-            <div class="sidebar-item">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-              Archivio
-            </div>
-            <div class="sidebar-item">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.5 3.5L7 9l-3 1.5.5-3.5L2 4.5 5.5 4z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-              Salvati
-            </div>
-            <div class="sidebar-item">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-              Profilo
-            </div>
-          </div>
-
-          <div class="dash-main">
-            <div class="dash-feed-header">
-              <h3>Feed generale</h3>
-              <span class="feed-badge generic">Feed generico</span>
-            </div>
-
-            <div class="generic-articles">
-              <div class="dash-article generic-art">
-                <div class="dash-art-meta">Politica · 2h fa</div>
-                <div class="dash-art-title">Notizia generica non filtrata per il tuo profilo</div>
-                <div class="dash-art-source">ANSA</div>
-              </div>
-              <div class="dash-article generic-art">
-                <div class="dash-art-meta">Economia · 3h fa</div>
-                <div class="dash-art-title">Altra notizia generica — non personalizzata</div>
-                <div class="dash-art-source">Il Sole 24 Ore</div>
-              </div>
-              <div class="dash-article generic-art">
-                <div class="dash-art-meta">Cronaca · 5h fa</div>
-                <div class="dash-art-title">Terza notizia: feed ancora da personalizzare</div>
-                <div class="dash-art-source">Repubblica</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
-      <div class="ux-note">
-        <strong>Note UX:</strong> Il banner è persistente ma non invasivo. Il feed generico mostra che funziona,
-        ma la mancanza di personalizzazione è comunicata chiaramente.
+      <!-- Footer Wizard -->
+      <div class="wizard-footer">
+        <button class="btn btn-ghost" data-goto="step1">← Indietro</button>
+        <button class="btn btn-primary" id="step2-continue" data-goto="step3" disabled>Continua →</button>
       </div>
-    </div>
+    </section>
 
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- DASHBOARD — WIZARD COMPLETATO                           -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <div class="screen" id="screen-dashboard-done">
-      <div class="card dashboard-card">
-        <div class="dash-topbar">
-          <span class="dash-logo">
-            <svg width="20" height="20" viewBox="0 0 26 26" fill="none">
-              <circle cx="13" cy="13" r="11.5" stroke="white" stroke-width="0.8" opacity="0.3"/>
-              <path d="M13 3.5C13 3.5 19.5 5 20.5 11C21.5 17 16 20.5 13 20.5" stroke="white" stroke-width="1.1" stroke-linecap="round"/>
-              <path d="M13 3.5C13 3.5 6.5 5 5.5 11C4.5 17 10 20.5 13 20.5" stroke="white" stroke-width="1.1" stroke-linecap="round" opacity="0.45"/>
-              <circle cx="13" cy="18" r="1.4" fill="white" opacity="0.5"/>
-            </svg>
-            Sapra<span class="dash-logo-ai">.ai</span>
-          </span>
-          <div class="dash-topbar-right">
-            <span class="dash-user">Marco R.</span>
-            <div class="dash-avatar">M</div>
+    <!-- ==========================================================
+         SCREEN 4 — WIZARD STEP 3: FONTI
+    ========================================================== -->
+    <section id="screen-step3" class="screen">
+      <!-- Wizard Header -->
+      <div class="wizard-header">
+        <button class="btn-ghost wizard-exit" data-goto="welcome">← Esci</button>
+        <div class="wizard-progress">
+          <div class="wizard-steps">
+            <div class="wizard-step done">✓</div>
+            <div class="wizard-step-line active"></div>
+            <div class="wizard-step done">✓</div>
+            <div class="wizard-step-line active"></div>
+            <div class="wizard-step active">3</div>
+            <div class="wizard-step-line"></div>
+            <div class="wizard-step">4</div>
+          </div>
+          <span class="wizard-step-label">Step 3 di 4</span>
+        </div>
+        <div style="width:80px"></div>
+      </div>
+
+      <!-- Content -->
+      <div class="wizard-content">
+        <h2 class="wizard-title">Da dove vuoi leggere?</h2>
+        <p class="wizard-subtitle">SAPRA monitora le fonti per te, H24.</p>
+
+        <!-- ISTITUZIONALI -->
+        <div class="form-section">
+          <label class="form-label">Istituzionali</label>
+          <div class="source-list">
+            <label class="source-item">
+              <input type="checkbox" class="source-check" data-articles="30" />
+              <span class="source-icon">🏛️</span>
+              <span class="source-name">Gazzetta Ufficiale</span>
+              <span class="source-badge">RSS ✓</span>
+            </label>
+            <label class="source-item">
+              <input type="checkbox" class="source-check" data-articles="25" />
+              <span class="source-icon">🏛️</span>
+              <span class="source-name">Senato della Repubblica</span>
+              <span class="source-badge">RSS ✓</span>
+            </label>
+            <label class="source-item">
+              <input type="checkbox" class="source-check" data-articles="25" />
+              <span class="source-icon">🏛️</span>
+              <span class="source-name">Camera dei Deputati</span>
+              <span class="source-badge">RSS ✓</span>
+            </label>
+            <label class="source-item">
+              <input type="checkbox" class="source-check" data-articles="40" checked />
+              <span class="source-icon">🔒</span>
+              <span class="source-name">ANAC</span>
+              <span class="source-badge">RSS ✓</span>
+            </label>
+            <label class="source-item">
+              <input type="checkbox" class="source-check" data-articles="35" checked />
+              <span class="source-icon">🔒</span>
+              <span class="source-name">Garante Privacy</span>
+              <span class="source-badge">RSS ✓</span>
+            </label>
           </div>
         </div>
 
-        <div class="dash-layout">
-          <div class="dash-sidebar">
-            <div class="sidebar-section-label">Menu</div>
-            <div class="sidebar-item active">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6h6M4 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-              Feed
+        <!-- TESTATE NAZIONALI -->
+        <div class="form-section">
+          <label class="form-label">Testate nazionali</label>
+          <div class="source-list">
+            <label class="source-item">
+              <input type="checkbox" class="source-check" data-articles="60" checked />
+              <span class="source-icon">📰</span>
+              <span class="source-name">Corriere della Sera</span>
+            </label>
+            <label class="source-item">
+              <input type="checkbox" class="source-check" data-articles="55" checked />
+              <span class="source-icon">📰</span>
+              <span class="source-name">Repubblica</span>
+            </label>
+            <label class="source-item">
+              <input type="checkbox" class="source-check" data-articles="45" />
+              <span class="source-icon">📰</span>
+              <span class="source-name">Il Sole 24 Ore</span>
+            </label>
+            <label class="source-item">
+              <input type="checkbox" class="source-check" data-articles="40" />
+              <span class="source-icon">📰</span>
+              <span class="source-name">La Stampa</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Aggiungi fonte personalizzata -->
+        <div class="form-section">
+          <label class="form-label">+ Aggiungi fonte personalizzata</label>
+          <div class="add-source-row">
+            <input type="text" class="form-input" placeholder="Incolla URL o RSS feed..." />
+            <button class="btn btn-primary btn-sm">Aggiungi</button>
+          </div>
+        </div>
+
+        <!-- Upload -->
+        <div class="form-section">
+          <a href="#" class="link-muted">+ Carica documento / archivio (PDF, ZIP)</a>
+        </div>
+
+        <!-- Footer contatore -->
+        <div class="sources-counter">
+          Fonti attive: <strong id="active-sources-count">4</strong> ·
+          ~<strong id="active-articles-count">190</strong> articoli/giorno
+        </div>
+      </div>
+
+      <!-- Footer Wizard -->
+      <div class="wizard-footer">
+        <button class="btn btn-ghost" data-goto="step2">← Indietro</button>
+        <button class="btn btn-primary" data-goto="step4-loading">Continua →</button>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         SCREEN 5A — WIZARD STEP 4: LOADING
+    ========================================================== -->
+    <section id="screen-step4-loading" class="screen">
+      <!-- Wizard Header -->
+      <div class="wizard-header">
+        <div></div>
+        <div class="wizard-progress">
+          <div class="wizard-steps">
+            <div class="wizard-step done">✓</div>
+            <div class="wizard-step-line active"></div>
+            <div class="wizard-step done">✓</div>
+            <div class="wizard-step-line active"></div>
+            <div class="wizard-step done">✓</div>
+            <div class="wizard-step-line active"></div>
+            <div class="wizard-step active">4</div>
+          </div>
+          <span class="wizard-step-label">Step 4 di 4 — In elaborazione...</span>
+        </div>
+        <div style="width:80px"></div>
+      </div>
+
+      <!-- Loading content centrato -->
+      <div class="loading-container">
+        <h2 class="wizard-title">SAPRA sta costruendo il tuo feed...</h2>
+
+        <div class="loading-progress-wrapper">
+          <div class="loading-progress-bar" id="loading-bar"></div>
+        </div>
+        <span class="loading-percent" id="loading-percent">0%</span>
+
+        <ul class="loading-steps">
+          <li class="loading-step done" id="lstep-1">
+            <span class="lstep-icon">✓</span>
+            <span>Topic configurati</span>
+          </li>
+          <li class="loading-step done" id="lstep-2">
+            <span class="lstep-icon">✓</span>
+            <span>Fonti connesse</span>
+          </li>
+          <li class="loading-step loading" id="lstep-3">
+            <span class="lstep-icon spin">⟳</span>
+            <span>Analisi AI in corso...</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         SCREEN 5B — WIZARD STEP 4: FEED PRONTO
+    ========================================================== -->
+    <section id="screen-step4-feed" class="screen">
+      <!-- Wizard Header -->
+      <div class="wizard-header">
+        <div></div>
+        <div class="wizard-progress">
+          <div class="wizard-steps">
+            <div class="wizard-step done">✓</div>
+            <div class="wizard-step-line active"></div>
+            <div class="wizard-step done">✓</div>
+            <div class="wizard-step-line active"></div>
+            <div class="wizard-step done">✓</div>
+            <div class="wizard-step-line active"></div>
+            <div class="wizard-step done">✓</div>
+          </div>
+          <span class="wizard-step-label">Step 4 di 4 — Completato!</span>
+        </div>
+        <div style="width:80px"></div>
+      </div>
+
+      <div class="wizard-content feed-ready-content">
+        <div class="feed-ready-icon">✅</div>
+        <h2 class="wizard-title">Il tuo feed è pronto.</h2>
+        <p class="wizard-subtitle">Anteprima — Ultimi articoli rilevanti:</p>
+
+        <!-- Anteprima articoli -->
+        <div class="preview-articles">
+          <div class="preview-article-row">
+            <span class="preview-score">★ 96%</span>
+            <div class="preview-article-info">
+              <span class="preview-title">Il Consiglio Comunale approva il bilancio preventivo 2024</span>
+              <span class="preview-meta">Corriere della Sera · 1h fa · <em>Politica locale</em></span>
             </div>
-            <div class="sidebar-item">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-              Archivio
+          </div>
+          <div class="preview-article-row">
+            <span class="preview-score">★ 91%</span>
+            <div class="preview-article-info">
+              <span class="preview-title">ANAC: nuove linee guida sugli appalti pubblici digitali</span>
+              <span class="preview-meta">Gazzetta Ufficiale · 3h fa · <em>ANAC</em></span>
             </div>
-            <div class="sidebar-item">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.5 3.5L7 9l-3 1.5.5-3.5L2 4.5 5.5 4z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-              Salvati
+          </div>
+          <div class="preview-article-row">
+            <span class="preview-score">★ 84%</span>
+            <div class="preview-article-info">
+              <span class="preview-title">Revisione del bilancio: tagli ai servizi o aumento ICI?</span>
+              <span class="preview-meta">Repubblica · 5h fa · <em>Bilancio</em></span>
             </div>
-            <div class="sidebar-item">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-              Profilo
+          </div>
+        </div>
+
+        <!-- Riepilogo -->
+        <div class="config-summary">
+          📊 5 topic · 4 fonti · ~220 art./giorno
+        </div>
+
+        <!-- Link modifica -->
+        <div class="config-edit-links">
+          <a href="#" class="link-muted" data-goto="step2">✏️ Modifica topic</a>
+          <a href="#" class="link-muted" data-goto="step3">✏️ Modifica fonti</a>
+        </div>
+
+        <!-- CTA -->
+        <button class="btn btn-primary btn-xl" data-goto="dashboard">
+          Entra in SAPRA →
+        </button>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         SCREEN 6 — DASHBOARD (onboarding completato)
+    ========================================================== -->
+    <section id="screen-dashboard" class="screen screen-dashboard">
+
+      <!-- NAVBAR -->
+      <header class="dash-navbar">
+        <div class="dash-navbar-left">
+          <span class="logo-icon">◈</span>
+          <span class="logo-text">Sapra.ai</span>
+        </div>
+        <div class="dash-navbar-center">
+          <div class="dash-search">
+            <i data-lucide="search" class="dash-search-icon"></i>
+            <input type="text" class="dash-search-input" placeholder="Cerca articoli, topic, fonti..." />
+          </div>
+        </div>
+        <div class="dash-navbar-right">
+          <button class="icon-btn notif-btn">
+            <i data-lucide="bell"></i>
+            <span class="notif-badge">2</span>
+          </button>
+          <button class="avatar-btn">La Capitale ▾</button>
+        </div>
+      </header>
+
+      <div class="dash-body">
+
+        <!-- SIDEBAR -->
+        <aside class="dash-sidebar">
+          <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link active">
+              <i data-lucide="newspaper"></i> Feed
+            </a>
+            <a href="#" class="sidebar-link">
+              <i data-lucide="telescope"></i> Discovery
+            </a>
+            <a href="#" class="sidebar-link">
+              <i data-lucide="bookmark"></i> Salvati
+            </a>
+            <a href="#" class="sidebar-link">
+              <i data-lucide="bar-chart-2"></i> Analytics
+            </a>
+          </nav>
+
+          <div class="sidebar-divider"></div>
+
+          <div class="sidebar-section">
+            <span class="sidebar-section-label">I tuoi topic</span>
+            <ul class="sidebar-topics">
+              <li><span class="topic-dot"></span> Politica locale</li>
+              <li><span class="topic-dot"></span> Bilancio com.</li>
+              <li><span class="topic-dot"></span> ANAC</li>
+              <li><span class="topic-dot"></span> Garante Privacy</li>
+              <li><span class="topic-dot"></span> PNRR</li>
+            </ul>
+            <a href="#" class="link-muted sidebar-add-link">+ Aggiungi topic</a>
+          </div>
+
+          <div class="sidebar-divider"></div>
+
+          <div class="sidebar-section">
+            <span class="sidebar-section-label">Fonti attive</span>
+            <ul class="sidebar-sources">
+              <li>Gazzetta Ufficiale</li>
+              <li>Senato</li>
+              <li>Repubblica</li>
+              <li>Corriere della Sera</li>
+            </ul>
+            <a href="#" class="link-muted sidebar-add-link">+ Gestisci fonti</a>
+          </div>
+
+          <div class="sidebar-divider"></div>
+
+          <button class="btn btn-outline btn-full" id="sidebar-scriver-btn">
+            ↗ Invia a SCRIVER
+          </button>
+        </aside>
+
+        <!-- MAIN AREA -->
+        <main class="dash-main">
+
+          <!-- Barra filtri -->
+          <div class="feed-filters-bar">
+            <div class="feed-filters-scroll">
+              <button class="filter-chip active" data-filter="tutti">Tutti ✓</button>
+              <button class="filter-chip" data-filter="politica">Politica loc.</button>
+              <button class="filter-chip" data-filter="bilancio">Bilancio</button>
+              <button class="filter-chip" data-filter="anac">ANAC</button>
+              <button class="filter-chip" data-filter="garante">Garante</button>
+              <button class="filter-chip" data-filter="more">+3 ▾</button>
+            </div>
+            <div class="feed-filters-right">
+              <select class="sort-select">
+                <option>Ordina: AI ★</option>
+                <option>Più recenti</option>
+                <option>Rilevanza</option>
+              </select>
             </div>
           </div>
 
-          <div class="dash-main">
-            <div class="dash-feed-header">
-              <h3>Il tuo feed</h3>
-              <span class="feed-badge personalized">Personalizzato ✓</span>
-            </div>
+          <!-- Feed articoli griglia 2 colonne -->
+          <div class="articles-grid" id="dashboard-articles-grid">
 
-            <!-- Article with tooltip -->
-            <div class="dash-article featured-art" id="first-article">
-              <div class="article-score-inline">★ 96%</div>
-              <div class="dash-art-body">
-                <div class="dash-art-meta">Politica locale · 1h fa</div>
-                <div class="dash-art-title">DDL Sicurezza: approvato emendamento sui reporter</div>
-                <div class="dash-art-source">Corriere della Sera</div>
+            <!-- CARD 1 -->
+            <article class="article-card" data-article="0" data-filter-cat="politica">
+              <div class="card-image" style="background: linear-gradient(135deg, #1e3a5f 0%, #2a4a7f 100%);">
+                <span class="card-img-placeholder">📰</span>
               </div>
-              <!-- Contextual tooltip -->
-              <div class="tooltip-contextual" id="first-tooltip">
-                <div class="tooltip-arrow"></div>
-                <div class="tooltip-body">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M6 4v2.5M6 8v.5" stroke="rgba(255,255,255,0.6)" stroke-width="1" stroke-linecap="round"/></svg>
-                  Selezionato per il topic <strong>Politica locale</strong>
-                  <button class="tooltip-close" onclick="document.getElementById('first-tooltip').style.display='none'">✕</button>
+              <div class="card-body">
+                <span class="card-date">03/03/2024</span>
+                <h3 class="card-title">Consiglio Comunale: approvato il bilancio 2024 con tagli ai servizi sociali</h3>
+                <p class="card-summary">L'assemblea capitolina ha votato il piano finanziario tra polemiche dell'opposizione e proteste dei cittadini.</p>
+                <div class="card-divider"></div>
+                <div class="card-meta">
+                  <span class="badge badge-neutro">NEUTRO</span>
+                  <span class="card-score-row">★ 96% · Corriere della Sera · 1h fa</span>
+                </div>
+                <div class="card-tags">
+                  <span class="tag tag-cat">Politica locale</span>
+                  <span class="tag tag-cat">Bilancio</span>
+                  <span class="tag tag-person">Mario Rossi</span>
+                </div>
+                <a href="#" class="card-readmore">› Read more</a>
+              </div>
+            </article>
+
+            <!-- CARD 2 -->
+            <article class="article-card" data-article="1" data-filter-cat="anac">
+              <div class="card-image" style="background: linear-gradient(135deg, #1a3a2a 0%, #2a5a3a 100%);">
+                <span class="card-img-placeholder">🏛️</span>
+              </div>
+              <div class="card-body">
+                <span class="card-date">03/03/2024</span>
+                <h3 class="card-title">ANAC: nuove linee guida sugli appalti pubblici nel settore digitale</h3>
+                <p class="card-summary">L'Autorità Nazionale Anticorruzione ha pubblicato le nuove direttive per garantire trasparenza negli appalti tecnologici della PA.</p>
+                <div class="card-divider"></div>
+                <div class="card-meta">
+                  <span class="badge badge-positivo">POSITIVO</span>
+                  <span class="card-score-row">★ 91% · Gazzetta Ufficiale · 3h fa</span>
+                </div>
+                <div class="card-tags">
+                  <span class="tag tag-cat">ANAC</span>
+                  <span class="tag tag-cat">Normativa</span>
+                  <span class="tag tag-person">Giuseppe Busia</span>
+                </div>
+                <a href="#" class="card-readmore">› Read more</a>
+              </div>
+            </article>
+
+            <!-- CARD 3 -->
+            <article class="article-card" data-article="2" data-filter-cat="bilancio">
+              <div class="card-image" style="background: linear-gradient(135deg, #3a1a1a 0%, #5a2a2a 100%);">
+                <span class="card-img-placeholder">📊</span>
+              </div>
+              <div class="card-body">
+                <span class="card-date">02/03/2024</span>
+                <h3 class="card-title">Deficit comunale: il sindaco annuncia revisione straordinaria del piano pluriennale</h3>
+                <p class="card-summary">Tensioni in giunta dopo la scoperta di un buco di bilancio da 45 milioni. Convocata seduta urgente per giovedì.</p>
+                <div class="card-divider"></div>
+                <div class="card-meta">
+                  <span class="badge badge-negativo">NEGATIVO</span>
+                  <span class="card-score-row">★ 88% · Repubblica · 5h fa</span>
+                </div>
+                <div class="card-tags">
+                  <span class="tag tag-cat">Bilancio</span>
+                  <span class="tag tag-cat">Politica locale</span>
+                  <span class="tag tag-person">Luca Marini</span>
+                </div>
+                <a href="#" class="card-readmore">› Read more</a>
+              </div>
+            </article>
+
+            <!-- CARD 4 -->
+            <article class="article-card" data-article="3" data-filter-cat="garante">
+              <div class="card-image" style="background: linear-gradient(135deg, #1a1a3a 0%, #2a2a5a 100%);">
+                <span class="card-img-placeholder">🔒</span>
+              </div>
+              <div class="card-body">
+                <span class="card-date">02/03/2024</span>
+                <h3 class="card-title">Garante Privacy: sanzionata azienda sanitaria per gestione illecita dei dati pazienti</h3>
+                <p class="card-summary">Multa da 800.000 euro per una ASL del Lazio che aveva condiviso cartelle cliniche senza consenso esplicito.</p>
+                <div class="card-divider"></div>
+                <div class="card-meta">
+                  <span class="badge badge-negativo">NEGATIVO</span>
+                  <span class="card-score-row">★ 85% · Il Sole 24 Ore · 7h fa</span>
+                </div>
+                <div class="card-tags">
+                  <span class="tag tag-cat">Garante Privacy</span>
+                  <span class="tag tag-cat">Sanità</span>
+                  <span class="tag tag-person">Pasquale Stanzione</span>
+                </div>
+                <a href="#" class="card-readmore">› Read more</a>
+              </div>
+            </article>
+
+            <!-- CARD 5 -->
+            <article class="article-card" data-article="4" data-filter-cat="politica">
+              <div class="card-image" style="background: linear-gradient(135deg, #1a2a1a 0%, #2a3a2a 100%);">
+                <span class="card-img-placeholder">🗳️</span>
+              </div>
+              <div class="card-body">
+                <span class="card-date">01/03/2024</span>
+                <h3 class="card-title">Elezioni regionali Lazio: affluenza record, centrodestra avanti nei sondaggi</h3>
+                <p class="card-summary">Le proiezioni delle prime sezioni scrutinate confermano il vantaggio della coalizione di governo regionale uscente.</p>
+                <div class="card-divider"></div>
+                <div class="card-meta">
+                  <span class="badge badge-neutro">NEUTRO</span>
+                  <span class="card-score-row">★ 82% · La Stampa · 9h fa</span>
+                </div>
+                <div class="card-tags">
+                  <span class="tag tag-cat">Elezioni</span>
+                  <span class="tag tag-cat">Politica locale</span>
+                  <span class="tag tag-person">Francesco Rocca</span>
+                </div>
+                <a href="#" class="card-readmore">› Read more</a>
+              </div>
+            </article>
+
+            <!-- CARD 6 -->
+            <article class="article-card" data-article="5" data-filter-cat="bilancio">
+              <div class="card-image" style="background: linear-gradient(135deg, #2a1a3a 0%, #3a2a5a 100%);">
+                <span class="card-img-placeholder">💰</span>
+              </div>
+              <div class="card-body">
+                <span class="card-date">01/03/2024</span>
+                <h3 class="card-title">PNRR: avanzamento lento sui fondi per la digitalizzazione della PA locale</h3>
+                <p class="card-summary">Solo il 34% dei Comuni ha completato le procedure di rendicontazione entro la scadenza prevista dal Ministero.</p>
+                <div class="card-divider"></div>
+                <div class="card-meta">
+                  <span class="badge badge-negativo">NEGATIVO</span>
+                  <span class="card-score-row">★ 79% · Corriere della Sera · 12h fa</span>
+                </div>
+                <div class="card-tags">
+                  <span class="tag tag-cat">PNRR</span>
+                  <span class="tag tag-cat">Bilancio</span>
+                  <span class="tag tag-person">Raffaele Fitto</span>
+                </div>
+                <a href="#" class="card-readmore">› Read more</a>
+              </div>
+            </article>
+
+          </div><!-- /articles-grid -->
+        </main>
+
+      </div><!-- /dash-body -->
+
+      <!-- DRAWER LATERALE DESTRO -->
+      <div class="drawer-overlay" id="drawer-overlay"></div>
+      <aside class="article-drawer" id="article-drawer">
+        <div class="drawer-panel" id="drawer-panel">
+          <button class="drawer-close" id="drawer-close">✕</button>
+
+          <div class="drawer-image" id="drawer-img"></div>
+          <div class="drawer-content">
+            <div class="drawer-source-date" id="drawer-source-date"></div>
+            <h3 class="drawer-title" id="drawer-title"></h3>
+
+            <div class="drawer-section-header">🤖 AI INSIGHTS</div>
+
+            <div class="drawer-insights">
+              <div class="insight-score-row-wrapper">
+                <div class="insight-row-label">
+                  <span class="insight-label">Score rilevanza</span>
+                  <span class="insight-score-val" id="drawer-score-val"></span>
+                </div>
+                <div class="insight-score-bar">
+                  <div class="insight-score-fill" id="drawer-score-fill"></div>
                 </div>
               </div>
-            </div>
+              <p class="insight-explanation" id="drawer-score-text"></p>
 
-            <div class="dash-article">
-              <div class="article-score-inline score-mid">★ 91%</div>
-              <div class="dash-art-body">
-                <div class="dash-art-meta">ANAC · 3h fa</div>
-                <div class="dash-art-title">ANAC: nuove linee guida per appalti pubblici 2025</div>
-                <div class="dash-art-source">ANAC</div>
+              <div class="insight-sentiment-row">
+                <span class="insight-label">Sentiment</span>
+                <span class="badge" id="drawer-sentiment"></span>
+              </div>
+
+              <div class="insight-correlations" id="drawer-correlations">
+                <span class="insight-label" style="display:block;margin-bottom:8px">Correlazioni</span>
+              </div>
+
+              <!-- Mini chart storico -->
+              <div class="insight-chart-section">
+                <span class="insight-label">Storico copertura (7gg)</span>
+                <div class="mini-chart" id="drawer-chart"></div>
               </div>
             </div>
 
-            <div class="dash-article">
-              <div class="article-score-inline score-ok">★ 84%</div>
-              <div class="dash-art-body">
-                <div class="dash-art-meta">Bilancio · 5h fa</div>
-                <div class="dash-art-title">Bilancio comunale Roma: approvato il piano triennale</div>
-                <div class="dash-art-source">Repubblica</div>
-              </div>
+            <div class="drawer-cta-group">
+              <a href="#" class="btn btn-outline btn-full" data-goto="article-detail">↗ Leggi articolo completo</a>
+              <button class="btn btn-primary btn-full open-scriver-modal">✍️ Invia a SCRIVER</button>
+              <button class="btn btn-ghost btn-full">💾 Salva</button>
             </div>
           </div>
         </div>
+      </aside>
+
+    </section>
+
+    <!-- ==========================================================
+         SCREEN 7 — DASHBOARD (wizard saltato)
+    ========================================================== -->
+    <section id="screen-dashboard-skip" class="screen screen-dashboard">
+
+      <!-- NAVBAR (identica) -->
+      <header class="dash-navbar">
+        <div class="dash-navbar-left">
+          <span class="logo-icon">◈</span>
+          <span class="logo-text">Sapra.ai</span>
+        </div>
+        <div class="dash-navbar-center">
+          <div class="dash-search">
+            <i data-lucide="search" class="dash-search-icon"></i>
+            <input type="text" class="dash-search-input" placeholder="Cerca articoli, topic, fonti..." />
+          </div>
+        </div>
+        <div class="dash-navbar-right">
+          <button class="icon-btn notif-btn">
+            <i data-lucide="bell"></i>
+            <span class="notif-badge">2</span>
+          </button>
+          <button class="avatar-btn">La Capitale ▾</button>
+        </div>
+      </header>
+
+      <div class="dash-body">
+        <!-- SIDEBAR (senza topic) -->
+        <aside class="dash-sidebar">
+          <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link active">
+              <i data-lucide="newspaper"></i> Feed
+            </a>
+            <a href="#" class="sidebar-link">
+              <i data-lucide="telescope"></i> Discovery
+            </a>
+            <a href="#" class="sidebar-link">
+              <i data-lucide="bookmark"></i> Salvati
+            </a>
+            <a href="#" class="sidebar-link">
+              <i data-lucide="bar-chart-2"></i> Analytics
+            </a>
+          </nav>
+
+          <div class="sidebar-divider"></div>
+
+          <div class="sidebar-section">
+            <span class="sidebar-section-label">I tuoi topic</span>
+            <p class="sidebar-empty-state">Nessun topic configurato</p>
+            <a href="#" class="link-muted sidebar-add-link" data-goto="step1">+ Aggiungi topic</a>
+          </div>
+
+          <div class="sidebar-divider"></div>
+
+          <button class="btn btn-outline btn-full">
+            ↗ Invia a SCRIVER
+          </button>
+        </aside>
+
+        <!-- MAIN (con banner) -->
+        <main class="dash-main">
+
+          <!-- Banner wizard skip -->
+          <div class="onboarding-banner" id="onboarding-banner">
+            <span class="banner-icon">⚡</span>
+            <span class="banner-text">
+              Il tuo feed non è ancora personalizzato. Ci vogliono 3 minuti.
+            </span>
+            <button class="btn btn-warning btn-sm" data-goto="step1">Configura ora →</button>
+            <button class="banner-close" id="banner-close">✕</button>
+          </div>
+
+          <!-- Filtri disabilitati/vuoti -->
+          <div class="feed-filters-bar">
+            <div class="feed-filters-scroll">
+              <button class="filter-chip active" data-filter="tutti">Tutti</button>
+            </div>
+            <div class="feed-filters-right">
+              <select class="sort-select">
+                <option>Ordina: Recenti</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Feed generico -->
+          <div class="articles-grid">
+            <article class="article-card">
+              <div class="card-image" style="background: linear-gradient(135deg, #222 0%, #333 100%);">
+                <span class="card-img-placeholder">🌍</span>
+              </div>
+              <div class="card-body">
+                <span class="card-date">03/03/2024</span>
+                <h3 class="card-title">Economia italiana: PIL cresce dello 0.4% nel primo trimestre 2024</h3>
+                <p class="card-summary">L'Istat certifica la ripresa ma avverte sui rischi legati all'inflazione e ai mercati energetici.</p>
+                <div class="card-divider"></div>
+                <div class="card-meta">
+                  <span class="badge badge-positivo">POSITIVO</span>
+                  <span class="card-score-row">★ — · ANSA · 2h fa</span>
+                </div>
+                <div class="card-tags">
+                  <span class="tag tag-cat">Economia</span>
+                  <span class="tag tag-cat">Italia</span>
+                </div>
+                <a href="#" class="card-readmore">› Read more</a>
+              </div>
+            </article>
+
+            <article class="article-card">
+              <div class="card-image" style="background: linear-gradient(135deg, #1a2a1a 0%, #2a3a2a 100%);">
+                <span class="card-img-placeholder">🏥</span>
+              </div>
+              <div class="card-body">
+                <span class="card-date">03/03/2024</span>
+                <h3 class="card-title">Sanità: governo stanzia 2 miliardi per ridurre le liste d'attesa ospedaliere</h3>
+                <p class="card-summary">Il piano straordinario prevede l'estensione degli orari ambulatoriali e il potenziamento della telemedicina nel Sud.</p>
+                <div class="card-divider"></div>
+                <div class="card-meta">
+                  <span class="badge badge-neutro">NEUTRO</span>
+                  <span class="card-score-row">★ — · Corriere della Sera · 4h fa</span>
+                </div>
+                <div class="card-tags">
+                  <span class="tag tag-cat">Sanità</span>
+                  <span class="tag tag-cat">Governo</span>
+                </div>
+                <a href="#" class="card-readmore">› Read more</a>
+              </div>
+            </article>
+
+            <article class="article-card">
+              <div class="card-image" style="background: linear-gradient(135deg, #2a1a1a 0%, #3a2a2a 100%);">
+                <span class="card-img-placeholder">⚡</span>
+              </div>
+              <div class="card-body">
+                <span class="card-date">02/03/2024</span>
+                <h3 class="card-title">Energia: prezzi gas in calo, famiglie risparmiano in bolletta</h3>
+                <p class="card-summary">Secondo le stime dell'Autorità di Regolazione per Energia, Reti e Ambiente le tariffe scenderanno del 9% nel secondo trimestre.</p>
+                <div class="card-divider"></div>
+                <div class="card-meta">
+                  <span class="badge badge-positivo">POSITIVO</span>
+                  <span class="card-score-row">★ — · Il Sole 24 Ore · 6h fa</span>
+                </div>
+                <div class="card-tags">
+                  <span class="tag tag-cat">Energia</span>
+                  <span class="tag tag-cat">Economia</span>
+                </div>
+                <a href="#" class="card-readmore">› Read more</a>
+              </div>
+            </article>
+
+            <article class="article-card">
+              <div class="card-image" style="background: linear-gradient(135deg, #1a1a2a 0%, #2a2a3a 100%);">
+                <span class="card-img-placeholder">🖥️</span>
+              </div>
+              <div class="card-body">
+                <span class="card-date">02/03/2024</span>
+                <h3 class="card-title">Intelligenza artificiale nella PA: il Ministero lancia il piano di adozione</h3>
+                <p class="card-summary">Presentato il documento strategico nazionale per l'integrazione dell'AI nei servizi pubblici italiani entro il 2026.</p>
+                <div class="card-divider"></div>
+                <div class="card-meta">
+                  <span class="badge badge-neutro">NEUTRO</span>
+                  <span class="card-score-row">★ — · Repubblica · 8h fa</span>
+                </div>
+                <div class="card-tags">
+                  <span class="tag tag-cat">Tecnologia</span>
+                  <span class="tag tag-cat">PA</span>
+                </div>
+                <a href="#" class="card-readmore">› Read more</a>
+              </div>
+            </article>
+          </div>
+        </main>
       </div>
 
-      <div class="ux-note">
-        <strong>Note UX:</strong> Tooltip contestuale sul primo articolo: "Selezionato perché corrisponde al topic X".
-        Il feed personalizzato è immediatamente visibile e rilevante.
+    </section>
+
+    <!-- ==========================================================
+         SCREEN 8 — DETTAGLIO ARTICOLO
+    ========================================================== -->
+    <section id="screen-article-detail" class="screen screen-article">
+
+      <!-- Breadcrumb -->
+      <div class="article-breadcrumb">
+        <button class="btn-ghost breadcrumb-back" data-goto="dashboard">← Feed</button>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Politica locale</span>
+      </div>
+
+      <div class="article-layout">
+
+        <!-- COLONNA SINISTRA — Articolo -->
+        <div class="article-col-main">
+          <div class="article-source-row">
+            <span class="badge badge-source">Corriere della Sera</span>
+            <span class="article-date">03/03/2024 · 10:45</span>
+          </div>
+
+          <h1 class="article-title">
+            Consiglio Comunale di Roma: approvato il bilancio 2024 tra polemiche. Tagli ai servizi sociali e nuovi investimenti in mobilità
+          </h1>
+
+          <div class="article-hero-img">
+            <span style="font-size:64px;">📰</span>
+          </div>
+
+          <div class="article-body">
+            <p>L'Assemblea capitolina ha approvato ieri sera, con 31 voti favorevoli e 18 contrari, il bilancio di previsione per l'esercizio finanziario 2024. La sessione, durata oltre sei ore, si è conclusa tra le proteste dei consiglieri di opposizione e le contestazioni di alcuni gruppi di cittadini presenti in tribuna.</p>
+
+            <p>Il documento finanziario prevede una riduzione del 12% nelle spese per i servizi sociali, una mossa che ha scatenato la reazione dei capigruppo di minoranza. «Questo bilancio penalizza le fasce più deboli della popolazione», ha dichiarato la consigliera del Partito Democratico Elena Conti, annunciando ricorso al TAR del Lazio.</p>
+
+            <p>Sul fronte degli investimenti, il piano pluriennale 2024-2026 stanzia invece 380 milioni di euro per il potenziamento della rete di trasporto pubblico locale, con priorità alla linea C della metropolitana e all'ampliamento della flotta bus elettrici. Un investimento che il sindaco Roberto Gualtieri ha definito «il più importante degli ultimi vent'anni per la mobilità romana».</p>
+
+            <p>La Corte dei Conti dovrà ora esaminare il documento entro 60 giorni per validarne la conformità alle norme sulla contabilità pubblica. Nel frattempo, la giunta ha già avviato le procedure per l'emissione di titoli obbligazionari sul mercato europeo dei capitali, con l'obiettivo di raccogliere fino a 200 milioni di euro a condizioni agevolate.</p>
+
+            <p>Restano aperti i nodi relativi alle partecipate comunali. AMA SpA e ACEA dovranno presentare entro marzo i propri piani di razionalizzazione, pena il commissariamento. Il CFO del Comune, dott. Pier Luigi Fabbri, ha assicurato che «i conti sono in ordine» e che il rating del Comune rimarrà stabile nel breve periodo.</p>
+          </div>
+
+          <div class="article-footer-actions">
+            <button class="btn btn-ghost">💾 Salva</button>
+            <button class="btn btn-ghost">↗ Condividi</button>
+          </div>
+        </div>
+
+        <!-- COLONNA DESTRA — AI Insights (sticky) -->
+        <div class="article-col-insights">
+          <div class="insights-panel">
+            <div class="insights-header">🤖 AI INSIGHTS</div>
+
+            <!-- Rilevanza -->
+            <div class="insights-section">
+              <span class="insights-label">Score Rilevanza</span>
+              <div class="relevance-score-row">
+                <div class="relevance-bar-wrapper">
+                  <div class="relevance-bar-fill" style="width: 94%"></div>
+                </div>
+                <span class="relevance-score-num">94%</span>
+              </div>
+              <div class="insights-explanation-box">
+                Correlato al topic <strong>Politica locale</strong> e trending nelle ultime 3 ore. Menzioni in 12 testate.
+              </div>
+            </div>
+
+            <!-- Sentiment -->
+            <div class="insights-section">
+              <span class="insights-label">Sentiment</span>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
+                <span class="badge badge-neutro badge-lg">NEUTRO</span>
+              </div>
+              <p class="insights-text">L'articolo riporta fatti in modo bilanciato, con citazioni di entrambe le parti politiche coinvolte.</p>
+            </div>
+
+            <!-- Correlazioni -->
+            <div class="insights-section">
+              <span class="insights-label">Articoli correlati</span>
+              <ul class="correlations-list">
+                <li>
+                  <a href="#" class="correlation-link">Bilancio 2023: le promesse non mantenute della giunta</a>
+                  <span class="correlation-source">La Repubblica</span>
+                </li>
+                <li>
+                  <a href="#" class="correlation-link">AMA: il piano industriale sotto la lente della Corte dei Conti</a>
+                  <span class="correlation-source">Il Fatto Quotidiano</span>
+                </li>
+                <li>
+                  <a href="#" class="correlation-link">Mobilità urbana: Roma ultima tra le grandi capitali europee</a>
+                  <span class="correlation-source">Corriere della Sera</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Storico topic -->
+            <div class="insights-section">
+              <span class="insights-label">Copertura topic negli ultimi 7 giorni</span>
+              <div class="topic-history-chart">
+                <div class="history-bar" style="height:40%"><span class="history-day">L</span></div>
+                <div class="history-bar" style="height:55%"><span class="history-day">M</span></div>
+                <div class="history-bar" style="height:35%"><span class="history-day">M</span></div>
+                <div class="history-bar" style="height:70%"><span class="history-day">G</span></div>
+                <div class="history-bar" style="height:60%"><span class="history-day">V</span></div>
+                <div class="history-bar" style="height:90%"><span class="history-day">S</span></div>
+                <div class="history-bar active" style="height:100%"><span class="history-day">D</span></div>
+              </div>
+            </div>
+
+            <!-- CTA fissi -->
+            <div class="insights-cta-group">
+              <button class="btn btn-primary btn-full open-scriver-modal">✍️ Invia a SCRIVER</button>
+              <button class="btn btn-outline btn-full">💾 Salva in raccolte</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /article-layout -->
+    </section>
+
+  </div><!-- /screen-wrapper -->
+
+  <!-- ============================================================
+       MODAL — HANDOFF A SCRIVER
+  ============================================================ -->
+  <div class="modal-overlay" id="scriver-modal-overlay">
+    <div class="modal" id="scriver-modal" role="dialog" aria-modal="true">
+
+      <div class="modal-header">
+        <h2 class="modal-title">✍️ Invia a SCRIVER</h2>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+
+      <!-- Box articolo selezionato -->
+      <div class="modal-article-box">
+        <span class="modal-article-title">Consiglio Comunale: approvato il bilancio 2024 con tagli...</span>
+        <span class="modal-article-check">✓</span>
+      </div>
+
+      <div class="modal-body">
+        <label class="form-label">Che formato vuoi generare?</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="formato" value="social" checked />
+            Post social (LinkedIn / X)
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="formato" value="comunicato" />
+            Comunicato stampa
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="formato" value="video" />
+            Script video
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="formato" value="podcast" />
+            Script podcast
+          </label>
+        </div>
+
+        <div class="form-field" style="margin-top:16px">
+          <label class="form-label" for="tono-select">Tono di voce</label>
+          <select class="form-select" id="tono-select">
+            <option>Istituzionale</option>
+            <option>Informale</option>
+            <option>Tecnico</option>
+            <option>Divulgativo</option>
+          </select>
+        </div>
+
+        <div class="form-field" style="margin-top:16px">
+          <label class="form-label" for="note-textarea">Note aggiuntive</label>
+          <textarea
+            id="note-textarea"
+            class="form-textarea"
+            rows="3"
+            placeholder="Es. Enfatizza il tema dei tagli ai servizi sociali..."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="modal-cancel">Annulla</button>
+        <button class="btn btn-primary">Apri in SCRIVER →</button>
       </div>
     </div>
-
-  </div><!-- /stage -->
+  </div>
 
   <script src="script.js"></script>
 </body>
