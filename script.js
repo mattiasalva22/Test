@@ -219,6 +219,26 @@ function updateSourceStats() {
 // ───────────────────────────────────────────────────────────────
 // Init
 // ───────────────────────────────────────────────────────────────
+// ───────────────────────────────────────────────────────────────
+// Intelligence — Write modal
+// ───────────────────────────────────────────────────────────────
+function openWriteModal(notes) {
+  const modal = document.getElementById('write-modal');
+  const textarea = document.getElementById('modal-notes');
+  if (textarea) textarea.value = notes || '';
+  if (modal) modal.classList.add('open');
+}
+
+function closeWriteModal(e) {
+  if (e && e.target !== document.getElementById('write-modal')) return;
+  const modal = document.getElementById('write-modal');
+  if (modal) modal.classList.remove('open');
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeWriteModal();
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   // Sync initial topic state (Step 2 starts with 2 selected)
   updateTopicState();

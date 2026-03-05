@@ -22,6 +22,7 @@
     <button onclick="showScreen('step4-done')" class="nav-btn" id="nav-step4-done">Step 4 (feed)</button>
     <button onclick="showScreen('dashboard-skip')" class="nav-btn" id="nav-dashboard-skip">Dashboard (skip)</button>
     <button onclick="showScreen('dashboard-done')" class="nav-btn" id="nav-dashboard-done">Dashboard (done)</button>
+    <button onclick="showScreen('intelligence')" class="nav-btn" id="nav-intelligence">Intelligence</button>
   </div>
 
   <div class="stage">
@@ -627,6 +628,7 @@
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6h6M4 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
               Feed
             </div>
+            <div class="sidebar-item" onclick="showScreen('intelligence')">🧠 Intelligence</div>
             <div class="sidebar-item">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
               Archivio
@@ -702,6 +704,7 @@
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6h6M4 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
               Feed
             </div>
+            <div class="sidebar-item" onclick="showScreen('intelligence')">🧠 Intelligence</div>
             <div class="sidebar-item">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
               Archivio
@@ -767,6 +770,348 @@
         Il feed personalizzato è immediatamente visibile e rilevante.
       </div>
     </div>
+
+
+    <!-- === SCHERMATA: INTELLIGENCE === -->
+    <div class="screen" id="screen-intelligence">
+      <div class="card intelligence-card">
+
+        <!-- Top bar (riusa struttura dashboard) -->
+        <div class="dash-topbar">
+          <span class="dash-logo">
+            <svg width="20" height="20" viewBox="0 0 26 26" fill="none">
+              <circle cx="13" cy="13" r="11.5" stroke="white" stroke-width="0.8" opacity="0.3"/>
+              <path d="M13 3.5C13 3.5 19.5 5 20.5 11C21.5 17 16 20.5 13 20.5" stroke="white" stroke-width="1.1" stroke-linecap="round"/>
+              <path d="M13 3.5C13 3.5 6.5 5 5.5 11C4.5 17 10 20.5 13 20.5" stroke="white" stroke-width="1.1" stroke-linecap="round" opacity="0.45"/>
+              <circle cx="13" cy="18" r="1.4" fill="white" opacity="0.5"/>
+            </svg>
+            Sapra<span class="dash-logo-ai">.ai</span>
+          </span>
+          <div class="dash-topbar-right">
+            <span class="dash-user">Marco R.</span>
+            <div class="dash-avatar">M</div>
+          </div>
+        </div>
+
+        <!-- Layout sidebar + main -->
+        <div class="dash-layout intel-layout">
+
+          <!-- Sidebar -->
+          <div class="dash-sidebar">
+            <div class="sidebar-section-label">Menu</div>
+            <div class="sidebar-item" onclick="showScreen('dashboard-done')">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6h6M4 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Feed
+            </div>
+            <div class="sidebar-item active">🧠 Intelligence</div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Archivio
+            </div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.5 3.5L7 9l-3 1.5.5-3.5L2 4.5 5.5 4z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+              Salvati
+            </div>
+            <div class="sidebar-item">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M2 13c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Profilo
+            </div>
+          </div>
+
+          <!-- Main content -->
+          <div class="intel-main">
+
+            <!-- Header -->
+            <div class="intel-header">
+              <div class="intel-header-left">
+                <h2 class="intel-title">🧠 Intelligence</h2>
+                <div class="intel-meta">
+                  <span class="intel-date">5 Marzo 2026</span>
+                  <span class="intel-sep">·</span>
+                  <span class="intel-update">Aggiornato alle 08:00 · Basato sui tuoi 5 topic</span>
+                </div>
+              </div>
+              <button class="btn-ghost-sm">Aggiorna</button>
+            </div>
+
+            <!-- ═══ SEZIONE 1: AZIONI EDITORIALI ═══ -->
+            <div class="intel-section">
+              <div class="intel-section-label">🎯 AZIONI EDITORIALI SUGGERITE</div>
+              <div class="intel-section-sub">Ordinate per opportunità e urgenza</div>
+
+              <!-- Card 1 — URGENTE -->
+              <div class="intel-action-card" style="border-left-color: #F44336;">
+                <div class="intel-action-badge badge-urgent">🔥 URGENTE · entro 2 ore</div>
+                <div class="intel-action-title">Scrivi un pezzo su OpenAI e il mercato europeo</div>
+                <div class="intel-action-text">14 testate ne parlano ma nessuna ha ancora collegato l'annuncio all'impatto sulle PMI italiane. Finestra editoriale aperta.</div>
+                <div class="intel-action-cta">
+                  <button class="btn-context" onclick="showScreen('dashboard-done')">3 articoli di contesto</button>
+                  <button class="btn-write" onclick="openWriteModal('OpenAI e mercato europeo — angolo PMI italiane')">✍️ Scrivi ora →</button>
+                </div>
+              </div>
+
+              <!-- Card 2 — OPPORTUNITÀ -->
+              <div class="intel-action-card" style="border-left-color: #4CAF50;">
+                <div class="intel-action-badge badge-opportunity">💡 OPPORTUNITÀ · nessuna scadenza</div>
+                <div class="intel-action-title">Inchiesta: ANAC + Elezioni Lazio</div>
+                <div class="intel-action-text">Le nuove indagini ANAC sugli appalti del Lazio non sono ancora state collegate alle elezioni regionali di maggio. È un angolo libero.</div>
+                <div class="intel-action-cta">
+                  <button class="btn-context" onclick="showScreen('dashboard-done')">5 articoli correlati</button>
+                  <button class="btn-write" onclick="openWriteModal('ANAC + Elezioni Lazio — angolo appalti regionali')">✍️ Sviluppa →</button>
+                </div>
+              </div>
+
+              <!-- Card 3 — IN SCADENZA -->
+              <div class="intel-action-card" style="border-left-color: #F59E0B;">
+                <div class="intel-action-badge badge-deadline">📅 IN SCADENZA · oggi alle 15:00</div>
+                <div class="intel-action-title">Approvazione bilancio comunale Roma</div>
+                <div class="intel-action-text">Il Consiglio vota oggi. Hai già 3 articoli salvati su questo topic. Vale la pena essere presenti.</div>
+                <div class="intel-action-cta">
+                  <button class="btn-context" onclick="showScreen('dashboard-done')">Vedi articoli salvati</button>
+                  <button class="btn-write" onclick="openWriteModal('Bilancio comunale Roma — voto consiglio comunale')">✍️ Prepara il pezzo →</button>
+                </div>
+              </div>
+            </div>
+
+            <hr class="intel-divider" />
+
+            <!-- ═══ SEZIONE 2: CONNESSIONI ═══ -->
+            <div class="intel-section">
+              <div class="intel-section-label">🔗 CONNESSIONI RILEVATE</div>
+              <div class="intel-section-sub">Topic che si intersecano questa settimana</div>
+
+              <div class="intel-connections">
+
+                <div class="intel-conn-row">
+                  <div class="intel-conn-topics">
+                    <span class="intel-conn-topic">ANAC</span>
+                    <span class="intel-conn-arrow">←────────────►</span>
+                    <span class="intel-conn-topic">Elezioni Lazio</span>
+                  </div>
+                  <div class="intel-conn-text">3 articoli questa settimana menzionano entrambi i topic. Nessuno ha scritto la connessione.</div>
+                  <div class="intel-conn-footer">
+                    <a class="intel-conn-link" onclick="showScreen('dashboard-done')">Esplora →</a>
+                  </div>
+                </div>
+                <hr class="intel-divider-thin" />
+
+                <div class="intel-conn-row">
+                  <div class="intel-conn-topics">
+                    <span class="intel-conn-topic">PNRR</span>
+                    <span class="intel-conn-arrow">←────────────►</span>
+                    <span class="intel-conn-topic">Bilancio Roma</span>
+                  </div>
+                  <div class="intel-conn-text">I nuovi fondi PNRR impattano direttamente il bilancio approvato ieri.</div>
+                  <div class="intel-conn-footer">
+                    <a class="intel-conn-link" onclick="showScreen('dashboard-done')">Esplora →</a>
+                  </div>
+                </div>
+                <hr class="intel-divider-thin" />
+
+                <div class="intel-conn-row">
+                  <div class="intel-conn-topics">
+                    <span class="intel-conn-topic">Garante Privacy</span>
+                    <span class="intel-conn-arrow">←────────────►</span>
+                    <span class="intel-conn-topic">AI Act UE</span>
+                  </div>
+                  <div class="intel-conn-text">Il nuovo regolamento europeo cita il Garante italiano 4 volte.</div>
+                  <div class="intel-conn-footer">
+                    <a class="intel-conn-link" onclick="showScreen('dashboard-done')">Esplora →</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <hr class="intel-divider" />
+
+            <!-- ═══ SEZIONE 3: TIMELINE STORIE ═══ -->
+            <div class="intel-section">
+              <div class="intel-section-label">📅 TIMELINE STORIE</div>
+              <div class="intel-section-sub">Come si stanno evolvendo i tuoi topic</div>
+
+              <!-- Storia 1 -->
+              <div class="intel-story">
+                <div class="intel-story-header">
+                  <span class="intel-story-name">ANAC — Appalti Lazio</span>
+                  <span class="intel-story-badge badge-evolving">🔴 In evoluzione</span>
+                </div>
+                <div class="intel-timeline">
+                  <div class="intel-tl-item">
+                    <div class="intel-tl-dot"></div>
+                    <div class="intel-tl-content">
+                      <div class="intel-tl-date">Gen</div>
+                      <div class="intel-tl-label">Prima segnalazione</div>
+                    </div>
+                  </div>
+                  <div class="intel-tl-line"></div>
+                  <div class="intel-tl-item">
+                    <div class="intel-tl-dot"></div>
+                    <div class="intel-tl-content">
+                      <div class="intel-tl-date">Feb</div>
+                      <div class="intel-tl-label">Indagine preliminare</div>
+                    </div>
+                  </div>
+                  <div class="intel-tl-line"></div>
+                  <div class="intel-tl-item">
+                    <div class="intel-tl-dot intel-tl-dot--today"></div>
+                    <div class="intel-tl-content">
+                      <div class="intel-tl-date intel-tl-date--today">Mar</div>
+                      <div class="intel-tl-label">12 fascicoli aperti <span class="intel-tl-today">← oggi</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="intel-story-next">Prossimo step atteso: <em>audizione parlamentare</em></div>
+                <a class="intel-conn-link" onclick="showScreen('dashboard-done')">Segui la storia →</a>
+              </div>
+
+              <hr class="intel-divider-thin" />
+
+              <!-- Storia 2 -->
+              <div class="intel-story">
+                <div class="intel-story-header">
+                  <span class="intel-story-name">OpenAI in Europa</span>
+                  <span class="intel-story-badge badge-growing">🟡 In crescita</span>
+                </div>
+                <div class="intel-timeline">
+                  <div class="intel-tl-item">
+                    <div class="intel-tl-dot"></div>
+                    <div class="intel-tl-content">
+                      <div class="intel-tl-date">Nov</div>
+                      <div class="intel-tl-label">Annuncio espansione</div>
+                    </div>
+                  </div>
+                  <div class="intel-tl-line"></div>
+                  <div class="intel-tl-item">
+                    <div class="intel-tl-dot"></div>
+                    <div class="intel-tl-content">
+                      <div class="intel-tl-date">Feb</div>
+                      <div class="intel-tl-label">Accordi UE</div>
+                    </div>
+                  </div>
+                  <div class="intel-tl-line"></div>
+                  <div class="intel-tl-item">
+                    <div class="intel-tl-dot intel-tl-dot--today"></div>
+                    <div class="intel-tl-content">
+                      <div class="intel-tl-date intel-tl-date--today">Mar</div>
+                      <div class="intel-tl-label">Nuovi modelli <span class="intel-tl-today">← oggi</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="intel-story-next">Prossimo step atteso: <em>risposta competitor europei</em></div>
+                <a class="intel-conn-link" onclick="showScreen('dashboard-done')">Segui la storia →</a>
+              </div>
+            </div>
+
+            <hr class="intel-divider" />
+
+            <!-- ═══ SEZIONE 4: SILENZI ANOMALI ═══ -->
+            <div class="intel-section">
+              <div class="intel-section-label">🔇 SILENZI ANOMALI</div>
+              <div class="intel-section-sub">Topic che hanno smesso di avere copertura</div>
+
+              <div class="intel-silence-row">
+                <div class="intel-silence-topic">Garante Privacy</div>
+                <div class="intel-silence-stats">
+                  <span>Nessun articolo nelle ultime 48h</span>
+                  <span class="intel-silence-sep">·</span>
+                  <span class="intel-silence-norm">Di solito: 3-4 articoli al giorno</span>
+                </div>
+                <div class="intel-silence-last">Ultima notizia: provvedimento del 2/03</div>
+                <div class="intel-silence-note">💡 Possibile motivo: attesa sviluppi</div>
+                <a class="intel-conn-link" onclick="showScreen('dashboard-done')">Vale la pena chiamare una fonte?</a>
+              </div>
+
+              <hr class="intel-divider-thin" />
+
+              <div class="intel-silence-row">
+                <div class="intel-silence-topic">Bilancio Comunale</div>
+                <div class="intel-silence-stats">
+                  <span>Silenzio di 24h dopo il picco di ieri (18 articoli)</span>
+                </div>
+                <div class="intel-silence-note">💡 Post-approvazione: possibili reazioni dei partiti nelle prossime ore</div>
+                <a class="intel-conn-link" onclick="showScreen('dashboard-done')">Monitora sviluppi →</a>
+              </div>
+            </div>
+
+            <hr class="intel-divider" />
+
+            <!-- ═══ SEZIONE 5: PROFILO EDITORIALE ═══ -->
+            <div class="intel-section">
+              <div class="intel-section-label">👤 IL TUO PROFILO EDITORIALE</div>
+              <div class="intel-section-sub">Come stai coprendo i tuoi topic</div>
+
+              <!-- Barre -->
+              <div class="intel-bars">
+                <div class="intel-bar-row">
+                  <div class="intel-bar-label">AI</div>
+                  <div class="intel-bar-track">
+                    <div class="intel-bar-fill" style="width: 100%;"></div>
+                  </div>
+                  <div class="intel-bar-right">5 pezzi <span class="intel-bar-note">Topic più trattato</span></div>
+                </div>
+                <div class="intel-bar-row">
+                  <div class="intel-bar-label">ANAC</div>
+                  <div class="intel-bar-track">
+                    <div class="intel-bar-fill" style="width: 80%;"></div>
+                  </div>
+                  <div class="intel-bar-right">4 pezzi</div>
+                </div>
+                <div class="intel-bar-row">
+                  <div class="intel-bar-label">Roma</div>
+                  <div class="intel-bar-track">
+                    <div class="intel-bar-fill" style="width: 60%;"></div>
+                  </div>
+                  <div class="intel-bar-right">3 pezzi</div>
+                </div>
+              </div>
+
+              <hr class="intel-divider-thin" />
+
+              <!-- Alert PNRR -->
+              <div class="intel-alert-box">
+                <div class="intel-alert-text">
+                  📌 Topic monitorato ma mai trattato:<br/>
+                  <strong>PNRR</strong> — 23 articoli letti, 0 pezzi scritti<br/>
+                  💡 Potrebbe essere un'opportunità
+                </div>
+              </div>
+
+              <hr class="intel-divider-thin" />
+
+              <!-- Tag angoli -->
+              <div class="intel-angles">
+                <span class="intel-angles-label">🎯 Angoli che usi spesso:</span>
+                <div class="intel-angles-tags">
+                  <span class="intel-angle-tag">Critico-istituzionale</span>
+                  <span class="intel-angle-tag">Impatto locale</span>
+                  <span class="intel-angle-tag">Normativo</span>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /intel-main -->
+        </div><!-- /dash-layout -->
+      </div><!-- /intelligence-card -->
+
+      <!-- Modal SCRIVI (richiamato dai CTA) -->
+      <div class="intel-modal-overlay" id="write-modal" onclick="closeWriteModal(event)">
+        <div class="intel-modal">
+          <div class="intel-modal-header">
+            <span class="intel-modal-title">✍️ Scrivi</span>
+            <button class="intel-modal-close" onclick="closeWriteModal()">✕</button>
+          </div>
+          <div class="intel-modal-body">
+            <label class="intel-modal-label">Titolo / Angolo</label>
+            <textarea class="intel-modal-textarea" id="modal-notes" rows="4" placeholder="Inserisci il tuo angolo editoriale..."></textarea>
+            <div class="intel-modal-actions">
+              <button class="btn-primary" style="width:100%;">Inizia a scrivere →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /screen-intelligence -->
 
   </div><!-- /stage -->
 
