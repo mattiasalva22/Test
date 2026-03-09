@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    background: #1c1c1c;
+    color: #eaeaea;
+    padding: 24px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  h2 { font-size: 18px; font-weight: 600; color: #fff; }
+  p.sub { font-size: 11px; color: #7a7a7a; margin-top: 4px; }
+  #log {
+    flex: 1;
+    background: #111;
+    border-radius: 8px;
+    padding: 14px;
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #ccc;
+    border: 1px solid #2a2a2a;
+  }
+  .log-line { display: flex; gap: 8px; }
+  .done-section {
+    background: #0a1f15;
+    border: 1px solid #00AC3A44;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 11px;
+    color: #00AC3A;
+    display: none;
+  }
+  .done-section h3 { font-size: 13px; margin-bottom: 8px; color: #00FFDD; }
+  .done-section ul { padding-left: 16px; }
+  .done-section li { margin: 2px 0; }
+  .error-section {
+    background: #1f0a0a;
+    border: 1px solid #F1334244;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 12px;
+    color: #F13342;
+    display: none;
+  }
+  footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  button {
+    background: #eaeaea;
+    color: #000;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  button:hover { background: #ccc; }
+  button#close { display: none; }
+</style>
+</head>
+<body>
+  <div>
+    <h2>Design System Builder</h2>
+    <p class="sub">Creazione del Design System in corso…</p>
+  </div>
+
+  <div id="log">
+    <div class="log-line">⏳ In attesa di avvio…</div>
+  </div>
+
+  <div class="done-section" id="done-section">
+    <h3>✅ Design System creato con successo!</h3>
+    <div id="done-content"></div>
+  </div>
+
+  <div class="error-section" id="error-section"></div>
+
+  <footer>
+    <button id="close" onclick="close()">Chiudi Plugin</button>
+  </footer>
+
+<script>
+const log = document.getElementById('log');
+const doneSection = document.getElementById('done-section');
+const doneContent = document.getElementById('done-content');
+const errorSection = document.getElementById('error-section');
+const closeBtn = document.getElementById('close');
+
+function addLog(text) {
+  const line = document.createElement('div');
+  line.className = 'log-line';
+  line.textContent = text;
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+}
+
+window.onmessage = (event) => {
+  const msg = event.data.pluginMessage;
+  if (!msg) return;
+
+  if (msg.type === 'status') {
+    addLog(msg.text);
+  } else if (msg.type === 'done') {
+    addLog('✅ Completato!');
+    doneSection.style.display = 'block';
+    closeBtn.style.display = 'inline-block';
+
+    let html = '<ul>';
+    html += '<li><b>Color Styles:</b> ' + msg.colorStyles.join(', ') + '</li>';
+    html += '<li><b>Text Styles:</b> ' + msg.textStyles.join(', ') + '</li>';
+    html += '</ul>';
+    html += '<br/><b>Sezioni create:</b><ul>';
+    for (const s of msg.sections) {
+      html += '<li>' + s + '</li>';
+    }
+    html += '</ul>';
+    doneContent.innerHTML = html;
+  } else if (msg.type === 'error') {
+    addLog('❌ Errore: ' + msg.message);
+    errorSection.style.display = 'block';
+    errorSection.textContent = '❌ ' + msg.message;
+    closeBtn.style.display = 'inline-block';
+  }
+};
+
+function close() {
+  parent.postMessage({ pluginMessage: { type: 'close' } }, '*');
+}
+</script>
+</body>
+</html>
