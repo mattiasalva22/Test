@@ -1355,7 +1355,7 @@ async function main() {
     dsPage = figma.createPage();
     dsPage.name = 'Design System';
   }
-  figma.currentPage = dsPage;
+  await figma.setCurrentPageAsync(dsPage);
 
   // Remove old content if re-running
   for (const child of [...dsPage.children]) child.remove();
