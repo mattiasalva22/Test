@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sapra.ai — Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tokens.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      font-size: var(--text-xl);
+      line-height: var(--leading-normal);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ── */
+    .ds-nav {
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border-subtle);
+      z-index: var(--z-nav);
+      padding: var(--space-3) var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+    .ds-nav-logo {
+      font-family: var(--font-serif);
+      font-size: var(--text-xl);
+      letter-spacing: var(--tracking-tight);
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+    .ds-nav-logo span { color: var(--text-secondary); }
+    .ds-nav-links {
+      display: flex;
+      gap: var(--space-4);
+      overflow-x: auto;
+    }
+    .ds-nav-links a {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-md);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color var(--ease-base);
+    }
+    .ds-nav-links a:hover { color: var(--text-primary); }
+
+    .ds-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--space-10) var(--space-6) var(--space-11);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-11);
+    }
+
+    /* ── Section ── */
+    .ds-section { display: flex; flex-direction: column; gap: var(--space-6); }
+    .ds-section-header {
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .ds-section-tag {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-2xl);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--space-2);
+    }
+    .ds-section-title {
+      font-family: var(--font-serif);
+      font-size: var(--text-5xl);
+      font-weight: var(--weight-regular);
+      color: var(--text-primary);
+      letter-spacing: var(--tracking-tight);
+    }
+    .ds-section-desc {
+      margin-top: 6px;
+      font-size: var(--text-lg);
+      color: var(--text-secondary);
+      line-height: var(--leading-relaxed);
+      max-width: 560px;
+    }
+
+    /* ── Grid generico ── */
+    .ds-grid { display: grid; gap: var(--space-3); }
+    .ds-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .ds-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .ds-grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .ds-grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+    /* ── Token row ── */
+    .token-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-3) var(--space-4);
+      background: var(--surface-1);
+      border: 1px solid var(--border-faint);
+      border-radius: var(--r-lg);
+    }
+    .token-name {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      min-width: 200px;
+    }
+    .token-value {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      flex: 1;
+    }
+    .token-note {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ── Color swatch ── */
+    .color-card {
+      border: 1px solid var(--border-faint);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      background: var(--surface-1);
+    }
+    .color-swatch {
+      height: 72px;
+      width: 100%;
+    }
+    .color-info {
+      padding: var(--space-3);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .color-token {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+    }
+    .color-value {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+    .color-desc {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── Group label ── */
+    .ds-group-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-xl);
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .ds-group { display: flex; flex-direction: column; gap: var(--space-3); }
+
+    /* ── Typography preview ── */
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-5);
+      padding: var(--space-3) var(--space-4);
+      background: var(--surface-1);
+      border: 1px solid var(--border-faint);
+      border-radius: var(--r-lg);
+    }
+    .type-meta {
+      min-width: 160px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .type-token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); }
+    .type-val   { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); opacity: 0.6; }
+    .type-sample { flex: 1; color: var(--text-primary); }
+
+    /* ── Radius preview ── */
+    .radius-card {
+      background: var(--surface-1);
+      border: 1px solid var(--border-faint);
+      border-radius: var(--r-lg);
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .radius-shape {
+      width: 56px;
+      height: 56px;
+      background: var(--surface-3);
+      border: 1px solid var(--border-default);
+      flex-shrink: 0;
+    }
+    .radius-info { text-align: center; }
+    .radius-token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); }
+    .radius-val   { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); }
+
+    /* ── Spacing preview ── */
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-2) var(--space-4);
+      background: var(--surface-1);
+      border: 1px solid var(--border-faint);
+      border-radius: var(--r-md);
+    }
+    .spacing-bar {
+      height: 8px;
+      background: var(--border-default);
+      border-radius: var(--r-full);
+      flex-shrink: 0;
+    }
+    .spacing-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); min-width: 80px; }
+    .spacing-val   { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); }
+
+    /* ── Shadow preview ── */
+    .shadow-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border-faint);
+      border-radius: var(--r-xl);
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .shadow-token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); }
+    .shadow-val   { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); }
+
+    /* ── Badge / pill samples ── */
+    .sample-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      align-items: center;
+      padding: var(--space-4);
+      background: var(--surface-1);
+      border: 1px solid var(--border-faint);
+      border-radius: var(--r-lg);
+    }
+    .s-badge {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-medium);
+      letter-spacing: var(--tracking-md);
+      padding: 3px 10px;
+      border-radius: var(--r-full);
+      border: 1px solid;
+    }
+    .s-pos  { background: var(--pos-bg);    color: var(--pos-text);   border-color: var(--pos-border); }
+    .s-neg  { background: var(--neg-bg);    color: var(--neg-text);   border-color: var(--neg-border); }
+    .s-neu  { background: var(--neu-bg);    color: var(--neu-text);   border-color: var(--neu-border); }
+    .s-info { background: var(--info-bg);   color: var(--info-text);  border-color: var(--info-border); }
+    .s-amb  { background: var(--amber-bg);  color: var(--amber);      border-color: var(--amber-border); }
+    .s-mute { background: var(--surface-3); color: var(--text-muted); border-color: var(--border-subtle); }
+
+    /* ── Decision note ── */
+    .ds-decision {
+      background: var(--amber-bg);
+      border: 1px solid var(--amber-border);
+      border-radius: var(--r-md);
+      padding: var(--space-3) var(--space-4);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--amber-text);
+      line-height: var(--leading-relaxed);
+    }
+    .ds-decision strong { color: var(--amber); }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .ds-grid-3, .ds-grid-4, .ds-grid-5 { grid-template-columns: repeat(2, 1fr); }
+      .ds-grid-2 { grid-template-columns: 1fr; }
+      .token-row { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+      .token-name { min-width: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="ds-nav">
+    <div class="ds-nav-logo">Sapra<span>.ai</span> — Design System</div>
+    <div class="ds-nav-links">
+      <a href="#colori">Colori</a>
+      <a href="#tipografia">Tipografia</a>
+      <a href="#spacing">Spacing</a>
+      <a href="#radius">Radius</a>
+      <a href="#shadows">Shadows</a>
+      <a href="#motion">Motion</a>
+      <a href="#zindex">Z-index</a>
+    </div>
+  </nav>
+
+  <div class="ds-wrap">
+
+    <!-- ══════════════════════════════════════════════════
+         HERO
+    ══════════════════════════════════════════════════ -->
+    <div class="ds-section">
+      <div style="padding: var(--space-8) 0;">
+        <div style="font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:var(--tracking-2xl);text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--space-3);">Design System v1.0</div>
+        <h1 style="font-family:var(--font-serif);font-size:var(--text-6xl);font-weight:var(--weight-regular);color:var(--text-primary);letter-spacing:var(--tracking-tight);line-height:var(--leading-tight);margin-bottom:var(--space-4);">Sapra.ai<br/>Design Tokens</h1>
+        <p style="font-size:var(--text-xl);color:var(--text-secondary);line-height:var(--leading-loose);max-width:500px;">
+          Tutti i token estratti dal progetto Figma e normalizzati in un'unica fonte di verità.
+          Importa <code style="font-family:var(--font-mono);font-size:var(--text-md);background:var(--surface-2);padding:2px 7px;border-radius:var(--r-xs);">tokens.css</code> in qualsiasi file per usare l'intero sistema.
+        </p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         COLORI
+    ══════════════════════════════════════════════════ -->
+    <div class="ds-section" id="colori">
+      <div class="ds-section-header">
+        <div class="ds-section-tag">01</div>
+        <div class="ds-section-title">Colori</div>
+        <div class="ds-section-desc">Palette dark-only. Tutte le superfici e i testi usano esclusivamente variabili — nessun colore hardcoded.</div>
+      </div>
+
+      <!-- Backgrounds -->
+      <div class="ds-group">
+        <div class="ds-group-label">Backgrounds</div>
+        <div class="ds-grid ds-grid-5">
+          <div class="color-card"><div class="color-swatch" style="background:#000000;"></div><div class="color-info"><div class="color-token">--bg</div><div class="color-value">#000000</div><div class="color-desc">Canvas root</div></div></div>
+          <div class="color-card"><div class="color-swatch" style="background:#0E0E0E;"></div><div class="color-info"><div class="color-token">--surface-1</div><div class="color-value">#0E0E0E</div><div class="color-desc">Card base</div></div></div>
+          <div class="color-card"><div class="color-swatch" style="background:#1A1A1A;"></div><div class="color-info"><div class="color-token">--surface-2</div><div class="color-value">#1A1A1A</div><div class="color-desc">Card elevata / input</div></div></div>
+          <div class="color-card"><div class="color-swatch" style="background:#242424;"></div><div class="color-info"><div class="color-token">--surface-3</div><div class="color-value">#242424</div><div class="color-desc">Hover target</div></div></div>
+          <div class="color-card"><div class="color-swatch" style="background:#2E2E2E;"></div><div class="color-info"><div class="color-token">--surface-hover</div><div class="color-value">#2E2E2E</div><div class="color-desc">Stato hover</div></div></div>
+        </div>
+      </div>
+
+      <!-- Borders -->
+      <div class="ds-group">
+        <div class="ds-group-label">Borders</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+          <div class="token-row"><span class="token-name">--border-faint</span><span class="token-value">rgba(255,255,255,0.06)</span><div style="width:48px;height:1px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r-full);"></div><span class="token-note">Separatori interni</span></div>
+          <div class="token-row"><span class="token-name">--border-subtle</span><span class="token-value">rgba(255,255,255,0.10)</span><div style="width:48px;height:1px;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.10);border-radius:var(--r-full);"></div><span class="token-note">Bordo default componente</span></div>
+          <div class="token-row"><span class="token-name">--border-default</span><span class="token-value">rgba(255,255,255,0.18)</span><div style="width:48px;height:1px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.18);border-radius:var(--r-full);"></div><span class="token-note">Hover / focus</span></div>
+          <div class="token-row"><span class="token-name">--border-strong</span><span class="token-value">rgba(255,255,255,0.45)</span><div style="width:48px;height:1px;background:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.45);border-radius:var(--r-full);"></div><span class="token-note">Enfasi</span></div>
+          <div class="token-row"><span class="token-name">--border-selected</span><span class="token-value">rgba(255,255,255,0.88)</span><div style="width:48px;height:1px;background:rgba(255,255,255,0.88);border:1px solid rgba(255,255,255,0.88);border-radius:var(--r-full);"></div><span class="token-note">Selezione attiva</span></div>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="ds-group">
+        <div class="ds-group-label">Text</div>
+        <div class="ds-grid ds-grid-3">
+          <div class="color-card"><div class="color-swatch" style="background:#FFFFFF;"></div><div class="color-info"><div class="color-token">--text-primary</div><div class="color-value">#FFFFFF</div><div class="color-desc">Titoli, label attivi</div></div></div>
+          <div class="color-card"><div class="color-swatch" style="background:#8A8A8A;"></div><div class="color-info"><div class="color-token">--text-secondary</div><div class="color-value">#8A8A8A</div><div class="color-desc">Body, label inattivi</div></div></div>
+          <div class="color-card"><div class="color-swatch" style="background:#4A4A4A;"></div><div class="color-info"><div class="color-token">--text-muted</div><div class="color-value">#4A4A4A</div><div class="color-desc">Placeholder, meta</div></div></div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="ds-group">
+        <div class="ds-group-label">CTA — Pulsante primario</div>
+        <div class="ds-grid ds-grid-3">
+          <div class="color-card"><div class="color-swatch" style="background:#F0F0F0;"></div><div class="color-info"><div class="color-token">--btn-bg</div><div class="color-value">#F0F0F0</div><div class="color-desc">Sfondo a riposo</div></div></div>
+          <div class="color-card"><div class="color-swatch" style="background:#0A0A0A;border:1px solid var(--border-subtle);"></div><div class="color-info"><div class="color-token">--btn-text</div><div class="color-value">#0A0A0A</div><div class="color-desc">Testo sul bottone</div></div></div>
+          <div class="color-card"><div class="color-swatch" style="background:#FFFFFF;"></div><div class="color-info"><div class="color-token">--btn-hover</div><div class="color-value">#FFFFFF</div><div class="color-desc">Sfondo hover</div></div></div>
+        </div>
+      </div>
+
+      <!-- Sentiment -->
+      <div class="ds-group">
+        <div class="ds-group-label">Sentiment</div>
+        <div class="sample-row">
+          <span class="s-badge s-pos">Positivo ✓</span>
+          <span class="s-badge s-neg">Negativo ✕</span>
+          <span class="s-badge s-neu">Warning !</span>
+          <span class="s-badge s-info">Info ★ 91%</span>
+          <span class="s-badge s-amb">Attenzione</span>
+          <span class="s-badge s-mute">Neutro</span>
+        </div>
+        <div class="ds-grid ds-grid-3">
+          <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+            <div class="ds-group-label">Positive</div>
+            <div class="token-row" style="flex-direction:column;align-items:flex-start;gap:var(--space-1);">
+              <span class="token-name">--pos-bg</span><span class="token-value">rgba(74,222,128,0.08)</span>
+              <span class="token-name">--pos-text</span><span class="token-value">#4ADE80</span>
+              <span class="token-name">--pos-border</span><span class="token-value">rgba(74,222,128,0.20)</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+            <div class="ds-group-label">Negative</div>
+            <div class="token-row" style="flex-direction:column;align-items:flex-start;gap:var(--space-1);">
+              <span class="token-name">--neg-bg</span><span class="token-value">rgba(248,113,113,0.08)</span>
+              <span class="token-name">--neg-text</span><span class="token-value">#F87171</span>
+              <span class="token-name">--neg-border</span><span class="token-value">rgba(248,113,113,0.20)</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+            <div class="ds-group-label">Warning</div>
+            <div class="token-row" style="flex-direction:column;align-items:flex-start;gap:var(--space-1);">
+              <span class="token-name">--neu-bg</span><span class="token-value">rgba(251,191,36,0.08)</span>
+              <span class="token-name">--neu-text</span><span class="token-value">#FBBF24</span>
+              <span class="token-name">--neu-border</span><span class="token-value">rgba(251,191,36,0.20)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Amber + Info -->
+      <div class="ds-group">
+        <div class="ds-group-label">Accent — Amber</div>
+        <div class="ds-decision"><strong>Decisione:</strong> Il vecchio codice usava 9 varianti alpha disomogenee per lo stesso colore (0.05, 0.06, 0.08, 0.15, 0.18, 0.20, 0.22, 0.25, 0.30). Consolidati in 6 token semantici con step chiari e nomi che indicano il caso d'uso.</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+          <div class="token-row"><span class="token-name">--amber</span><div style="width:20px;height:20px;border-radius:var(--r-circle);background:#D4890A;flex-shrink:0;"></div><span class="token-value">#D4890A</span><span class="token-note">Testo su sfondo scuro</span></div>
+          <div class="token-row"><span class="token-name">--amber-text</span><div style="width:20px;height:20px;border-radius:var(--r-circle);background:rgba(212,137,10,0.80);flex-shrink:0;"></div><span class="token-value">rgba(212,137,10,0.80)</span><span class="token-note">Testo attenuato</span></div>
+          <div class="token-row"><span class="token-name">--amber-bg</span><div style="width:20px;height:20px;border-radius:var(--r-circle);background:rgba(212,137,10,0.08);flex-shrink:0;"></div><span class="token-value">rgba(212,137,10,0.08)</span><span class="token-note">Sfondo a riposo</span></div>
+          <div class="token-row"><span class="token-name">--amber-bg-active</span><div style="width:20px;height:20px;border-radius:var(--r-circle);background:rgba(212,137,10,0.15);flex-shrink:0;"></div><span class="token-value">rgba(212,137,10,0.15)</span><span class="token-note">Sfondo pulsante / hover</span></div>
+          <div class="token-row"><span class="token-name">--amber-border</span><div style="width:20px;height:20px;border-radius:var(--r-circle);background:rgba(212,137,10,0.20);flex-shrink:0;"></div><span class="token-value">rgba(212,137,10,0.20)</span><span class="token-note">Bordo a riposo</span></div>
+          <div class="token-row"><span class="token-name">--amber-border-active</span><div style="width:20px;height:20px;border-radius:var(--r-circle);background:rgba(212,137,10,0.30);flex-shrink:0;"></div><span class="token-value">rgba(212,137,10,0.30)</span><span class="token-note">Bordo enfasi / hover</span></div>
+        </div>
+      </div>
+
+      <div class="ds-group">
+        <div class="ds-group-label">Accent — Info / Blue</div>
+        <div class="ds-decision"><strong>Nuovo:</strong> #93C5FD non era tokenizzato nel design originale. Aggiunto come sistema completo bg/text/border, come gli altri accent.</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+          <div class="token-row"><span class="token-name">--info-bg</span><div style="width:20px;height:20px;border-radius:var(--r-circle);background:rgba(147,197,253,0.08);flex-shrink:0;"></div><span class="token-value">rgba(147,197,253,0.08)</span><span class="token-note">Score intermedi, badge info</span></div>
+          <div class="token-row"><span class="token-name">--info-text</span><div style="width:20px;height:20px;border-radius:var(--r-circle);background:#93C5FD;flex-shrink:0;"></div><span class="token-value">#93C5FD</span><span class="token-note"></span></div>
+          <div class="token-row"><span class="token-name">--info-border</span><div style="width:20px;height:20px;border-radius:var(--r-circle);background:rgba(147,197,253,0.20);flex-shrink:0;"></div><span class="token-value">rgba(147,197,253,0.20)</span><span class="token-note"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         TIPOGRAFIA
+    ══════════════════════════════════════════════════ -->
+    <div class="ds-section" id="tipografia">
+      <div class="ds-section-header">
+        <div class="ds-section-tag">02</div>
+        <div class="ds-section-title">Tipografia</div>
+        <div class="ds-section-desc">Tre famiglie con ruoli distinti. Scale numeriche lineari con un solo step normalizzato.</div>
+      </div>
+
+      <!-- Font families -->
+      <div class="ds-group">
+        <div class="ds-group-label">Font Families</div>
+        <div class="ds-grid ds-grid-3">
+          <div class="token-row" style="flex-direction:column;align-items:flex-start;">
+            <span class="token-name">--font-serif</span>
+            <div style="font-family:'Playfair Display',serif;font-size:var(--text-5xl);color:var(--text-primary);margin:var(--space-2) 0;font-weight:400;">Playfair Display</div>
+            <span class="token-value">Heading display</span>
+          </div>
+          <div class="token-row" style="flex-direction:column;align-items:flex-start;">
+            <span class="token-name">--font-sans</span>
+            <div style="font-family:'Satoshi',sans-serif;font-size:var(--text-5xl);color:var(--text-primary);margin:var(--space-2) 0;">Satoshi</div>
+            <span class="token-value">Body, UI, button</span>
+          </div>
+          <div class="token-row" style="flex-direction:column;align-items:flex-start;">
+            <span class="token-name">--font-mono</span>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:var(--text-4xl);color:var(--text-primary);margin:var(--space-2) 0;">IBM Plex Mono</div>
+            <span class="token-value">Label, badge, meta</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Font sizes -->
+      <div class="ds-group">
+        <div class="ds-group-label">Font Sizes</div>
+        <div class="ds-decision"><strong>Normalizzazione:</strong> 17px usato in soli 2 elementi (logo-ai, dash-logo-ai) → portato a 18px (--text-3xl) per eliminare un gradino inutile nella scala.</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-2xs</span><span class="type-val">9px</span></div><span class="type-sample" style="font-size:9px;">Label micro, scrollbar</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-xs</span><span class="type-val">10px</span></div><span class="type-sample" style="font-size:10px;">Badge, nav-btn, dot label</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-sm</span><span class="type-val">11px</span></div><span class="type-sample" style="font-size:11px;">Meta secondario, hint mono</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-md</span><span class="type-val">12px</span></div><span class="type-sample" style="font-size:12px;">Helper, tag, chip, config-tag</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-lg</span><span class="type-val">13px</span></div><span class="type-sample" style="font-size:13px;">Body default, input, article body</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-xl</span><span class="type-val">14px</span></div><span class="type-sample" style="font-size:14px;">Button, label form, sidebar item</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-2xl</span><span class="type-val">15px</span></div><span class="type-sample" style="font-size:15px;">btn-primary, search-input</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-3xl</span><span class="type-val">18px</span></div><span class="type-sample" style="font-size:18px;">Logo, dash heading</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-4xl</span><span class="type-val">20px</span></div><span class="type-sample" style="font-size:20px;">Loading title, success badge</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-5xl</span><span class="type-val">22px</span></div><span class="type-sample" style="font-size:22px;">Wizard h2</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--text-6xl</span><span class="type-val">26px</span></div><span class="type-sample" style="font-size:26px;">Welcome h1, logo principale</span></div>
+        </div>
+      </div>
+
+      <!-- Font weights -->
+      <div class="ds-group">
+        <div class="ds-group-label">Font Weights</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+          <div class="type-row"><div class="type-meta"><span class="type-token">--weight-regular</span><span class="type-val">400</span></div><span class="type-sample" style="font-weight:400;">Heading serif, body leggero</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--weight-medium</span><span class="type-val">500</span></div><span class="type-sample" style="font-weight:500;">Label, card name, sidebar item</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--weight-semibold</span><span class="type-val">600</span></div><span class="type-sample" style="font-weight:600;">btn-primary, ai-hint-count</span></div>
+        </div>
+      </div>
+
+      <!-- Line heights -->
+      <div class="ds-group">
+        <div class="ds-group-label">Line Heights</div>
+        <div class="ds-decision"><strong>Decisione:</strong> Da 7 valori (1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7) a 5 step con gap minimo di 0.1. Elimina la differenza impercettibile tra 1.35 e 1.4, tra 1.5 e 1.55, ecc.</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+          <div class="type-row"><div class="type-meta"><span class="type-token">--leading-tight</span><span class="type-val">1.3</span></div><span class="type-sample" style="line-height:1.3;">Heading display, serif. Testo breve su una riga.</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--leading-snug</span><span class="type-val">1.4</span></div><span class="type-sample" style="line-height:1.4;">Card title, article title. Testo compatto su due righe<br/>con spaziatura stretta ma leggibile.</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--leading-normal</span><span class="type-val">1.55</span></div><span class="type-sample" style="line-height:1.55;">Body default. Questo è il valore standard per<br/>blocchi di testo di dimensione normale.</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--leading-relaxed</span><span class="type-val">1.65</span></div><span class="type-sample" style="line-height:1.65;">Note, hint, multi-line. Testo con più respiro,<br/>usato per content informativi.</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--leading-loose</span><span class="type-val">1.7</span></div><span class="type-sample" style="line-height:1.7;">Subtitle, descrizione lunga. Il massimo<br/>spaziamento per una lettura molto comoda.</span></div>
+        </div>
+      </div>
+
+      <!-- Letter spacing -->
+      <div class="ds-group">
+        <div class="ds-group-label">Letter Spacing</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+          <div class="type-row"><div class="type-meta"><span class="type-token">--tracking-tight</span><span class="type-val">-.01em</span></div><span class="type-sample" style="letter-spacing:-.01em;font-family:var(--font-serif);font-size:var(--text-4xl);">Sapra.ai Heading</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--tracking-xs</span><span class="type-val">.02em</span></div><span class="type-sample" style="letter-spacing:.02em;font-family:var(--font-mono);">★ 96%  Score badge</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--tracking-sm</span><span class="type-val">.03em</span></div><span class="type-sample" style="letter-spacing:.03em;font-family:var(--font-mono);">Meta, config-tag, dash-art-source</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--tracking-md</span><span class="type-val">.04em</span></div><span class="type-sample" style="letter-spacing:.04em;font-family:var(--font-mono);">Pill · Chip · Badge · Counter</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--tracking-lg</span><span class="type-val">.06em</span></div><span class="type-sample" style="letter-spacing:.06em;font-family:var(--font-mono);">Step 1 di 4 · 47%</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--tracking-xl</span><span class="type-val">.08em</span></div><span class="type-sample" style="letter-spacing:.08em;font-family:var(--font-mono);text-transform:uppercase;font-size:var(--text-xs);">Field Label</span></div>
+          <div class="type-row"><div class="type-meta"><span class="type-token">--tracking-2xl</span><span class="type-val">.10em</span></div><span class="type-sample" style="letter-spacing:.10em;font-family:var(--font-mono);text-transform:uppercase;font-size:var(--text-xs);">Section Label Uppercase</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SPACING
+    ══════════════════════════════════════════════════ -->
+    <div class="ds-section" id="spacing">
+      <div class="ds-section-header">
+        <div class="ds-section-tag">03</div>
+        <div class="ds-section-title">Spacing</div>
+        <div class="ds-section-desc">Scala 4pt-base. Valori intermedi (5px, 7px, 9px, 11px) si usano inline per rifinitura ottica.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+        <div class="spacing-row"><div class="spacing-label">--space-1</div><div class="spacing-bar" style="width:4px;"></div><div class="spacing-val">4px</div></div>
+        <div class="spacing-row"><div class="spacing-label">--space-2</div><div class="spacing-bar" style="width:8px;"></div><div class="spacing-val">8px</div></div>
+        <div class="spacing-row"><div class="spacing-label">--space-3</div><div class="spacing-bar" style="width:12px;"></div><div class="spacing-val">12px</div></div>
+        <div class="spacing-row"><div class="spacing-label">--space-4</div><div class="spacing-bar" style="width:16px;"></div><div class="spacing-val">16px</div></div>
+        <div class="spacing-row"><div class="spacing-label">--space-5</div><div class="spacing-bar" style="width:20px;"></div><div class="spacing-val">20px</div></div>
+        <div class="spacing-row"><div class="spacing-label">--space-6</div><div class="spacing-bar" style="width:24px;"></div><div class="spacing-val">24px</div></div>
+        <div class="spacing-row"><div class="spacing-label">--space-7</div><div class="spacing-bar" style="width:28px;"></div><div class="spacing-val">28px</div></div>
+        <div class="spacing-row"><div class="spacing-label">--space-8</div><div class="spacing-bar" style="width:32px;"></div><div class="spacing-val">32px</div></div>
+        <div class="spacing-row"><div class="spacing-label">--space-9</div><div class="spacing-bar" style="width:40px;"></div><div class="spacing-val">40px</div></div>
+        <div class="spacing-row"><div class="spacing-label">--space-10</div><div class="spacing-bar" style="width:48px;"></div><div class="spacing-val">48px</div></div>
+        <div class="spacing-row"><div class="spacing-label">--space-11</div><div class="spacing-bar" style="width:60px;"></div><div class="spacing-val">60px</div></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         BORDER RADIUS
+    ══════════════════════════════════════════════════ -->
+    <div class="ds-section" id="radius">
+      <div class="ds-section-header">
+        <div class="ds-section-tag">04</div>
+        <div class="ds-section-title">Border Radius</div>
+        <div class="ds-section-desc">Tutti i border-radius hardcoded rimossi. Regola: "block" → --r-md..xl, "pill/inline" → --r-full, "circle" → --r-circle.</div>
+      </div>
+      <div class="ds-decision"><strong>Problema risolto:</strong> <code>border-radius: 99px</code> hardcoded in 25+ punti. Aggiunto <code>--r-full: 9999px</code> e <code>--r-circle: 50%</code>. Aggiunto <code>--r-2xs: 2px</code> per scrollbar thumb e tooltip arrow.</div>
+      <div class="ds-grid ds-grid-4">
+        <div class="radius-card"><div class="radius-shape" style="border-radius:var(--r-2xs);"></div><div class="radius-info"><div class="radius-token">--r-2xs</div><div class="radius-val">2px</div></div></div>
+        <div class="radius-card"><div class="radius-shape" style="border-radius:var(--r-xs);"></div><div class="radius-info"><div class="radius-token">--r-xs</div><div class="radius-val">4px</div></div></div>
+        <div class="radius-card"><div class="radius-shape" style="border-radius:var(--r-sm);"></div><div class="radius-info"><div class="radius-token">--r-sm</div><div class="radius-val">6px</div></div></div>
+        <div class="radius-card"><div class="radius-shape" style="border-radius:var(--r-md);"></div><div class="radius-info"><div class="radius-token">--r-md</div><div class="radius-val">10px</div></div></div>
+        <div class="radius-card"><div class="radius-shape" style="border-radius:var(--r-lg);"></div><div class="radius-info"><div class="radius-token">--r-lg</div><div class="radius-val">14px</div></div></div>
+        <div class="radius-card"><div class="radius-shape" style="border-radius:var(--r-xl);"></div><div class="radius-info"><div class="radius-token">--r-xl</div><div class="radius-val">18px</div></div></div>
+        <div class="radius-card"><div class="radius-shape" style="border-radius:var(--r-2xl);"></div><div class="radius-info"><div class="radius-token">--r-2xl</div><div class="radius-val">24px</div></div></div>
+        <div class="radius-card">
+          <div style="display:flex;gap:var(--space-3);align-items:center;">
+            <div style="width:48px;height:22px;background:var(--surface-3);border:1px solid var(--border-default);border-radius:var(--r-full);"></div>
+            <div style="width:22px;height:22px;background:var(--surface-3);border:1px solid var(--border-default);border-radius:var(--r-circle);"></div>
+          </div>
+          <div class="radius-info">
+            <div class="radius-token">--r-full / --r-circle</div>
+            <div class="radius-val">9999px / 50%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SHADOWS
+    ══════════════════════════════════════════════════ -->
+    <div class="ds-section" id="shadows">
+      <div class="ds-section-header">
+        <div class="ds-section-tag">05</div>
+        <div class="ds-section-title">Shadows</div>
+        <div class="ds-section-desc">Due livelli: sm per card piccole, tooltip per overlay e popover.</div>
+      </div>
+      <div class="ds-grid ds-grid-2">
+        <div class="shadow-card" style="box-shadow:var(--shadow-sm);">
+          <span class="shadow-token">--shadow-sm</span>
+          <span class="shadow-val">0 2px 8px rgba(0,0,0,0.30)</span>
+        </div>
+        <div class="shadow-card" style="box-shadow:var(--shadow-tooltip);">
+          <span class="shadow-token">--shadow-tooltip</span>
+          <span class="shadow-val">0 16px 48px rgba(0,0,0,0.60)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         MOTION
+    ══════════════════════════════════════════════════ -->
+    <div class="ds-section" id="motion">
+      <div class="ds-section-header">
+        <div class="ds-section-tag">06</div>
+        <div class="ds-section-title">Transitions</div>
+        <div class="ds-section-desc">Da 6 valori (0.1s, 0.12s, 0.15s, 0.2s, 0.22s, 0.3s) a 3 step semantici. Timing function: ease ovunque.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+        <div class="token-row">
+          <span class="token-name">--ease-fast</span>
+          <span class="token-value">.10s</span>
+          <span class="token-note">Hover micro: color, opacity</span>
+          <button style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:var(--r-full);color:var(--text-secondary);padding:4px 14px;cursor:pointer;font-family:var(--font-mono);font-size:var(--text-xs);transition:background .10s ease,color .10s ease;" onmouseover="this.style.background='var(--surface-hover)';this.style.color='var(--text-primary)'" onmouseout="this.style.background='var(--surface-3)';this.style.color='var(--text-secondary)'">Hover qui</button>
+        </div>
+        <div class="token-row">
+          <span class="token-name">--ease-base</span>
+          <span class="token-value">.15s</span>
+          <span class="token-note">Interazione standard: border, background</span>
+          <button style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:var(--r-full);color:var(--text-secondary);padding:4px 14px;cursor:pointer;font-family:var(--font-mono);font-size:var(--text-xs);transition:background .15s ease,border-color .15s ease,color .15s ease;" onmouseover="this.style.background='var(--surface-hover)';this.style.borderColor='var(--border-default)';this.style.color='var(--text-primary)'" onmouseout="this.style.background='var(--surface-3)';this.style.borderColor='var(--border-subtle)';this.style.color='var(--text-secondary)'">Hover qui</button>
+        </div>
+        <div class="token-row">
+          <span class="token-name">--ease-slow</span>
+          <span class="token-value">.30s</span>
+          <span class="token-note">Progresso, animazioni visibili</span>
+          <button style="background:var(--surface-3);border:1px solid var(--border-subtle);border-radius:var(--r-full);color:var(--text-secondary);padding:4px 14px;cursor:pointer;font-family:var(--font-mono);font-size:var(--text-xs);transition:all .30s ease;" onmouseover="this.style.background='var(--btn-bg)';this.style.borderColor='var(--btn-bg)';this.style.color='var(--btn-text)'" onmouseout="this.style.background='var(--surface-3)';this.style.borderColor='var(--border-subtle)';this.style.color='var(--text-secondary)'">Hover qui</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         Z-INDEX
+    ══════════════════════════════════════════════════ -->
+    <div class="ds-section" id="zindex">
+      <div class="ds-section-header">
+        <div class="ds-section-tag">07</div>
+        <div class="ds-section-title">Z-Index</div>
+        <div class="ds-section-desc">Scala esponenziale per lasciare spazio a strati futuri senza conflitti.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+        <div class="token-row"><span class="token-name">--z-base</span><span class="token-value">1</span><span class="token-note">Elementi in-flow che necessitano z</span></div>
+        <div class="token-row"><span class="token-name">--z-content</span><span class="token-value">10</span><span class="token-note">Wizard header sticky</span></div>
+        <div class="token-row"><span class="token-name">--z-tooltip</span><span class="token-value">100</span><span class="token-note">Tooltip, popover, dropdown</span></div>
+        <div class="token-row"><span class="token-name">--z-nav</span><span class="token-value">1000</span><span class="token-note">Screen nav bar, top-level overlay</span></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════════════════ -->
+    <div style="border-top:1px solid var(--border-faint);padding-top:var(--space-8);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-4);">
+      <div>
+        <div style="font-family:var(--font-serif);font-size:var(--text-xl);color:var(--text-primary);letter-spacing:var(--tracking-tight);">Sapra.ai Design System</div>
+        <div style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-muted);letter-spacing:var(--tracking-md);margin-top:4px;">v1.0 — Estratto da Figma, normalizzato</div>
+      </div>
+      <div style="display:flex;gap:var(--space-3);">
+        <a href="tokens.css" style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-secondary);text-decoration:none;letter-spacing:var(--tracking-md);">↓ tokens.css</a>
+        <a href="style.css" style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-secondary);text-decoration:none;letter-spacing:var(--tracking-md);">↓ style.css</a>
+        <a href="index.html" style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text-secondary);text-decoration:none;letter-spacing:var(--tracking-md);">→ index.html</a>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
