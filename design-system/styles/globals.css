@@ -1,0 +1,153 @@
+/* ═══════════════════════════════════════════════════════════════
+   Sapra.AI Design System — Global CSS Custom Properties
+   Generated from design-system/tokens/
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');
+
+/* ─── Tailwind directives (when used with Tailwind) ─────────── */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties (token bridge) ──────────────────── */
+:root {
+  /* Backgrounds */
+  --color-bg:              #000000;
+  --color-surface-1:       #0E0E0E;
+  --color-surface-2:       #1A1A1A;
+  --color-surface-3:       #242424;
+  --color-surface-hover:   #2E2E2E;
+
+  /* Borders */
+  --color-border-faint:    rgba(255,255,255,0.06);
+  --color-border-subtle:   rgba(255,255,255,0.10);
+  --color-border-default:  rgba(255,255,255,0.18);
+  --color-border-strong:   rgba(255,255,255,0.45);
+  --color-border-selected: rgba(255,255,255,0.88);
+
+  /* Text */
+  --color-text-primary:    #FFFFFF;
+  --color-text-secondary:  #8A8A8A;
+  --color-text-muted:      #4A4A4A;
+  --color-text-amber:      #D4890A;
+
+  /* Primary CTA */
+  --color-primary:         #F0F0F0;
+  --color-primary-hover:   #FFFFFF;
+  --color-primary-text:    #0A0A0A;
+
+  /* Semantic */
+  --color-success:         #4ADE80;
+  --color-success-bg:      rgba(74,222,128,0.08);
+  --color-success-border:  rgba(74,222,128,0.20);
+
+  --color-error:           #F87171;
+  --color-error-bg:        rgba(248,113,113,0.08);
+  --color-error-border:    rgba(248,113,113,0.20);
+
+  --color-warning:         #FBBF24;
+  --color-warning-bg:      rgba(251,191,36,0.08);
+  --color-warning-border:  rgba(251,191,36,0.20);
+
+  --color-amber:           #D4890A;
+  --color-amber-bg:        rgba(212,137,10,0.06);
+  --color-amber-bg-md:     rgba(212,137,10,0.08);
+  --color-amber-bg-strong: rgba(212,137,10,0.15);
+  --color-amber-border:    rgba(212,137,10,0.18);
+  --color-amber-border-md: rgba(212,137,10,0.25);
+  --color-amber-text:      rgba(212,137,10,0.80);
+
+  --color-info:            #93C5FD;
+  --color-info-bg:         rgba(147,197,253,0.08);
+  --color-info-border:     rgba(147,197,253,0.20);
+
+  /* Typography */
+  --font-serif:  'Playfair Display', Georgia, serif;
+  --font-sans:   'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:   'IBM Plex Mono', 'Courier New', monospace;
+
+  /* Border Radius */
+  --radius-xs:  4px;
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  18px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-tooltip: 0 16px 48px rgba(0,0,0,0.60);
+  --shadow-card:    0 4px 24px rgba(0,0,0,0.40);
+  --shadow-modal:   0 24px 80px rgba(0,0,0,0.70);
+
+  /* Transitions */
+  --transition-default: all 150ms ease;
+  --transition-color:   color 150ms ease;
+  --transition-bg:      background 120ms ease;
+  --transition-slow:    all 220ms ease;
+}
+
+/* ─── Base reset ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar (thin dark style) ───────────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-subtle) transparent;
+}
+*::-webkit-scrollbar { width: 4px; height: 4px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--color-border-subtle);
+  border-radius: 2px;
+}
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* ─── Focus visible (keyboard nav) ──────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-border-default);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ─── Animations ─────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ─── Utility classes ────────────────────────────────────────── */
+.animate-fade-up  { animation: fadeUp 220ms ease both; }
+.animate-spin     { animation: spin 1s linear infinite; }
+.animate-fade-in  { animation: fadeIn 200ms ease both; }
+.animate-pulse    { animation: pulse 2s ease-in-out infinite; }
